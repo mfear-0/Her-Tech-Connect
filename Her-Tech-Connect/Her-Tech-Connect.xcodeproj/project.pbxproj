@@ -26,6 +26,9 @@
 		5FEFD5582723840C009D31F6 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 5FEFD5572723840C009D31F6 /* FirebaseCrashlytics */; };
 		5FEFD55A2723840C009D31F6 /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 5FEFD5592723840C009D31F6 /* FirebasePerformance */; };
 		5FEFD55C2723840C009D31F6 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 5FEFD55B2723840C009D31F6 /* FirebaseRemoteConfig */; };
+		5FEFD55F2723917C009D31F6 /* RegisterPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEFD55E2723917C009D31F6 /* RegisterPage.swift */; };
+		5FEFD56127247D79009D31F6 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEFD56027247D79009D31F6 /* AuthViewModel.swift */; };
+		5FEFD56327248F36009D31F6 /* HomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEFD56227248F36009D31F6 /* HomePage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +40,9 @@
 		5F4FF9462720F40400365296 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F4FF94C2720F48100365296 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5FEFD540272240E3009D31F6 /* LoginPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPage.swift; sourceTree = "<group>"; };
+		5FEFD55E2723917C009D31F6 /* RegisterPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPage.swift; sourceTree = "<group>"; };
+		5FEFD56027247D79009D31F6 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		5FEFD56227248F36009D31F6 /* HomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +95,7 @@
 				5F4FF9412720F40400365296 /* Assets.xcassets */,
 				5F4FF9462720F40400365296 /* Info.plist */,
 				5F4FF9432720F40400365296 /* Preview Content */,
+				5FEFD56227248F36009D31F6 /* HomePage.swift */,
 			);
 			path = "Her-Tech-Connect";
 			sourceTree = "<group>";
@@ -105,6 +112,8 @@
 			isa = PBXGroup;
 			children = (
 				5FEFD540272240E3009D31F6 /* LoginPage.swift */,
+				5FEFD55E2723917C009D31F6 /* RegisterPage.swift */,
+				5FEFD56027247D79009D31F6 /* AuthViewModel.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -197,9 +206,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FEFD56127247D79009D31F6 /* AuthViewModel.swift in Sources */,
+				5FEFD56327248F36009D31F6 /* HomePage.swift in Sources */,
 				5F4FF9402720F40200365296 /* ContentView.swift in Sources */,
 				5FEFD541272240E3009D31F6 /* LoginPage.swift in Sources */,
 				5F4FF93E2720F40200365296 /* Her_Tech_ConnectApp.swift in Sources */,
+				5FEFD55F2723917C009D31F6 /* RegisterPage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
