@@ -13,7 +13,9 @@ struct Her_Tech_ConnectApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some Scene {
         WindowGroup {
-            LoginPage()
+            let modelView = AuthViewModel()
+            ContentView()
+                .environmentObject(modelView)
         }
     }
 }
