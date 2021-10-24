@@ -26,12 +26,12 @@ struct LoginPage: View {
                             .foregroundColor(.red)
                     }
                     
-                    if viewModel.isWrongPassword {
+                    else if viewModel.isWrongPassword {
                         Text("Password provided is wrong")
                             .foregroundColor(.red)
                     }
                     
-                    if !viewModel.isFilled {
+                    else if !viewModel.isFilled {
                         Text("Please fill out all info")
                             .foregroundColor(.red)
                     }
