@@ -32,7 +32,7 @@ struct RegisterPage: View {
                     }
                     
                      if isPasswordIncorrect {
-                        Text("Passwords do not match! Please enter passwords again! ")
+                        Text("Passwords do not match!")
                             .foregroundColor(.red)
                     }
                     
