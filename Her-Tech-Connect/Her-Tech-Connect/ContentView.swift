@@ -13,7 +13,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             if viewModel.signedIn {
-                HomePage()
+                TabTest()
             } else {
                 LoginPage()
             }

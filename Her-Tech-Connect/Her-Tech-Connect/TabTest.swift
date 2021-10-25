@@ -1,0 +1,30 @@
+//
+//  TabTest.swift
+//  Her-Tech-Connect
+//
+//  Created by Student Account on 10/24/21.
+//
+
+import SwiftUI
+
+struct TabTest: View {
+    var body: some View {
+        
+        TabView {
+            
+            HomePage().tabItem {
+                Label("home", systemImage: "1.circle")
+            }
+            
+            EventView().tabItem {
+                Label("events", systemImage: "2.circle")
+            }
+        }
+    }
+}
+
+struct TabTest_Previews: PreviewProvider {
+    static var previews: some View {
+        TabTest()
+    }
+}

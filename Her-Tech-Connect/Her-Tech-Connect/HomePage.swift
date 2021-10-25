@@ -11,6 +11,7 @@ import FirebaseAuth
 struct HomePage: View {
     @EnvironmentObject var viewModel: AuthViewModel
     var body: some View {
+        
         VStack {
             Text("Welcome to Her Tech Connect")
             
