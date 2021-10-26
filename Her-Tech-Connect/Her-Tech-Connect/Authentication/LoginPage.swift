@@ -12,6 +12,7 @@ struct LoginPage: View {
     @State var password = ""
     @EnvironmentObject var viewModel: AuthViewModel
     @State var isUserInfoCorrect = true
+    @State private var showingSheet = false
     var body: some View {
         VStack{
             Image(systemName: "applelogo")
@@ -72,10 +73,15 @@ struct LoginPage: View {
                     HStack {
                         Spacer(minLength: 0)
                         
-                        Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                        Button(action: {
+                            showingSheet.toggle()
+                        }, label: {
                             Text("Forgot Password?")
                                 .foregroundColor(Color.pink.opacity(0.6))
                         })
+                        .sheet(isPresented: $showingSheet) {
+                            ResetPasswordPage()
+                        }
                     }
                 }
                 .padding()
