@@ -31,6 +31,9 @@
 		5FEFD55F2723917C009D31F6 /* RegisterPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEFD55E2723917C009D31F6 /* RegisterPage.swift */; };
 		5FEFD56127247D79009D31F6 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEFD56027247D79009D31F6 /* AuthViewModel.swift */; };
 		5FEFD56327248F36009D31F6 /* HomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEFD56227248F36009D31F6 /* HomePage.swift */; };
+		5FEFD56627277F4C009D31F6 /* UserHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEFD56527277F4C009D31F6 /* UserHandler.swift */; };
+		5FEFD56927278010009D31F6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEFD56827278010009D31F6 /* User.swift */; };
+		5FEFD56B2728B073009D31F6 /* ResetPasswordPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEFD56A2728B073009D31F6 /* ResetPasswordPage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +50,9 @@
 		5FEFD55E2723917C009D31F6 /* RegisterPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPage.swift; sourceTree = "<group>"; };
 		5FEFD56027247D79009D31F6 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		5FEFD56227248F36009D31F6 /* HomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePage.swift; sourceTree = "<group>"; };
+		5FEFD56527277F4C009D31F6 /* UserHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHandler.swift; sourceTree = "<group>"; };
+		5FEFD56827278010009D31F6 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		5FEFD56A2728B073009D31F6 /* ResetPasswordPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordPage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +98,8 @@
 		5F4FF93C2720F40200365296 /* Her-Tech-Connect */ = {
 			isa = PBXGroup;
 			children = (
+				5FEFD56727277FE0009D31F6 /* Models */,
+				5FEFD56427277F1D009D31F6 /* Database Interaction */,
 				5FEFD53F27224031009D31F6 /* Authentication */,
 				5F4FF94C2720F48100365296 /* GoogleService-Info.plist */,
 				5F4FF93D2720F40200365296 /* Her_Tech_ConnectApp.swift */,
@@ -120,8 +128,25 @@
 				5FEFD540272240E3009D31F6 /* LoginPage.swift */,
 				5FEFD55E2723917C009D31F6 /* RegisterPage.swift */,
 				5FEFD56027247D79009D31F6 /* AuthViewModel.swift */,
+				5FEFD56A2728B073009D31F6 /* ResetPasswordPage.swift */,
 			);
 			path = Authentication;
+			sourceTree = "<group>";
+		};
+		5FEFD56427277F1D009D31F6 /* Database Interaction */ = {
+			isa = PBXGroup;
+			children = (
+				5FEFD56527277F4C009D31F6 /* UserHandler.swift */,
+			);
+			path = "Database Interaction";
+			sourceTree = "<group>";
+		};
+		5FEFD56727277FE0009D31F6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5FEFD56827278010009D31F6 /* User.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -216,9 +241,12 @@
 				3FF1A2B527261FEC0041E4AA /* EventView.swift in Sources */,
 				5FEFD56327248F36009D31F6 /* HomePage.swift in Sources */,
 				5F4FF9402720F40200365296 /* ContentView.swift in Sources */,
+				5FEFD56627277F4C009D31F6 /* UserHandler.swift in Sources */,
 				5FEFD541272240E3009D31F6 /* LoginPage.swift in Sources */,
+				5FEFD56B2728B073009D31F6 /* ResetPasswordPage.swift in Sources */,
 				5F4FF93E2720F40200365296 /* Her_Tech_ConnectApp.swift in Sources */,
 				5FEFD55F2723917C009D31F6 /* RegisterPage.swift in Sources */,
+				5FEFD56927278010009D31F6 /* User.swift in Sources */,
 				3FF1A2B927262C140041E4AA /* TabTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

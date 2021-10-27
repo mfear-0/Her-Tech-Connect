@@ -19,6 +19,9 @@ class AuthViewModel: ObservableObject {
         return auth.currentUser != nil
     }
     
+    /*
+     Function to login a user
+     */
     func signIn(email: String, password: String){
         auth.signIn(withEmail: email, password: password) {[weak self] result, error in
             
@@ -55,6 +58,9 @@ class AuthViewModel: ObservableObject {
         }
     }
     
+    /*
+     Function to register a user
+     */
     func signUp(email: String, password: String){
         auth.createUser(withEmail: email, password: password) {[weak self] result, error in
             
@@ -83,8 +89,24 @@ class AuthViewModel: ObservableObject {
         }
     }
     
+    /*
+     Function to log out a user
+     */
     func signOut() {
         try? auth.signOut()
         self.signedIn = false
+    }
+    
+    /*
+     Function to reset a user's password
+     */
+    func resetPassword(email: String) {
+        Auth.auth().sendPasswordReset(withEmail: email) { error in
+            if error != nil {
+                print("Email sent")
+            } else {
+                return
+            }
+        }
     }
 }

@@ -122,6 +122,7 @@ struct RegisterPage: View {
                 
                 if password == rePassword {
                     viewModel.signUp(email: email, password: password)
+                    UserHandler.addUser(name: name, email: email, image: "https://cdn.iconscout.com/icon/free/png-256/account-avatar-profile-human-man-user-30448.png")
                 } else {
                     self.isFilled = true
                     self.isPasswordIncorrect = true
