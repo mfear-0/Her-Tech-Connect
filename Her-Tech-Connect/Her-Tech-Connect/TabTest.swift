@@ -16,6 +16,10 @@ struct TabTest: View {
                 Label("home", systemImage: "1.circle")
             }
             
+            NetworkView().tabItem{
+                Label("Network", systemImage: "person.3.fill")
+            }
+            
             EventView().tabItem {
                 Label("events", systemImage: "2.circle")
             }

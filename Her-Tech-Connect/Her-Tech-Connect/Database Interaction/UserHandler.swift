@@ -13,12 +13,17 @@ class UserHandler {
     static let userId = UUID().uuidString
     static let ref = Database.database().reference()
     
+    /*
+     Add user to the database
+     */
     static func addUser(name: String, email: String, image: String) {
         let user: [String: Any] = [
             "userId": userId,
             "name": name,
             "email": email,
-            "image": image
+            "image": image,
+            "jobDescription": "",
+            "connections": ["": ""]
         ]
         
         ref.child("Users").child(userId).setValue(user)
