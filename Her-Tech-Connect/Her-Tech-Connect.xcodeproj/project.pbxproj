@@ -15,6 +15,11 @@
 		5F4FF9422720F40400365296 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F4FF9412720F40400365296 /* Assets.xcassets */; };
 		5F4FF9452720F40400365296 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F4FF9442720F40400365296 /* Preview Assets.xcassets */; };
 		5F4FF94D2720F48100365296 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5F4FF94C2720F48100365296 /* GoogleService-Info.plist */; };
+		5F9CDF442738653E009165D2 /* NetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9CDF432738653E009165D2 /* NetworkView.swift */; };
+		5F9CDF46273867F1009165D2 /* UserCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9CDF45273867F1009165D2 /* UserCard.swift */; };
+		5F9CDF4827386A47009165D2 /* RoundedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9CDF4727386A47009165D2 /* RoundedImage.swift */; };
+		5F9CDF4A2738A255009165D2 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9CDF492738A255009165D2 /* MessageView.swift */; };
+		5F9CDF4C2738AD23009165D2 /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9CDF4B2738AD23009165D2 /* ImageButton.swift */; };
 		5FEFD541272240E3009D31F6 /* LoginPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEFD540272240E3009D31F6 /* LoginPage.swift */; };
 		5FEFD5442723840C009D31F6 /* FirebaseInstallations in Frameworks */ = {isa = PBXBuildFile; productRef = 5FEFD5432723840C009D31F6 /* FirebaseInstallations */; };
 		5FEFD5462723840C009D31F6 /* FirebaseInAppMessagingSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 5FEFD5452723840C009D31F6 /* FirebaseInAppMessagingSwift-Beta */; };
@@ -48,6 +53,11 @@
 		5F4FF9442720F40400365296 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5F4FF9462720F40400365296 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F4FF94C2720F48100365296 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5F9CDF432738653E009165D2 /* NetworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkView.swift; sourceTree = "<group>"; };
+		5F9CDF45273867F1009165D2 /* UserCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCard.swift; sourceTree = "<group>"; };
+		5F9CDF4727386A47009165D2 /* RoundedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedImage.swift; sourceTree = "<group>"; };
+		5F9CDF492738A255009165D2 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
+		5F9CDF4B2738AD23009165D2 /* ImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
 		5FEFD540272240E3009D31F6 /* LoginPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPage.swift; sourceTree = "<group>"; };
 		5FEFD55E2723917C009D31F6 /* RegisterPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPage.swift; sourceTree = "<group>"; };
 		5FEFD56027247D79009D31F6 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
@@ -100,6 +110,7 @@
 		5F4FF93C2720F40200365296 /* Her-Tech-Connect */ = {
 			isa = PBXGroup;
 			children = (
+				5F9CDF42273864D9009165D2 /* Network */,
 				5FEFD56727277FE0009D31F6 /* Models */,
 				5FEFD56427277F1D009D31F6 /* Database Interaction */,
 				5FEFD53F27224031009D31F6 /* Authentication */,
@@ -125,6 +136,16 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		5F9CDF42273864D9009165D2 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				5F9CDF432738653E009165D2 /* NetworkView.swift */,
+				5F9CDF45273867F1009165D2 /* UserCard.swift */,
+				5F9CDF492738A255009165D2 /* MessageView.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		5FEFD53F27224031009D31F6 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
@@ -148,6 +169,8 @@
 			isa = PBXGroup;
 			children = (
 				5FEFD56827278010009D31F6 /* User.swift */,
+				5F9CDF4727386A47009165D2 /* RoundedImage.swift */,
+				5F9CDF4B2738AD23009165D2 /* ImageButton.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -240,17 +263,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F9CDF4C2738AD23009165D2 /* ImageButton.swift in Sources */,
 				5FEFD56127247D79009D31F6 /* AuthViewModel.swift in Sources */,
 				3FF1A2B527261FEC0041E4AA /* EventView.swift in Sources */,
 				5FEFD56327248F36009D31F6 /* HomePage.swift in Sources */,
 				5F4FF9402720F40200365296 /* ContentView.swift in Sources */,
 				5FEFD56627277F4C009D31F6 /* UserHandler.swift in Sources */,
 				5FEFD541272240E3009D31F6 /* LoginPage.swift in Sources */,
+				5F9CDF442738653E009165D2 /* NetworkView.swift in Sources */,
 				5FEFD56B2728B073009D31F6 /* ResetPasswordPage.swift in Sources */,
 				5F4FF93E2720F40200365296 /* Her_Tech_ConnectApp.swift in Sources */,
 				5FEFD55F2723917C009D31F6 /* RegisterPage.swift in Sources */,
 				5FEFD56927278010009D31F6 /* User.swift in Sources */,
 				3FF1A2B927262C140041E4AA /* TabTest.swift in Sources */,
+				5F9CDF4A2738A255009165D2 /* MessageView.swift in Sources */,
+				5F9CDF4827386A47009165D2 /* RoundedImage.swift in Sources */,
+				5F9CDF46273867F1009165D2 /* UserCard.swift in Sources */,
 				3FF1A2BD273070D80041E4AA /* MapViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
