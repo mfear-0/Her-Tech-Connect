@@ -12,10 +12,23 @@ enum MapDet {
     static let startSpan = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
 }
 
+struct MapPin: Identifiable {
+    let id = UUID()
+    let name:String
+    let mplat:Double
+    let mplong:Double
+    var coordinate: CLLocationCoordinate2D {
+        CLLocationCoordinate2D(latitude: mplat, longitude: mplong)
+    }
+}
+
 final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     //@State private var showAlert = false
     @Published var region = MKCoordinateRegion(center: MapDet.startLoc, span: MapDet.startSpan)
+    @Published var PinOne = MapPin(name:"Space Needle", mplat:47.6205, mplong:-122.3493)
+    
+    
     var locManager: CLLocationManager?
     
     

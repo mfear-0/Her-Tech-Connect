@@ -12,11 +12,26 @@ import MapKit
 
 struct EventView: View {
     @StateObject private var viewModel = MapViewModel()
+    
+
 
     var body: some View {
         
+        
+        
         VStack{
-            Map(coordinateRegion: $viewModel.region)
+            let MapPins = [
+                viewModel.PinOne
+            ]
+            Map(
+                coordinateRegion: $viewModel.region,
+                showsUserLocation: true,
+                annotationItems: MapPins,
+                annotationContent: { item in
+                    MapMarker(coordinate: item.coordinate)
+                }
+                
+            )
                 .onAppear {
                     viewModel.checkLocServ()
                 }
