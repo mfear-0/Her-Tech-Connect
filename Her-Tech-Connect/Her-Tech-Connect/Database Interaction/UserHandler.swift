@@ -3,6 +3,7 @@
 //  Her-Tech-Connect
 //
 //  Created by Natalman Nahm on 10/25/21.
+//  Modified by Arica Conrad on 11/8/21.
 //
 
 import Foundation
@@ -23,7 +24,7 @@ class UserHandler {
             "email": email,
             "image": image,
             "jobDescription": "",
-            "connections": ["": ""]
+            "connections": ["connection1": ""]
         ]
         
         ref.child("Users").child(userId).setValue(user)
