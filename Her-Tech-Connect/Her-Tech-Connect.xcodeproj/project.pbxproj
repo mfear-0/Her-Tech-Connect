@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3F2EAC882738E85700FCE80B /* AricaDesignTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2EAC872738E85700FCE80B /* AricaDesignTest.swift */; };
+		3F52D04527421ADB00463B3A /* SignInOrCreateAccountScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F52D04427421ADB00463B3A /* SignInOrCreateAccountScreen.swift */; };
 		3FF1A2B527261FEC0041E4AA /* EventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF1A2B427261FEC0041E4AA /* EventView.swift */; };
 		3FF1A2B927262C140041E4AA /* TabTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF1A2B827262C140041E4AA /* TabTest.swift */; };
 		3FF1A2BD273070D80041E4AA /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF1A2BC273070D80041E4AA /* MapViewModel.swift */; };
@@ -45,6 +46,7 @@
 
 /* Begin PBXFileReference section */
 		3F2EAC872738E85700FCE80B /* AricaDesignTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AricaDesignTest.swift; sourceTree = "<group>"; };
+		3F52D04427421ADB00463B3A /* SignInOrCreateAccountScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInOrCreateAccountScreen.swift; sourceTree = "<group>"; };
 		3FF1A2B427261FEC0041E4AA /* EventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventView.swift; sourceTree = "<group>"; };
 		3FF1A2B827262C140041E4AA /* TabTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabTest.swift; sourceTree = "<group>"; };
 		3FF1A2BC273070D80041E4AA /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				5FEFD55E2723917C009D31F6 /* RegisterPage.swift */,
 				5FEFD56027247D79009D31F6 /* AuthViewModel.swift */,
 				5FEFD56A2728B073009D31F6 /* ResetPasswordPage.swift */,
+				3F52D04427421ADB00463B3A /* SignInOrCreateAccountScreen.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 				5F9CDF4C2738AD23009165D2 /* ImageButton.swift in Sources */,
 				5FEFD56127247D79009D31F6 /* AuthViewModel.swift in Sources */,
 				3FF1A2B527261FEC0041E4AA /* EventView.swift in Sources */,
+				3F52D04527421ADB00463B3A /* SignInOrCreateAccountScreen.swift in Sources */,
 				5FEFD56327248F36009D31F6 /* HomePage.swift in Sources */,
 				5F4FF9402720F40200365296 /* ContentView.swift in Sources */,
 				5FEFD56627277F4C009D31F6 /* UserHandler.swift in Sources */,

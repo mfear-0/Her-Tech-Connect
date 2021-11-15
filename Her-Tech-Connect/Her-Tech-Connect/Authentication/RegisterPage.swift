@@ -4,7 +4,10 @@
 //
 //  Created by Natalman Nahm on 10/22/21.
 //  Modified by Arica Conrad on 11/7/21.
+//  Modified by Arica Conrad on 11/14/21.
 //
+
+// TODO: The password field lengths must be checked, as it is currently an error that is not shown to the users. If the password length is less than 6 characters, text should be displayed to the user saying something like, "Passwords must be at least 6 characters long." - Arica
 
 import SwiftUI
 
@@ -22,7 +25,7 @@ struct RegisterPage: View {
         
         VStack {
             
-            // Arica: A decorative band across the top.
+            // Arica: A decorative ombre band across the top that showcases the app's colors.
             ZStack {
                 
                 Rectangle()
@@ -32,33 +35,26 @@ struct RegisterPage: View {
             
             Spacer()
             
-            /*
-            // Arica: The title text.
-            Text("Create an Account")
-                .foregroundColor(Color("DarkBlue"))
-                .font(.title2)
-                .padding()
-             */
-            
-            //ZStack(alignment: .bottom) {
-            
             ScrollView {
                 
-                VStack(/*alignment:.center, spacing: 16*/) {
+                VStack {
                     
                     if viewModel.userAlreadyExist {
                         Text("This email has already been used.")
-                            .foregroundColor(.red)
+                            .foregroundColor(Color.red)
+                            .font(.body)
                     }
                     
                      if isPasswordIncorrect {
-                        Text("These passwords do not match.")
-                            .foregroundColor(.red)
+                        Text("The passwords must match each other.")
+                             .foregroundColor(Color.red)
+                             .font(.body)
                     }
                     
                     if !isFilled {
-                        Text("Please fill out all fields.")
-                            .foregroundColor(.red)
+                        Text("All fields must be filled out.")
+                            .foregroundColor(Color.red)
+                            .font(.body)
                     }
                     
                     // Arica: The title text.
@@ -67,7 +63,15 @@ struct RegisterPage: View {
                         .font(.title2)
                         .padding()
                     
-                    // Arica: The field entries.
+                    // Arica: Instructional text for the users.
+                    Text("Welcome! Please fill out all the fields to create a new Her Tech Connect account.")
+                        .foregroundColor(Color("Black"))
+                        .font(.body)
+                        .padding()
+                    
+                    // Arica: The following are the field entries to create a new account.
+                    
+                    // Arica: The name field.
                     VStack(alignment: .leading) {
                         
                         Text("Name")
@@ -80,29 +84,16 @@ struct RegisterPage: View {
                                 .foregroundColor(Color("DarkBlue"))
                             
                             TextField("Her Tech Connect", text: $name)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .border(Color("DarkBlue"), width: 1)
+                                .overlay( RoundedRectangle(cornerRadius: 6)
+                                .stroke(Color("DarkBlue"), lineWidth: 2))
                         }
-                        /*
-                        Image(systemName: "person.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 20, height: 20)
-                            .foregroundColor(.pink)
-                        TextField("Her Tech Connect", text: $name)
-                            .padding(.leading, 12)
-                            .font(.system(size: 20))
-                         */
                     }
                     .padding()
-                    /*
-                    .padding(12)
-                    .background(Color(.systemGray4))
-                    .clipShape(Rectangle())
-                    .cornerRadius(35)
-                    .padding(.top, 25)
-                     */
                     
+                    // Arica: The email field.
                     VStack(alignment: .leading) {
                         
                         Text("Email")
@@ -118,55 +109,23 @@ struct RegisterPage: View {
                                 .disableAutocorrection(true)
                                 .autocapitalization(.none)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .border(Color("DarkBlue"), width: 1)
+                                .overlay( RoundedRectangle(cornerRadius: 6)
+                                .stroke(Color("DarkBlue"), lineWidth: 2))
                         }
-                        /*
-                        Image(systemName: "person.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 20, height: 20)
-                            .foregroundColor(.pink)
-                        TextField("Her Tech Connect", text: $name)
-                            .padding(.leading, 12)
-                            .font(.system(size: 20))
-                         */
                     }
                     .padding()
-                    /*
-                    .padding(12)
-                    .background(Color(.systemGray4))
-                    .clipShape(Rectangle())
-                    .cornerRadius(35)
-                    .padding(.top, 25)
-                     */
                     
-                    /*
-                    HStack{
-                        Image(systemName: "envelope.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 20, height: 20)
-                            .foregroundColor(.pink)
-                        TextField("Email", text: $email)
-                            .disableAutocorrection(true)
-                            .autocapitalization(.none)
-                            .padding(.leading, 12)
-                            .font(.system(size: 20))
-                    }
-                    .padding(12)
-                    .background(Color(.systemGray4))
-                    .clipShape(Rectangle())
-                    .cornerRadius(35)
-                    .padding(.top, 25)
-                     */
-                    
-                    // My version
-                    
+                    // Arica: The password field.
                     VStack(alignment: .leading) {
                         
-                        Text("Password")
+                        Text("Password *")
                             .foregroundColor(Color("Black"))
                             .font(.body)
+                        
+                        // Arica: Instructional text notifying users about the necessary length for the password.
+                        Text("* Passwords must be at least 6 characters long.")
+                            .foregroundColor(Color("Black"))
+                            .font(.caption)
                         
                         HStack {
                             
@@ -174,34 +133,16 @@ struct RegisterPage: View {
                                 .foregroundColor(Color("DarkBlue"))
                             
                             SecureField("Password", text: $password)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .border(Color("DarkBlue"), width: 1)
+                                .overlay( RoundedRectangle(cornerRadius: 6)
+                                .stroke(Color("DarkBlue"), lineWidth: 2))
                         }
                     }
                     .padding()
                     
-                    
-                    // Natalman's version
-                    /*
-                    HStack{
-                        Image(systemName: "lock.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 20, height: 20)
-                            .foregroundColor(.pink)
-                        SecureField("Enter Password", text: $password)
-                            .padding(.leading, 12)
-                            .font(.system(size: 20))
-                    }
-                    .padding(12)
-                    .background(Color(.systemGray4))
-                    .clipShape(Rectangle())
-                    .cornerRadius(35)
-                    .padding(.top, 25)
-                     */
-                     
-                    // My version
-                    
+                    // Arica: The confirm password field.
                     VStack(alignment: .leading) {
                         
                         Text("Confirm Password")
@@ -214,39 +155,19 @@ struct RegisterPage: View {
                                 .foregroundColor(Color("DarkBlue"))
                             
                             SecureField("Confirm your password", text: $rePassword)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .border(Color("DarkBlue"), width: 1)
+                                .overlay( RoundedRectangle(cornerRadius: 6)
+                                .stroke(Color("DarkBlue"), lineWidth: 2))
                         }
                     }
                     .padding()
                      
-                    
-                    // Natalman's version
-                    /*
-                    HStack{
-                        Image(systemName: "lock.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 20, height: 20)
-                            .foregroundColor(.pink)
-                        SecureField("Re-Enter Password", text: $rePassword)
-                            .padding(.leading, 12)
-                            .font(.system(size: 20))
-                    }
-                    .padding(12)
-                    .background(Color(.systemGray4))
-                    .clipShape(Rectangle())
-                    .cornerRadius(35)
-                    .padding(.top, 25)
-                     */
-                     
                 }
                 .padding()
-                /*
-                .padding(.bottom, 25)
-                .padding(.horizontal, 20)
-                 */
                 
+                // Arica: The Create Account button.
                 Button(action: {
                     guard !name.isEmpty, !email.isEmpty, !password.isEmpty, !rePassword.isEmpty else {
                         self.isFilled = false
@@ -256,6 +177,7 @@ struct RegisterPage: View {
                     }
                     
                     if password == rePassword {
+                        
                         viewModel.signUp(email: email, password: password)
                         UserHandler.addUser(name: name, email: email, image: "https://cdn.iconscout.com/icon/free/png-256/account-avatar-profile-human-man-user-30448.png")
                     } else {
@@ -269,23 +191,15 @@ struct RegisterPage: View {
                         .padding()
                         .foregroundColor(Color("Black"))
                         .font(.title3)
-                        //.fontWeight(.bold)
-                        //.padding(.vertical)
-                        //.padding(.horizontal, 80)
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .background(Color("LightBlue"))
-                        //.clipShape(Capsule())
                         .cornerRadius(40)
-                        //.shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 5)
                 })
                 .padding()
-                 
                 
                 Spacer()
             }
         }
-        //.padding(.bottom, 160)
-        //.frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color("White").ignoresSafeArea())
     }
 }

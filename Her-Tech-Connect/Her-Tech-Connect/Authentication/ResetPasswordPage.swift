@@ -3,65 +3,89 @@
 //  Her-Tech-Connect
 //
 //  Created by Natalman Nahm on 10/26/21.
+//  Modified by Arica Conrad on 11/14/21.
 //
 
 import SwiftUI
 
 struct ResetPasswordPage: View {
+    
     @Environment(\.presentationMode) var presentationMode
     @State var email = ""
     @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
+        
         VStack {
-            Image(systemName: "applelogo")
-                .resizable()
-                .frame(width: 100, height: 120)
-                .foregroundColor(.pink)
             
-            Text("Enter your email to reset your password")
-                .fontWeight(.bold)
-                .foregroundColor(.red)
-                .padding(.top, 25)
-            
-            HStack{
-                Image(systemName: "envelope.fill")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(.pink)
-                TextField("Email Address", text: $email)
-                    .disableAutocorrection(true)
-                    .autocapitalization(.none)
-                    .padding(.leading, 12)
-                    .font(.system(size: 20))
+            // Arica: A decorative ombre band across the top that showcases the app's colors.
+            ZStack {
+                
+                Rectangle()
+                    .fill(LinearGradient(gradient: Gradient(colors: [Color("LightBlue"), Color("LightYellow")]), startPoint: .leading, endPoint: .trailing))
+                    .frame(minWidth: 0, maxWidth: .infinity, maxHeight: 20)
             }
-            .padding(12)
-            .background(Color(.systemGray4))
-            .clipShape(Rectangle())
-            .cornerRadius(35)
-            .padding(.top, 15)
-            .padding(.horizontal, 24)
             
-            Button(action: {
-                viewModel.resetPassword(email: email)
-                presentationMode.wrappedValue.dismiss()
-            }, label: {
-                Text("SUBMIT")
-                    .foregroundColor(Color(.systemTeal))
-                    .fontWeight(.bold)
-                    .padding(.vertical)
-                    .padding(.horizontal, 80)
-                    .background(Color.pink)
-                    .clipShape(Capsule())
-                    .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 5)
-            })
-            .padding(.top, 15)
+            Spacer()
             
+            ScrollView {
+                
+                VStack {
+                    
+                    // Arica: The title text.
+                    Text("Reset Your Password")
+                        .foregroundColor(Color("DarkBlue"))
+                        .font(.title2)
+                        .padding()
+                    
+                    // Arica: Instructional text for the users.
+                    Text("Please enter your email address. An email will be sent to this address with instructions on how to reset your password.")
+                        .foregroundColor(Color("Black"))
+                        .font(.body)
+                        .padding()
+                    
+                    // Arica: The email field.
+                    VStack(alignment: .leading) {
+                        
+                        Text("Email")
+                            .foregroundColor(Color("Black"))
+                            .font(.body)
+                        
+                        HStack {
+                            
+                            Image(systemName: "envelope.fill")
+                                .foregroundColor(Color("DarkBlue"))
+                            
+                            TextField("yourname@hertechconnect.com", text: $email)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .overlay( RoundedRectangle(cornerRadius: 6)
+                                .stroke(Color("DarkBlue"), lineWidth: 2))
+                        }
+                    }
+                    .padding()
+                    
+                    // Arica: The Submit Email button.
+                    Button(action: {
+                        viewModel.resetPassword(email: email)
+                        presentationMode.wrappedValue.dismiss()
+                    }, label: {
+                        Text("Submit Email")
+                            .padding()
+                            .foregroundColor(Color("Black"))
+                            .font(.title3)
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .background(Color("LightBlue"))
+                            .cornerRadius(40)
+                    })
+                    .padding()
+                }
+                
+                Spacer()
+            }
         }
-        .padding(.bottom, 60)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.systemTeal).ignoresSafeArea())
+        .background(Color("White").ignoresSafeArea())
     }
 }
 

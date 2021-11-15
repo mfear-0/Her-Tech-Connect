@@ -3,142 +3,157 @@
 //  Her-Tech-Connect
 //
 //  Created by Natalman Nahm on 10/21/21.
+//  Modified by Arica Conrad on 11/14/21.
 //
 
 import SwiftUI
 
 struct LoginPage: View {
+    
     @State var email = ""
     @State var password = ""
     @EnvironmentObject var viewModel: AuthViewModel
     @State var isUserInfoCorrect = true
     @State private var showingSheet = false
+    
     var body: some View {
-        VStack{
-            Image(systemName: "applelogo")
-                .resizable()
-                .frame(width: 100, height: 120)
-                .foregroundColor(.pink)
+        
+        VStack {
             
-            ZStack(alignment: .bottom){
-                VStack(alignment:.center, spacing: 16){
+            // Arica: A decorative ombre band across the top that showcases the app's colors.
+            ZStack {
+                
+                Rectangle()
+                    .fill(LinearGradient(gradient: Gradient(colors: [Color("LightBlue"), Color("LightYellow")]), startPoint: .leading, endPoint: .trailing))
+                    .frame(minWidth: 0, maxWidth: .infinity, maxHeight: 20)
+            }
+            
+            Spacer()
+            
+            ScrollView {
+                
+                VStack {
+                    
                     if viewModel.isWrongEmail {
-                        Text("Email provided is invalid")
-                            .foregroundColor(.red)
+                        Text("The email provided is incorrect.")
+                            .foregroundColor(Color.red)
+                            .font(.body)
                     }
                     
                     else if viewModel.isWrongPassword {
-                        Text("Password provided is wrong")
-                            .foregroundColor(.red)
+                        Text("The password provided is incorrect.")
+                            .foregroundColor(Color.red)
+                            .font(.body)
                     }
                     
                     else if !viewModel.isFilled {
-                        Text("Please fill out all info")
-                            .foregroundColor(.red)
+                        Text("All fields must be filled out.")
+                            .foregroundColor(Color.red)
+                            .font(.body)
                     }
-                    HStack{
-                        Image(systemName: "envelope.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 20, height: 20)
-                            .foregroundColor(.pink)
-                        TextField("Email Address", text: $email)
-                            .disableAutocorrection(true)
-                            .autocapitalization(.none)
-                            .padding(.leading, 12)
-                            .font(.system(size: 20))
-                    }
-                    .padding(12)
-                    .background(Color(.systemGray4))
-                    .clipShape(Rectangle())
-                    .cornerRadius(35)
-                    .padding(.top, 25)
                     
-                    HStack{
-                        Image(systemName: "lock.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 20, height: 20)
-                            .foregroundColor(.pink)
-                        SecureField("Enter Password", text: $password)
-                            .padding(.leading, 12)
-                            .font(.system(size: 20))
-                    }
-                    .padding(12)
-                    .background(Color(.systemGray4))
-                    .clipShape(Rectangle())
-                    .cornerRadius(35)
-                    .padding(.top, 25)
+                    // Arica: The title text.
+                    Text("Sign In")
+                        .foregroundColor(Color("DarkBlue"))
+                        .font(.title2)
+                        .padding()
                     
-                    HStack {
-                        Spacer(minLength: 0)
+                    // Arica: Instructional text for the users.
+                    Text("Welcome back! Please enter your email and password to sign in.")
+                        .foregroundColor(Color("Black"))
+                        .font(.body)
+                        .padding()
+                    
+                    // Arica: The following are the field entries to log in.
+                    
+                    // Arica: The email field.
+                    VStack(alignment: .leading) {
                         
-                        Button(action: {
-                            showingSheet.toggle()
-                        }, label: {
-                            Text("Forgot Password?")
-                                .foregroundColor(Color.pink.opacity(0.6))
-                        })
-                        .sheet(isPresented: $showingSheet) {
-                            ResetPasswordPage()
+                        Text("Email")
+                            .foregroundColor(Color("Black"))
+                            .font(.body)
+                        
+                        HStack {
+                            
+                            Image(systemName: "envelope.fill")
+                                .foregroundColor(Color("DarkBlue"))
+                            
+                            TextField("yourname@hertechconnect.com", text: $email)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .overlay( RoundedRectangle(cornerRadius: 6)
+                                .stroke(Color("DarkBlue"), lineWidth: 2))
                         }
                     }
+                    .padding()
+                    
+                    // Arica: The password field.
+                    VStack(alignment: .leading) {
+                        
+                        Text("Password")
+                            .foregroundColor(Color("Black"))
+                            .font(.body)
+                        
+                        HStack {
+                            
+                            Image(systemName: "lock.fill")
+                                .foregroundColor(Color("DarkBlue"))
+                            
+                            SecureField("Password", text: $password)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .overlay( RoundedRectangle(cornerRadius: 6)
+                                .stroke(Color("DarkBlue"), lineWidth: 2))
+                        }
+                        
+                        // Arica: The forgot password button.
+                        HStack {
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                showingSheet.toggle()
+                            }, label: {
+                                Text("Forgot password?")
+                                    .foregroundColor(Color("DarkBlue"))
+                                    .font(.body)
+                            })
+                            .sheet(isPresented: $showingSheet) {
+                                ResetPasswordPage()
+                            }
+                        }
+                    }
+                    .padding()
                 }
-                .padding()
-                .padding(.bottom, 25)
-                .padding(.horizontal, 20)
-            }
-            
-            Button(action: {
-                guard !email.isEmpty, !password.isEmpty else {
-                    viewModel.isFilled = false
-                    viewModel.isWrongEmail = false
-                    viewModel.isWrongPassword = false
-                    return
-                }
                 
-                viewModel.signIn(email: email, password: password)
-                
-            }, label: {
-                Text("LOGIN")
-                    .foregroundColor(Color(.systemTeal))
-                    .fontWeight(.bold)
-                    .padding(.vertical)
-                    .padding(.horizontal, 80)
-                    .background(Color.pink)
-                    .clipShape(Capsule())
-                    .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 5)
-            })
-            
-            HStack(spacing: 15){
-                Rectangle()
-                    .fill(Color.pink)
-                    .frame(height: 1)
-                Text("Or")
-                    .foregroundColor(.pink)
-                Rectangle()
-                    .fill(Color.pink)
-                    .frame(height: 1)
-                
-            }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 25)
-            NavigationLink(
-                destination: RegisterPage(),
-                label: {
-                    Text("REGISTER")
-                        .foregroundColor(Color(.systemTeal))
-                        .fontWeight(.bold)
-                        .padding(.vertical)
-                        .padding(.horizontal, 100)
-                        .background(Color.pink)
-                        .clipShape(Capsule())
-                        .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 5)
+                // Arica: The Sign In button.
+                Button(action: {
+                    guard !email.isEmpty, !password.isEmpty else {
+                        viewModel.isFilled = false
+                        viewModel.isWrongEmail = false
+                        viewModel.isWrongPassword = false
+                        return
+                    }
+                    
+                    viewModel.signIn(email: email, password: password)
+                    
+                }, label: {
+                    Text("Sign In")
+                        .padding()
+                        .foregroundColor(Color("Black"))
+                        .font(.title3)
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .background(Color("LightBlue"))
+                        .cornerRadius(40)
                 })
+                .padding()
+                
+                Spacer()
+            }
         }
-        .padding(.bottom, 60)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.systemTeal).ignoresSafeArea())
+        .background(Color("White").ignoresSafeArea())
     }
 }
 

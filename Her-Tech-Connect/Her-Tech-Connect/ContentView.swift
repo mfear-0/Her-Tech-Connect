@@ -4,6 +4,7 @@
 //
 //  Created by Natalman Nahm on 10/20/21.
 //  Modified by Arica Conrad on 11/7/21.
+//  Modified by Arica Conrad on 11/14/21.
 //
 
 import SwiftUI
@@ -16,7 +17,7 @@ struct ContentView: View {
             if viewModel.signedIn {
                 TabTest()
             } else {
-                LoginPage()
+                SignInOrCreateAccountScreen()
             }
         }
         .onAppear(perform: {
