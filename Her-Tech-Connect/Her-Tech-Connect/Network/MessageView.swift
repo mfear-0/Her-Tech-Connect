@@ -6,11 +6,19 @@
 //
 
 import SwiftUI
+import FirebaseDatabase
+import FirebaseAuth
 
 @available(iOS 15.0, *)
 struct MessageView: View {
     @State var messageText = ""
     @State var showSubTextView = false
+    let ref = Database.database().reference()
+    lazy var messages: [Any] = []
+    let currentUserEmail = Auth.auth().currentUser!.email
+    var receiverEmail: String
+    var recieverId: String
+    
     @Environment(\.dismiss) var dismiss
     var btnBack : some View { Button(action: {
         dismiss()
@@ -74,7 +82,7 @@ struct MessageView: View {
                 .background(Color(UIColor.systemGray6).edgesIgnoringSafeArea(.all))
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(.systemTeal).ignoresSafeArea())
+//            .background(Color(.systemTeal).ignoresSafeArea())
             .gesture(
                 DragGesture()
                         .onChanged({_ in
@@ -101,12 +109,41 @@ struct MessageView: View {
                 .font(.system(size: 33))
         }
     }
+    
+    //Retrieves messages between a single user and recipient while declaring a listener and sorting the messages by time.
+    func getMessages(uid: String) {
+        //Get the chatID for this user and recipient
+        ref.child("ChatGroup").child(currentUserEmail!).child(receiverEmail).observe( .value, with: { (recipientNode) in
+            if !recipientNode.exists() {
+                Message.newChatWith(senderEmail: currentUserEmail!, recipientEmail: receiverEmail)
+            }
+            //ensure the recipientNode value is imported as a String Dictionary, otherwise return
+            guard let recipientDictionary = recipientNode.value as? [String: String] else {return}
+            //Get the chatID
+            let chatID = recipientDictionary["chatID"]!
+            //Sort the chats by time
+            let sorted = self.ref.child("Chats").child(chatID).queryOrdered(byChild: "time")
+            //Listen for new messages and only return new messages
+            sorted.observe(.childAdded, with: { (messageSnapshot) in
+                //If no messages, skip import
+                if !messageSnapshot.exists() { return }
+                //import messages as a Dictionary with String keys
+                //NOTE: messageDictionary has String keys for Dictionary objects
+                guard let messageDictionary = messageSnapshot.value as? [String: Any] else {return}
+                //Store messageDictionary
+//                self.messages.append(messageDictionary)
+//                self.messages.append(messageDictionary)
+//                self.tableView.scrollToRow(at: IndexPath(row: self.messages.count - 1, section: 0), at: .none, animated: false)
+                
+            })
+        })
+    }
 }
 
 struct MessageView_Previews: PreviewProvider {
     static var previews: some View {
         if #available(iOS 15.0, *) {
-            MessageView()
+            MessageView(receiverEmail: "janedoe@outlook.com", recieverId: "0118E49C-EADB-4518-95CD-8A37F94080AA")
         } else {
             // Fallback on earlier versions
         }
