@@ -23,6 +23,10 @@ struct TabTest: View {
             EventView().tabItem {
                 Label("events", systemImage: "2.circle")
             }
+            
+            MoreView().tabItem {
+                Label("More", systemImage: "ellipsis")
+            }
         }
     }
 }
