@@ -15,21 +15,47 @@ enum MapDet {
 struct MapPin: Identifiable {
     let id = UUID()
     let name:String
-    let mplat:Double
-    let mplong:Double
+    let mplat:Double = defLat
+    let mplong:Double = defLong
     var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: mplat, longitude: mplong)
     }
 }
 
+var defLat: Double = 47.6205
+var defLong: Double = 122.3493
+
 final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     //@State private var showAlert = false
     @Published var region = MKCoordinateRegion(center: MapDet.startLoc, span: MapDet.startSpan)
-    @Published var PinOne = MapPin(name:"Space Needle", mplat:47.6205, mplong:-122.3493)
+    @Published var PinOne = MapPin(name:"Space Needle")
     
     
     var locManager: CLLocationManager?
+    
+    func setAddressPin(addressString: String/*, addressName: String*/ ){
+        getCoord(from: addressString) { coordinates in
+            print(coordinates!)
+            defLat = coordinates!.latitude
+            defLong = coordinates!.longitude
+            
+        }
+    }
+    
+    func getCoord(from addressString: String, completionHandler: @escaping(_ location: CLLocationCoordinate2D?) -> Void ) {
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(addressString) { (placemarks, error) in
+            guard let placemarks = placemarks,
+                  let location = placemarks.first?.location?.coordinate else {
+                      completionHandler(nil)
+                      return
+                  }
+            completionHandler(location)
+        }
+    }
+    
+    
     
     
     func checkLocServ() {
