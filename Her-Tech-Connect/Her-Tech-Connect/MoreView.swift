@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MoreView: View {
-//    @EnvironmentObject var viewModel: AuthViewModel
     var body: some View {
         
         VStack {
@@ -17,17 +16,14 @@ struct MoreView: View {
                     NavigationLink(destination: SettingsView()) {
                     Image(systemName: "gear")
                     Text("Settings")
-                
                     }
-//            .navigationTitle("Settings")
-//            .navigationBarTitleDisplayMode(.inline)
                 }
             }
         
         
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.systemTeal).ignoresSafeArea())
+//        .frame(maxWidth: .infinity, maxHeight: .infinity)
+//        .background(Color(.systemTeal).ignoresSafeArea())
     }
 }
 

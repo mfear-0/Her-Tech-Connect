@@ -25,8 +25,8 @@ struct SettingsView: View {
             .preferredColorScheme(isDarkMode ? .dark : .light)
         }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.systemTeal).ignoresSafeArea())
+//        .frame(maxWidth: .infinity, maxHeight: .infinity)
+//        .background(Color(.systemTeal).ignoresSafeArea())
     }
 }
 
