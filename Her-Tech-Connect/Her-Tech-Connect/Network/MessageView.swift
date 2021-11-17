@@ -6,11 +6,21 @@
 //
 
 import SwiftUI
+import FirebaseDatabase
+import FirebaseAuth
 
 @available(iOS 15.0, *)
 struct MessageView: View {
     @State var messageText = ""
     @State var showSubTextView = false
+    let ref = Database.database().reference()
+    @ObservedObject var chat: Chat = Chat()
+    let currentUserEmail = Auth.auth().currentUser!.email
+    @State var currentUserID = ""
+    @State var currentUserName = ""
+    var receiverEmail: String
+    var receiverId: String
+    
     @Environment(\.dismiss) var dismiss
     var btnBack : some View { Button(action: {
         dismiss()
@@ -24,8 +34,17 @@ struct MessageView: View {
         NavigationView{
             VStack{
                 ScrollView(.vertical, showsIndicators: false, content: {
-                    
+                    LazyVStack(alignment: .leading, spacing: 0, content: {
+                        ForEach(self.chat.data.indices, id: \.self) { index in
+                            if currentUserID == (self.chat.data[index]).senderId {
+                                MessageBubble(isSent: true, message: self.chat.data[index], recieverId: receiverId)
+                            } else {
+                                MessageBubble(isSent: false, message: self.chat.data[index], recieverId: receiverId)
+                            }
+                        }
+                    })
                 })
+                
                 ZStack{
                     VStack{
                         Divider()
@@ -34,8 +53,8 @@ struct MessageView: View {
                             emojiButton("😍")
                             emojiButton("🥰")
                             emojiButton("🤩")
-                            emojiButton("🛩")
-                            emojiButton("✈️")
+                            emojiButton("😉")
+                            emojiButton("😴")
                             emojiButton("😎")
                             emojiButton("❤️")
                             emojiButton("😂")
@@ -49,8 +68,11 @@ struct MessageView: View {
                         HStack{
                             RoundedImage(urlImage: "https://cdn.iconscout.com/icon/free/png-256/account-avatar-profile-human-man-user-30448.png", imageWidth: 45, imageHeight: 45)
                             HStack{
-                                TextField("Add a Comment...", text: $messageText)
+                                TextField("Reply Here...", text: $messageText)
                                 Button(action: {
+                                    hideKeyboard()
+                                    Message.sendTo(recipientId: receiverId, message: Message(senderId: currentUserID, senderName: self.currentUserName, message: messageText, type: "Text", timeCreated: Date().timeIntervalSince1970))
+                                    messageText = ""
                                     
                                 }, label: {
                                     Image(systemName: "paperplane")
@@ -70,11 +92,20 @@ struct MessageView: View {
                         .padding(.leading)
                     }
                 }
+                .onAppear(perform: {
+                    
+                    if self.chat.data.isEmpty {
+                        DispatchQueue.main.async {
+                            getMessages()
+                        }
+                    }
+                    
+                })
                 .padding(.bottom, 8.0)
                 .background(Color(UIColor.systemGray6).edgesIgnoringSafeArea(.all))
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(.systemTeal).ignoresSafeArea())
+//            .background(Color(.systemTeal).ignoresSafeArea())
             .gesture(
                 DragGesture()
                         .onChanged({_ in
@@ -101,12 +132,45 @@ struct MessageView: View {
                 .font(.system(size: 33))
         }
     }
+    
+    //Retrieves messages between a single user and recipient while declaring a listener and sorting the messages by time.
+    func getMessages() {
+        
+        print(self.currentUserID)
+        print(self.receiverId)
+        
+        //Get the chatID for this user and recipient
+        ref.child("ChatGroup").child(self.currentUserID).child(self.receiverId).observe( .value, with: { (recipientNode) in
+            if !recipientNode.exists() {
+                Message.newChatWith(senderId: self.currentUserID, recipientId: self.receiverId)
+            }
+            //ensure the recipientNode value is imported as a String Dictionary, otherwise return
+            guard let recipientDictionary = recipientNode.value as? [String: String] else {return}
+            //Get the chatID
+            let chatID = recipientDictionary["chatID"]!
+            //Sort the chats by time
+            let sorted = self.ref.child("Chats").child(chatID).queryOrdered(byChild: "timeCreated")
+            //Listen for new messages and only return new messages
+            sorted.observe(.childAdded, with: { (messageSnapshot) in
+                
+                DispatchQueue.main.async{
+                    //If no messages, skip import
+                    if !messageSnapshot.exists() { return }
+                    //import messages as a Dictionary with String keys
+                    //NOTE: messageDictionary has String keys for Dictionary objects
+                    guard let messageDict = messageSnapshot.value as? [String: Any] else {return}
+                    //Store messageDictionary
+                    self.chat.data.append(Message(senderId: messageDict["senderId"] as! String, senderName: messageDict["senderName"] as! String, message: messageDict["message"] as! String, type: messageDict["type"] as! String, timeCreated: messageDict["timeCreated"] as! Double))
+                }
+            })
+        })
+    }
 }
 
 struct MessageView_Previews: PreviewProvider {
     static var previews: some View {
         if #available(iOS 15.0, *) {
-            MessageView()
+            MessageView(receiverEmail: "janedoe@outlook.com", receiverId: "0118E49C-EADB-4518-95CD-8A37F94080AA")
         } else {
             // Fallback on earlier versions
         }
