@@ -12,21 +12,24 @@ import MapKit
 
 struct EventView: View {
     @StateObject private var viewModel = MapViewModel()
+    @State private var addressField: String = ""
+    @State private var annotations = [MapPin(name:"Space Needle")]
     
-
+    //func updateAnno() {
+    //    let newAnno = viewModel.PinOne
+    //    annotations = [newAnno]
+    //}
 
     var body: some View {
         
-        
+
         
         VStack{
-            let MapPins = [
-                viewModel.PinOne
-            ]
+            
             Map(
                 coordinateRegion: $viewModel.region,
                 showsUserLocation: true,
-                annotationItems: MapPins,
+                annotationItems: annotations,
                 annotationContent: { item in
                     MapMarker(coordinate: item.coordinate)
                 }
@@ -34,10 +37,33 @@ struct EventView: View {
             )
                 .onAppear {
                     viewModel.checkLocServ()
+
                 }
                 .accentColor(Color(.systemPink))
                 .frame(width: 400, height: 600, alignment: .center)
 
+            HStack {
+                Spacer()
+                TextField(" Event Address", text: $addressField)
+                    .background(Color(.white))
+                Spacer()
+                Button(action: {
+                    print("button pressed")
+                    if (addressField == ""){
+                        return
+                    }
+                    viewModel.setAddressPin(addressString: addressField)
+                    //updateAnno()
+                    
+                }, label: {
+                    Text("Add Event")
+                })
+                .padding()
+                //.font(.title)
+                //.clipShape(Circle())
+                //.padding(.trailing)
+            }
+            //Spacer()
             Text("Event View")
 
         }
@@ -45,6 +71,8 @@ struct EventView: View {
         .background(Color(.systemTeal).ignoresSafeArea())
         
     }
+    
+
 
 }
 
