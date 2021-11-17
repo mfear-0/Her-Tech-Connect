@@ -12,12 +12,13 @@ import FirebaseDatabase
 struct NetworkView: View {
     @State var usersArray: [User] = []
     let ref = Database.database().reference()
+    @State var currentUserId: String = ""
     var body: some View {
         ScrollView(.vertical, showsIndicators: false, content: {
             LazyVStack(alignment: .leading, spacing: 0, content: {
                 ForEach(self.usersArray.indices, id: \.self){ index in
                     if #available(iOS 15.0, *) {
-                        UserCard(user: self.usersArray[index])
+                        UserCard(user: self.usersArray[index], currentUserId: self.currentUserId)
                     } else {
                         // Fallback on earlier versions
                     }
@@ -36,6 +37,11 @@ struct NetworkView: View {
                                 
                                 self.usersArray.append(userData)
                             }
+                            
+                            if userEmail == Auth.auth().currentUser!.email {
+                                self.currentUserId = userDict["userId"] as! String
+                            }
+                            
                         }
                     })
                 }

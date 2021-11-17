@@ -12,7 +12,7 @@ struct MessageBubble: View {
     var isSent = false
     var message: Message
     @State var imageUrl = ""
-    var recieverId = ""
+    @State var recieverId = ""
     let ref = Database.database().reference()
 
     var body: some View {
@@ -27,7 +27,7 @@ struct MessageBubble: View {
                         .background(RoundedRectangle(cornerRadius: 25).stroke((Color.white.opacity(0)), lineWidth: 1).background((Color.gray).cornerRadius(25, corners: [.topLeft, .topRight, .bottomLeft])).shadow(radius: 15))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity, alignment: .trailing)
-                    Text("now")
+                    Text(calculateTimeStamp(seconds: message.timeCreated))
                         .frame(maxWidth: .infinity, alignment: .trailing)
                 }
                 .padding(.horizontal, 10)
@@ -45,7 +45,7 @@ struct MessageBubble: View {
                         
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                        Text("now")
+                        Text(calculateTimeStamp(seconds: message.timeCreated))
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.leading, 15)
                     }
@@ -59,8 +59,11 @@ struct MessageBubble: View {
         .onAppear(perform: {
             if !isSent {
                 ref.child("Users").child(recieverId).observeSingleEvent(of: .value, with: { user in
-                    let userDict = user.value as! [String: Any]
-                    self.imageUrl = userDict["image"] as! String
+                    
+                    DispatchQueue.main.async{
+                        let userDict = user.value as! [String: Any]
+                        self.imageUrl = userDict["image"] as! String
+                    }
                 })
             }
         })
@@ -73,7 +76,7 @@ extension View {
         clipShape( RoundedCorner(radius: radius, corners: corners) )
     }
     
-    private func calculateTimeStamp(seconds: Double) -> String {
+    func calculateTimeStamp(seconds: Double) -> String {
             
             let currentSeconds = Date().timeIntervalSince1970
             let difference = currentSeconds - seconds
@@ -127,7 +130,7 @@ extension View {
 
 struct MessageBubble_Previews: PreviewProvider {
     static var previews: some View {
-        MessageBubble(isSent: true, message: Message(senderEmail: "janedoe@outlook.com", senderName: "Jane Doe", message: "How are You?!", type: "text"), recieverId: "0118E49C-EADB-4518-95CD-8A37F94080AA")
+        MessageBubble(isSent: false, message: Message(senderId: "0118E49C-EADB-4518-95CD-8A37F94080AA", senderName: "Jane Doe", message: "How are You?!🤓🧐😎", type: "text", timeCreated: 1630832248.292776), recieverId: "0118E49C-EADB-4518-95CD-8A37F94080AA")
     }
 }
 

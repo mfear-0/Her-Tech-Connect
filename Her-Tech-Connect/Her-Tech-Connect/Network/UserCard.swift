@@ -11,6 +11,7 @@ import SwiftUI
 struct UserCard: View {
     @State var user: User
     @State private var showingSheet = false
+    var currentUserId: String
     let lastMessage = "How are you"
     var body: some View {
         VStack{
@@ -47,7 +48,7 @@ struct UserCard: View {
         }
         .sheet(isPresented: $showingSheet) {
             NavigationView{
-                MessageView(receiverEmail: user.email, recieverId: user.userId)
+                MessageView(currentUserID: currentUserId, receiverEmail: user.email, receiverId: user.userId)
             }
             
         }
@@ -57,7 +58,7 @@ struct UserCard: View {
 struct UserCard_Previews: PreviewProvider {
     static var previews: some View {
         if #available(iOS 15.0, *) {
-            UserCard(user: User(userId: "67777", name: "Jennifer Lopez", email: "jLopez@gmail.com", image: "https://cdn.iconscout.com/icon/free/png-256/account-avatar-profile-human-man-user-30448.png", jobDescriotion: "Ios Engineer", connection: ["":""]))
+            UserCard(user: User(userId: "67777", name: "Jennifer Lopez", email: "jLopez@gmail.com", image: "https://cdn.iconscout.com/icon/free/png-256/account-avatar-profile-human-man-user-30448.png", jobDescriotion: "Ios Engineer", connection: ["":""]), currentUserId: "0118E49C-EADB-4518-95CD-8A37F94080AA")
         } else {
             // Fallback on earlier versions
         }

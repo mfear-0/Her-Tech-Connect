@@ -9,13 +9,5 @@ import Foundation
 import SwiftUI
 
 class Chat: ObservableObject{
-    @Published var chats = [Message]()
-//    var id: String {user.userId}
-//    let user: User
-//    var message: [Message]
-//    var hasUnreadMessage = false
+    @Published var data: [Message] = [Message]()
 }
-
-//class ChatViewModel: ObservableObject {
-//
-//}
