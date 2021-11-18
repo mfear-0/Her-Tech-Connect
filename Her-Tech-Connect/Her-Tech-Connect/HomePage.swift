@@ -29,7 +29,7 @@ struct HomePage: View {
             })
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.systemTeal).ignoresSafeArea())
+//        .background(Color(.systemTeal).ignoresSafeArea())
         
     }
 }
