@@ -33,17 +33,38 @@ struct MessageView: View {
     var body: some View {
         NavigationView{
             VStack{
-                ScrollView(.vertical, showsIndicators: false, content: {
-                    LazyVStack(alignment: .leading, spacing: 0, content: {
-                        ForEach(self.chat.data.indices, id: \.self) { index in
-                            if currentUserID == (self.chat.data[index]).senderId {
-                                MessageBubble(isSent: true, message: self.chat.data[index], recieverId: receiverId)
-                            } else {
-                                MessageBubble(isSent: false, message: self.chat.data[index], recieverId: receiverId)
-                            }
+                ScrollViewReader{ scrollView in
+                    ScrollView(.vertical, showsIndicators: false, content: {
+                        ScrollViewReader { scrollView in
+                            LazyVStack(alignment: .leading, spacing: 0, content: {
+                                ForEach(self.chat.data.indices, id: \.self) { index in
+                                    if currentUserID == (self.chat.data[index]).senderId {
+                                        MessageBubble(isSent: true, message: self.chat.data[index], recieverId: receiverId)
+                                    } else {
+                                        MessageBubble(isSent: false, message: self.chat.data[index], recieverId: receiverId)
+                                    }
+                                }
+                                .onChange(of: self.chat.data, perform: { value in
+                                    print("Count:\(self.chat.data.count)")
+                                    scrollView.scrollTo((self.chat.data.count - 1), anchor: .bottom)
+                                })
+                                .onAppear(perform: {
+                                    print("Count:\(self.chat.data.count)")
+                                    scrollView.scrollTo((self.chat.data.count - 1), anchor: .bottom)
+                                })
+                                
+                            })
                         }
+                        
                     })
-                })
+                        .onAppear(perform: {
+                            if self.chat.data.isEmpty {
+                                DispatchQueue.main.async {
+                                    getMessages()
+                                }
+                            }
+                        })
+                }
                 
                 ZStack{
                     VStack{
@@ -92,15 +113,6 @@ struct MessageView: View {
                         .padding(.leading)
                     }
                 }
-                .onAppear(perform: {
-                    
-                    if self.chat.data.isEmpty {
-                        DispatchQueue.main.async {
-                            getMessages()
-                        }
-                    }
-                    
-                })
                 .padding(.bottom, 8.0)
                 .background(Color(UIColor.systemGray6).edgesIgnoringSafeArea(.all))
             }
@@ -136,9 +148,6 @@ struct MessageView: View {
     //Retrieves messages between a single user and recipient while declaring a listener and sorting the messages by time.
     func getMessages() {
         
-        print(self.currentUserID)
-        print(self.receiverId)
-        
         //Get the chatID for this user and recipient
         ref.child("ChatGroup").child(self.currentUserID).child(self.receiverId).observe( .value, with: { (recipientNode) in
             if !recipientNode.exists() {
@@ -161,6 +170,8 @@ struct MessageView: View {
                     guard let messageDict = messageSnapshot.value as? [String: Any] else {return}
                     //Store messageDictionary
                     self.chat.data.append(Message(senderId: messageDict["senderId"] as! String, senderName: messageDict["senderName"] as! String, message: messageDict["message"] as! String, type: messageDict["type"] as! String, timeCreated: messageDict["timeCreated"] as! Double))
+                    print(self.chat.data.count)
+                    
                 }
             })
         })

@@ -10,7 +10,7 @@ import FirebaseDatabase
 
 struct MessageBubble: View {
     var isSent = false
-    var message: Message
+    @State var message: Message
     @State var imageUrl = ""
     @State var recieverId = ""
     let ref = Database.database().reference()
@@ -31,6 +31,7 @@ struct MessageBubble: View {
                         .frame(maxWidth: .infinity, alignment: .trailing)
                 }
                 .padding(.horizontal, 10)
+                .padding(.bottom, 18)
             } else {
                 HStack {
                     RoundedImage(urlImage: self.imageUrl, imageWidth: 50.0, imageHeight: 50.0)
@@ -53,6 +54,7 @@ struct MessageBubble: View {
                     
                 }
                 .padding(.horizontal, 10)
+                .padding(.bottom, 18)
                 Spacer()
             }
         }
@@ -85,9 +87,9 @@ extension View {
             if difference < 60 {
                 timeStamp = "Now"
             } else if difference < 3600 {
-                timeStamp = String(Int(difference / 60)) + "m"
+                timeStamp = String(Int(difference / 60)) + "m ago"
             } else if difference < 86400 {
-                timeStamp = String(Int(difference / 3600)) + "h"
+                timeStamp = String(Int(difference / 3600)) + "h ago"
             } else if difference < 604800 {
                 let date = Date(timeIntervalSince1970: seconds)
                 let formatter = DateFormatter()
