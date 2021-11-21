@@ -9,13 +9,33 @@ import Foundation
 import SwiftUI
 import FirebaseDatabase
 
-class Message: Identifiable {
-    var senderId: String
-    var senderName: String
-    var message: String
-    var type: String
-    var timeCreated: Double
-    var content: [String:Any] //Dictionary that stores all of the Message's content which can be accessed by calling Message.content["key for what you'd like to access"]
+class Message: Identifiable, ObservableObject, Hashable {
+    static func == (lhs: Message, rhs: Message) -> Bool {
+        return lhs.senderId == rhs.senderId &&
+        lhs.senderName == rhs.senderName &&
+        lhs.message == rhs.message &&
+        lhs.type == rhs.type &&
+        lhs.timeCreated == rhs.timeCreated &&
+        lhs.content == rhs.content
+    }
+    
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(senderId)
+        hasher.combine(senderName)
+        hasher.combine(message)
+        hasher.combine(type)
+        hasher.combine(timeCreated)
+        hasher.combine(content)
+        
+    }
+    
+    @Published var senderId: String
+    @Published var senderName: String
+    @Published var message: String
+    @Published var type: String
+    @Published var timeCreated: Double
+    @Published var content: [String:AnyHashable]//Dictionary that stores all of the Message's content which can be accessed by calling Message.content["key for what you'd like to access"]
     static let ref = Database.database().reference()
     
     init(senderId: String, senderName:String, message: String, type: String, timeCreated: Double) {
@@ -28,11 +48,11 @@ class Message: Identifiable {
         self.message = message
         self.type = type
         self.timeCreated = timeCreated
-        self.content = ["senderId":self.senderId,
-                        "senderName":self.senderName,
-                        "message":self.message,
-                        "type":self.type,
-                        "timeCreated":self.timeCreated
+        self.content = ["senderId":senderId,
+                        "senderName":senderName,
+                        "message":message,
+                        "type":type,
+                        "timeCreated":timeCreated
         ]
     }
     

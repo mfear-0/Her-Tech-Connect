@@ -29,4 +29,12 @@ class UserHandler {
         
         ref.child("Users").child(userId).setValue(user)
     }
+    
+    /*
+     Add Connection to a user
+     */
+    static func addConnection(currentUserId: String, connectionId: String) {
+        
+        ref.child("Connections").child(currentUserId).child(connectionId).setValue(connectionId)
+    }
 }

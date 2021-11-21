@@ -15,14 +15,18 @@ class User: Identifiable, ObservableObject {
     @Published var email: String
     @Published var image: String
     @Published var jobDescription: String
-    @Published var connection: [String: Any]
     
-    init(userId: String, name: String, email: String, image: String, jobDescriotion: String, connection: [String: Any]){
+    init(userId: String, name: String, email: String, image: String, jobDescriotion: String){
         self.userId = userId
         self.name = name
         self.email = email
         self.image = image
         self.jobDescription = jobDescriotion
-        self.connection = connection
     }
 }
+
+class Users: ObservableObject{
+    @Published var data: [User] = [User]()
+}
+
+
