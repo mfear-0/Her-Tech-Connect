@@ -23,7 +23,8 @@ class UserHandler {
             "name": name,
             "email": email,
             "image": image,
-            "jobDescription": ""
+            "jobDescription": "",
+            "connections": ["connection1": ""]
         ]
         
         ref.child("Users").child(userId).setValue(user)
@@ -35,19 +36,5 @@ class UserHandler {
     static func addConnection(currentUserId: String, connectionId: String) {
         
         ref.child("Connections").child(currentUserId).child(connectionId).setValue(connectionId)
-    }
-    
-    /*
-     update User info
-     */
-    static func updateUserInfo(userId: String, userName: String, userEmail: String, image: String, jobDescription: String){
-        let updateUserInfo: [String: Any] = [
-            "userId": userId,
-            "name": userName,
-            "email": userEmail,
-            "image": image,
-            "jobDescription": jobDescription
-        ]
-        ref.child("Users").child(userId).setValue(updateUserInfo)
     }
 }
