@@ -25,7 +25,7 @@ struct TabTest: View {
             }
             
             MoreView().tabItem {
-                Label("More", systemImage: "line.3.horizontal")
+                Label("More", systemImage: "ellipsis")
             }
         }
     }
