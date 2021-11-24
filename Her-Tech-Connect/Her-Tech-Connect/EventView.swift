@@ -13,34 +13,49 @@ import MapKit
 struct EventView: View {
     @StateObject private var viewModel = MapViewModel()
     @State private var addressField: String = ""
-    @State private var annotations = [MapPin(name:"Space Needle")]
+    //@State private var annotations = [MapPin(name:"Space Needle")]
     
-    //func updateAnno() {
-    //    let newAnno = viewModel.PinOne
-    //    annotations = [newAnno]
-    //}
+    @State private var centerCoordinate = CLLocationCoordinate2D()
+    @State private var locations = [MKPointAnnotation]()
+    
+
 
     var body: some View {
         
 
         
         VStack{
+            ZStack{
             
-            Map(
-                coordinateRegion: $viewModel.region,
-                showsUserLocation: true,
-                annotationItems: annotations,
-                annotationContent: { item in
-                    MapMarker(coordinate: item.coordinate)
-                }
-                
-            )
+                MapView(centerCoordinate: $centerCoordinate, annotations: locations)
+                .ignoresSafeArea()
                 .onAppear {
                     viewModel.checkLocServ()
-
                 }
-                .accentColor(Color(.systemPink))
-                .frame(width: 400, height: 600, alignment: .center)
+            }
+            //circle shows center coordinate that follows user as they zoom/pan
+//            Circle()
+//                .fill(Color.blue)
+//                .frame(width: 10, height: 10)}
+
+            //old map view code, don't remove yet.
+            
+//            Map(
+//                coordinateRegion: $viewModel.region,
+//                showsUserLocation: true,
+//                annotationItems: annotations,
+//                annotationContent: { item in
+//                    MapMarker(coordinate: item.coordinate)
+//                }
+//
+//            )
+//                .accentColor(Color(.systemPink))
+//                //.frame(width: 400, height: 600, alignment: .center)
+//                .onAppear {
+//                    viewModel.checkLocServ()
+//
+//                }
+                
 
             HStack {
                 Spacer()
@@ -48,27 +63,35 @@ struct EventView: View {
                     .background(Color(.white))
                 Spacer()
                 Button(action: {
+                    let newLocation = MKPointAnnotation()
                     print("button pressed")
                     if (addressField == ""){
                         return
                     }
-                    viewModel.setAddressPin(addressString: addressField)
-                    //updateAnno()
+                    let geocoder = CLGeocoder()
+                    geocoder.geocodeAddressString(addressField) {
+                        placemarks, error in
+                        let placemark = placemarks?.first
+                        let lat = placemark?.location?.coordinate.latitude
+                        let long = placemark?.location?.coordinate.longitude
+                        newLocation.coordinate = CLLocationCoordinate2D(latitude:lat!, longitude: long!)
+                        self.locations.append(newLocation)
+                        print("button pressed. address coordinates are: \(newLocation.coordinate.latitude) and \(newLocation.coordinate.longitude)")
+                        
+                    }
+                    
+                    
                     
                 }, label: {
                     Text("Add Event")
                 })
                 .padding()
-                //.font(.title)
-                //.clipShape(Circle())
-                //.padding(.trailing)
             }
-            //Spacer()
             Text("Event View")
 
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-//        .background(Color(.systemTeal).ignoresSafeArea())
+        .background(Color(.systemTeal).ignoresSafeArea())
         
     }
     

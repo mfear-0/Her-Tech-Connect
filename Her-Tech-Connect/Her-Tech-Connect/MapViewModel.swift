@@ -7,6 +7,7 @@
 
 import MapKit
 
+
 enum MapDet {
     static let startLoc = CLLocationCoordinate2D(latitude: 47.6062, longitude: -122.3321)
     static let startSpan = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
@@ -23,25 +24,28 @@ struct MapPin: Identifiable {
 }
 
 var defLat: Double = 47.6205
-var defLong: Double = 122.3493
+var defLong: Double = -122.3493
 
 final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     //@State private var showAlert = false
     @Published var region = MKCoordinateRegion(center: MapDet.startLoc, span: MapDet.startSpan)
     @Published var PinOne = MapPin(name:"Space Needle")
+    //var annos : [MKPointAnnotation]
     
     
     var locManager: CLLocationManager?
     
-    func setAddressPin(addressString: String/*, addressName: String*/ ){
-        getCoord(from: addressString) { coordinates in
-            print(coordinates!)
-            defLat = coordinates!.latitude
-            defLong = coordinates!.longitude
-            
-        }
-    }
+    
+    
+//    func setAddressPin(addressString: String/*, addressName: String*/ ){
+//        getCoord(from: addressString) { coordinates in
+//            print(coordinates!)
+//            defLat = coordinates!.latitude
+//            defLong = coordinates!.longitude
+//
+//        }
+//    }
     
     func getCoord(from addressString: String, completionHandler: @escaping(_ location: CLLocationCoordinate2D?) -> Void ) {
         let geocoder = CLGeocoder()
