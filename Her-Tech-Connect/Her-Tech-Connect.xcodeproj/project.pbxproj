@@ -15,6 +15,8 @@
 		3FF1A2B527261FEC0041E4AA /* EventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF1A2B427261FEC0041E4AA /* EventView.swift */; };
 		3FF1A2B927262C140041E4AA /* TabTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF1A2B827262C140041E4AA /* TabTest.swift */; };
 		3FF1A2BD273070D80041E4AA /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF1A2BC273070D80041E4AA /* MapViewModel.swift */; };
+		5F332619274F0CDB0032F259 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F332618274F0CDB0032F259 /* ImagePicker.swift */; };
+		5F33261B274F0D570032F259 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F33261A274F0D570032F259 /* ProfileView.swift */; };
 		5F4FF93E2720F40200365296 /* Her_Tech_ConnectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4FF93D2720F40200365296 /* Her_Tech_ConnectApp.swift */; };
 		5F4FF9402720F40200365296 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4FF93F2720F40200365296 /* ContentView.swift */; };
 		5F4FF9422720F40400365296 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F4FF9412720F40400365296 /* Assets.xcassets */; };
@@ -54,13 +56,15 @@
 
 /* Begin PBXFileReference section */
 		3F2EAC872738E85700FCE80B /* AricaDesignTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AricaDesignTest.swift; sourceTree = "<group>"; };
-		3F4B9E102745ABE100B546B4 /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MoreView.swift; path = "Her-Tech-Connect/MoreView.swift"; sourceTree = SOURCE_ROOT; };
+		3F4B9E102745ABE100B546B4 /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MoreView.swift; path = "Her-Tech-Connect/More/MoreView.swift"; sourceTree = SOURCE_ROOT; };
 		3F4B9E122745B13500B546B4 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		3F52D04427421ADB00463B3A /* SignInOrCreateAccountScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInOrCreateAccountScreen.swift; sourceTree = "<group>"; };
 		3FA5AA9D274EC9F3003591DA /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		3FF1A2B427261FEC0041E4AA /* EventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventView.swift; sourceTree = "<group>"; };
 		3FF1A2B827262C140041E4AA /* TabTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabTest.swift; sourceTree = "<group>"; };
 		3FF1A2BC273070D80041E4AA /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		5F332618274F0CDB0032F259 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		5F33261A274F0D570032F259 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		5F4FF93A2720F40200365296 /* Her-Tech-Connect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Her-Tech-Connect.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F4FF93D2720F40200365296 /* Her_Tech_ConnectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Her_Tech_ConnectApp.swift; sourceTree = "<group>"; };
 		5F4FF93F2720F40200365296 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -111,6 +115,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5F332617274F0C9D0032F259 /* More */ = {
+			isa = PBXGroup;
+			children = (
+				3F4B9E102745ABE100B546B4 /* MoreView.swift */,
+				3F4B9E122745B13500B546B4 /* SettingsView.swift */,
+				5F332618274F0CDB0032F259 /* ImagePicker.swift */,
+				5F33261A274F0D570032F259 /* ProfileView.swift */,
+			);
+			path = More;
+			sourceTree = "<group>";
+		};
 		5F4FF9312720F40200365296 = {
 			isa = PBXGroup;
 			children = (
@@ -130,6 +145,7 @@
 		5F4FF93C2720F40200365296 /* Her-Tech-Connect */ = {
 			isa = PBXGroup;
 			children = (
+				5F332617274F0C9D0032F259 /* More */,
 				5F9CDF42273864D9009165D2 /* Network */,
 				5FEFD56727277FE0009D31F6 /* Models */,
 				5FEFD56427277F1D009D31F6 /* Database Interaction */,
@@ -145,8 +161,6 @@
 				3FF1A2B827262C140041E4AA /* TabTest.swift */,
 				3FF1A2BC273070D80041E4AA /* MapViewModel.swift */,
 				3FA5AA9D274EC9F3003591DA /* MapView.swift */,
-				3F4B9E102745ABE100B546B4 /* MoreView.swift */,
-				3F4B9E122745B13500B546B4 /* SettingsView.swift */,
 				3F2EAC872738E85700FCE80B /* AricaDesignTest.swift */,
 			);
 			path = "Her-Tech-Connect";
@@ -304,12 +318,14 @@
 				5FEFD56627277F4C009D31F6 /* UserHandler.swift in Sources */,
 				5FEFD541272240E3009D31F6 /* LoginPage.swift in Sources */,
 				5F9CDF442738653E009165D2 /* NetworkView.swift in Sources */,
+				5F33261B274F0D570032F259 /* ProfileView.swift in Sources */,
 				5FEFD56B2728B073009D31F6 /* ResetPasswordPage.swift in Sources */,
 				5F5702942747356B00C24AD9 /* ConnectionView.swift in Sources */,
 				5F4FF93E2720F40200365296 /* Her_Tech_ConnectApp.swift in Sources */,
 				5FE67EC82741B04E00F67451 /* MessageBubble.swift in Sources */,
 				5FEFD55F2723917C009D31F6 /* RegisterPage.swift in Sources */,
 				5F57029627473A2200C24AD9 /* ConnectionCard.swift in Sources */,
+				5F332619274F0CDB0032F259 /* ImagePicker.swift in Sources */,
 				5FEFD56927278010009D31F6 /* User.swift in Sources */,
 				3FF1A2B927262C140041E4AA /* TabTest.swift in Sources */,
 				5F9CDF4A2738A255009165D2 /* MessageView.swift in Sources */,
