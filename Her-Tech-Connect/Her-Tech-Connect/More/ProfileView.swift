@@ -8,38 +8,71 @@
 import SwiftUI
 import FirebaseDatabase
 import FirebaseAuth
+import Firebase
 
 struct ProfileView: View {
     let ref = Database.database().reference()
     @State var userId: String = ""
     @State var userName: String = ""
     @State var userImage: String = ""
+    @State var image: Image?
     @State var jobDescription: String = ""
     @State var userEmail: String = ""
     @State var name: String = ""
     @State var job: String = ""
+    @State var loadingProgress = 0.0
     @State var isChanged = true
     @State var isChangeMade = true
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
+    @State private var imageHasChanged = false
+    @State private var savingBtnState = "Save"
     
     var body: some View {
         VStack{
             ScrollView(.vertical, showsIndicators: false){
-                RoundedImage(urlImage: self.userImage, imageWidth: 120, imageHeight: 120)
-                
+                if loadingProgress != 0.0{
+                    ProgressView("Uploading...", value: self.loadingProgress, total: 100)
+                        .progressViewStyle(LinearProgressViewStyle(tint: Color.green))
+                        .padding(.vertical)
+                        .padding(.horizontal, 55)
+                }
+                if image != nil {
+                    image?
+                        .resizable()
+                        .frame(width: 120, height: 120)
+                        .clipShape(Circle())
+                        .shadow(radius: 10)
+                } else {
+                    RoundedImage(urlImage: self.userImage, imageWidth: 120, imageHeight: 120)
+                }
                 Group{
-                    Text("Change")
-                    .padding(10)
-                    .clipShape(Rectangle())
-                    .background(Color("LightBlue"))
-                    .cornerRadius(5)
-                    .onTapGesture {
-                        self.showingImagePicker = true
+                    if !imageHasChanged {
+                        Text("Change")
+                        .padding(10)
+                        .clipShape(Rectangle())
+                        .background(Color("LightBlue"))
+                        .cornerRadius(5)
+                        .onTapGesture {
+                            self.showingImagePicker = true
+                        }
+                        .fullScreenCover(isPresented: $showingImagePicker, onDismiss:
+                            loadImage
+                            ) {
+                            ImagePicker(image: self.$inputImage)
+                        }
+                    } else {
+                        Text(self.savingBtnState)
+                        .padding(10)
+                        .clipShape(Rectangle())
+                        .background(Color("LightBlue"))
+                        .cornerRadius(5)
+                        .onTapGesture {
+                            self.savingBtnState = "Uploading..."
+                            saveImage()
+                        }
                     }
-                    .fullScreenCover(isPresented: $showingImagePicker, onDismiss: loadImage) {
-                        ImagePicker(image: self.$inputImage)
-                    }
+                    
                     Text(self.userName)
                         .bold()
                         .font(.system(size: 22))
@@ -162,10 +195,61 @@ struct ProfileView: View {
         })
     }
     
+    /*
+     Function to save image to the database
+     */
+    func saveImage() {
+        if self.inputImage != nil{
+            let data = self.inputImage!.jpegData(compressionQuality: 0.8)!
+            let userImageId = Auth.auth().currentUser!.uid
+            let uploadRef = Storage.storage().reference(withPath: "profileImage/\(userImageId).jpg")
+            let metadata = StorageMetadata.init()
+            metadata.contentType = "image/jpeg"
+            
+            //Saving image into the database
+            let taskRef = uploadRef.putData(data, metadata: metadata){(data, error) in
+                if error != nil {
+                    print("An error has occured: \(String(describing: error?.localizedDescription))")
+                    return
+                } else {
+                    // Create a reference to the file you want to download
+                    let starsRef = Storage.storage().reference().child((data?.path)!)
+
+                    // Fetch the download URL
+                    starsRef.downloadURL { url, error in
+                      if let error = error {
+                        // Handle any errors
+                          print("An error has occured: \(error)")
+                      } else {
+                          // Get the download URL for 'images/stars.jpg'
+                          DispatchQueue.main.async {
+                              self.imageHasChanged = false
+                              loadingProgress = 0.0
+                              inputImage = nil
+                              UserHandler.updateUserInfo(userId: self.userId, userName: self.name, userEmail: self.userEmail, image: url!.absoluteString, jobDescription: self.job)
+                              print("the URL: \(String(describing: url?.absoluteString))")
+                          }
+                      }
+                    }
+                }
+            }
+            
+            //Tracking the progress of the upload
+            taskRef.observe(.progress) {(snap) in
+                self.loadingProgress = Double(snap.progress!.fractionCompleted) * 100
+                print("Already completed \(self.loadingProgress)")
+            }
+        }
+    }
+    
+    /*
+     Function to get image from library
+     */
     func loadImage() {
         guard let inputImage = inputImage else { return }
         print("image: \(inputImage)")
-//        image = Image(uiImage: inputImage)
+        image = Image(uiImage: inputImage)
+        self.imageHasChanged = true
     }
     
 }

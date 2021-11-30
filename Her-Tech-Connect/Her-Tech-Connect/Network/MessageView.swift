@@ -18,6 +18,7 @@ struct MessageView: View {
     let currentUserEmail = Auth.auth().currentUser!.email
     @State var currentUserID = ""
     @State var currentUserName = ""
+    @State var currentUserImage = ""
     var receiverEmail: String
     var receiverId: String
     
@@ -87,7 +88,13 @@ struct MessageView: View {
                         .padding(.vertical, 2.0)
                         .frame(maxWidth: .infinity, alignment: .center)
                         HStack{
-                            RoundedImage(urlImage: "https://cdn.iconscout.com/icon/free/png-256/account-avatar-profile-human-man-user-30448.png", imageWidth: 45, imageHeight: 45)
+                            RoundedImage(urlImage: self.currentUserImage, imageWidth: 45, imageHeight: 45)
+                                .onAppear(perform: {
+                                    ref.child("Users").child(currentUserID).observe(.value, with: { user in
+                                        let userDict = user.value as! [String: Any]
+                                        self.currentUserImage = userDict["image"] as! String
+                                    })
+                                })
                             HStack{
                                 TextField("Reply Here...", text: $messageText)
                                 Button(action: {
