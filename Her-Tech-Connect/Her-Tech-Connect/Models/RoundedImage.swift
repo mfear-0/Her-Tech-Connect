@@ -18,7 +18,7 @@ struct RoundedImage: View {
                     .frame(width: imageWidth, height: imageHeight)
                     .clipShape(Circle())
                     .shadow(radius: 10)
-                    .overlay(Circle().stroke(Color.red, lineWidth: 2))
+//                    .overlay(Circle().stroke(Color.red, lineWidth: 2))
                 
             },
             placeholder: {

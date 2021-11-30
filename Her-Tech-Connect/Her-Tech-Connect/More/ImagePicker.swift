@@ -19,24 +19,11 @@ struct ImagePicker: UIViewControllerRepresentable {
             self.parent = parent
         }
         
+        
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
             if let uiImage = info[.originalImage] as? UIImage {
-                let data = uiImage.jpegData(compressionQuality: 0.8)!
-                let userImageId = Auth.auth().currentUser!.uid
-                let uploadRef = Storage.storage().reference(withPath: "profileImage/\(userImageId).jpg")
-                let metadata = StorageMetadata.init()
-                metadata.contentType = "image/jpeg"
-                uploadRef.putData(data, metadata: metadata){(data, error) in
-                    if error != nil {
-                        print("An error has occured: \(String(describing: error?.localizedDescription))")
-                        return
-                    } else {
-                        print("image detail: \(String(describing: data))")
-                    }
-                }
-                parent.image = uiImage
+                self.parent.image = uiImage
             }
-
             parent.presentationMode.wrappedValue.dismiss()
         }
     }
