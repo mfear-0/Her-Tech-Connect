@@ -13,17 +13,22 @@ import MapKit
 struct EventView: View {
     @StateObject private var viewModel = MapViewModel()
     @State private var addressField: String = ""
-    //@State private var annotations = [MapPin(name:"Space Needle")]
+    @State private var nameField: String = ""
+    @State private var timeField = Date()
+    @State private var dateField = Date()
     
     @State private var centerCoordinate = CLLocationCoordinate2D()
     @State private var locations = [MKPointAnnotation]()
-    
-
+    @State private var eventArray = [eventObject]()
+    private class eventObject {
+        var eName: String = ""
+        var eAddress: String = ""
+        var eTime: String = ""
+        var eDate: String = ""
+    }
 
     var body: some View {
-        
 
-        
         VStack{
             ZStack{
             
@@ -33,34 +38,20 @@ struct EventView: View {
                     viewModel.checkLocServ()
                 }
             }
-            //circle shows center coordinate that follows user as they zoom/pan
-//            Circle()
-//                .fill(Color.blue)
-//                .frame(width: 10, height: 10)}
-
-            //old map view code, don't remove yet.
-            
-//            Map(
-//                coordinateRegion: $viewModel.region,
-//                showsUserLocation: true,
-//                annotationItems: annotations,
-//                annotationContent: { item in
-//                    MapMarker(coordinate: item.coordinate)
-//                }
-//
-//            )
-//                .accentColor(Color(.systemPink))
-//                //.frame(width: 400, height: 600, alignment: .center)
-//                .onAppear {
-//                    viewModel.checkLocServ()
-//
-//                }
                 
 
             HStack {
                 Spacer()
-                TextField(" Event Address", text: $addressField)
+                VStack{
+                TextField(" Event Name", text: $nameField)
                     .background(Color(.white))
+                TextField(" Event Address", text: $addressField)
+                        .background(Color(.white))
+                DatePicker("date:", selection: $dateField, displayedComponents: [.date])
+                    .labelsHidden()
+                DatePicker("time:", selection: $timeField, displayedComponents: [.hourAndMinute])
+                        .labelsHidden()
+                }
                 Spacer()
                 Button(action: {
                     let newLocation = MKPointAnnotation()
@@ -68,6 +59,9 @@ struct EventView: View {
                     if (addressField == ""){
                         return
                     }
+                    let formatter1 = DateFormatter()
+                    formatter1.dateStyle = .short
+
                     let geocoder = CLGeocoder()
                     geocoder.geocodeAddressString(addressField) {
                         placemarks, error in
@@ -79,7 +73,16 @@ struct EventView: View {
                         print("button pressed. address coordinates are: \(newLocation.coordinate.latitude) and \(newLocation.coordinate.longitude)")
                         
                     }
+                    let newEvent = eventObject()
+                    newEvent.eName = nameField
+                    newEvent.eAddress = addressField
+                    newEvent.eDate = formatter1.string(from: dateField)
+                    newEvent.eTime = formatter1.string(from: timeField)
+                    eventArray.append(newEvent)
+                    dump(eventArray)
                     
+                    nameField = ""
+                    addressField = ""
                     
                     
                 }, label: {
