@@ -61,6 +61,8 @@ struct EventView: View {
                     }
                     let formatter1 = DateFormatter()
                     formatter1.dateStyle = .short
+                    let formatter2 = DateFormatter()
+                    formatter2.timeStyle = .short
 
                     let geocoder = CLGeocoder()
                     geocoder.geocodeAddressString(addressField) {
@@ -77,7 +79,7 @@ struct EventView: View {
                     newEvent.eName = nameField
                     newEvent.eAddress = addressField
                     newEvent.eDate = formatter1.string(from: dateField)
-                    newEvent.eTime = formatter1.string(from: timeField)
+                    newEvent.eTime = formatter2.string(from: timeField)
                     eventArray.append(newEvent)
                     dump(eventArray)
                     
