@@ -4,6 +4,7 @@
 //
 //  Created by Natalman Nahm on 10/26/21.
 //  Modified by Arica Conrad on 11/14/21.
+//  Modified by Arica Conrad on 12/6/21.
 //
 
 import SwiftUI
@@ -76,8 +77,10 @@ struct ResetPasswordPage: View {
                             .foregroundColor(Color("Black"))
                             .font(.title3)
                             .frame(minWidth: 0, maxWidth: .infinity)
-                            .background(Color("LightBlue"))
+                            .background(Color("LightBlueSwitch"))
                             .cornerRadius(40)
+                            .overlay( RoundedRectangle(cornerRadius: 40)
+                            .stroke(Color("LightBlue"), lineWidth: 4))
                     })
                     .padding()
                 }

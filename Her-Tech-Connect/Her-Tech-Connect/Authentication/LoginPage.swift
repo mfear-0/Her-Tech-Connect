@@ -4,6 +4,7 @@
 //
 //  Created by Natalman Nahm on 10/21/21.
 //  Modified by Arica Conrad on 11/14/21.
+//  Modified by Arica Conrad on 12/6/21.
 //
 
 import SwiftUI
@@ -33,25 +34,7 @@ struct LoginPage: View {
             ScrollView {
                 
                 VStack {
-                    
-                    if viewModel.isWrongEmail {
-                        Text("The email provided is incorrect.")
-                            .foregroundColor(Color.red)
-                            .font(.body)
-                    }
-                    
-                    else if viewModel.isWrongPassword {
-                        Text("The password provided is incorrect.")
-                            .foregroundColor(Color.red)
-                            .font(.body)
-                    }
-                    
-                    else if !viewModel.isFilled {
-                        Text("All fields must be filled out.")
-                            .foregroundColor(Color.red)
-                            .font(.body)
-                    }
-                    
+                                        
                     // Arica: The title text.
                     Text("Sign In")
                         .foregroundColor(Color("DarkBlue"))
@@ -128,6 +111,24 @@ struct LoginPage: View {
                     .padding()
                 }
                 
+                if viewModel.isWrongEmail {
+                    Text("The email provided is incorrect.")
+                        .foregroundColor(Color("DarkRed"))
+                        .font(.body)
+                }
+                
+                else if viewModel.isWrongPassword {
+                    Text("The password provided is incorrect.")
+                        .foregroundColor(Color("DarkRed"))
+                        .font(.body)
+                }
+                
+                else if !viewModel.isFilled {
+                    Text("All fields must be filled out.")
+                        .foregroundColor(Color("DarkRed"))
+                        .font(.body)
+                }
+                
                 // Arica: The Sign In button.
                 Button(action: {
                     guard !email.isEmpty, !password.isEmpty else {
@@ -145,8 +146,10 @@ struct LoginPage: View {
                         .foregroundColor(Color("Black"))
                         .font(.title3)
                         .frame(minWidth: 0, maxWidth: .infinity)
-                        .background(Color("LightBlue"))
+                        .background(Color("LightBlueSwitch"))
                         .cornerRadius(40)
+                        .overlay( RoundedRectangle(cornerRadius: 40)
+                        .stroke(Color("LightBlue"), lineWidth: 4))
                 })
                 .padding()
                 

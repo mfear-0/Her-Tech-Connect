@@ -5,6 +5,7 @@
 //  Created by Natalman Nahm on 10/22/21.
 //  Modified by Arica Conrad on 11/7/21.
 //  Modified by Arica Conrad on 11/14/21.
+//  Modified by Arica Conrad on 12/6/21.
 //
 
 // TODO: The password field lengths must be checked, as it is currently an error that is not shown to the users. If the password length is less than 6 characters, text should be displayed to the user saying something like, "Passwords must be at least 6 characters long." - Arica
@@ -38,24 +39,6 @@ struct RegisterPage: View {
             ScrollView {
                 
                 VStack {
-                    
-                    if viewModel.userAlreadyExist {
-                        Text("This email has already been used.")
-                            .foregroundColor(Color.red)
-                            .font(.body)
-                    }
-                    
-                     if isPasswordIncorrect {
-                        Text("The passwords must match each other.")
-                             .foregroundColor(Color.red)
-                             .font(.body)
-                    }
-                    
-                    if !isFilled {
-                        Text("All fields must be filled out.")
-                            .foregroundColor(Color.red)
-                            .font(.body)
-                    }
                     
                     // Arica: The title text.
                     Text("Create an Account")
@@ -167,6 +150,24 @@ struct RegisterPage: View {
                 }
                 .padding()
                 
+                if viewModel.userAlreadyExist {
+                    Text("This email has already been used.")
+                        .foregroundColor(Color("DarkRed"))
+                        .font(.body)
+                }
+                
+                 if isPasswordIncorrect {
+                    Text("The passwords must match each other.")
+                         .foregroundColor(Color("DarkRed"))
+                         .font(.body)
+                }
+                
+                if !isFilled {
+                    Text("All fields must be filled out.")
+                        .foregroundColor(Color("DarkRed"))
+                        .font(.body)
+                }
+                
                 // Arica: The Create Account button.
                 Button(action: {
                     guard !name.isEmpty, !email.isEmpty, !password.isEmpty, !rePassword.isEmpty else {
@@ -192,8 +193,10 @@ struct RegisterPage: View {
                         .foregroundColor(Color("Black"))
                         .font(.title3)
                         .frame(minWidth: 0, maxWidth: .infinity)
-                        .background(Color("LightBlue"))
+                        .background(Color("LightBlueSwitch"))
                         .cornerRadius(40)
+                        .overlay( RoundedRectangle(cornerRadius: 40)
+                        .stroke(Color("LightBlue"), lineWidth: 4))
                 })
                 .padding()
                 
