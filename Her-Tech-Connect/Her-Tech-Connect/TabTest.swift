@@ -24,6 +24,10 @@ struct TabTest: View {
                 Label("events", systemImage: "2.circle")
             }
             
+            ShoutOutView().tabItem {
+                Label("Shout Out", systemImage: "megaphone")
+            }
+            
             MoreView().tabItem {
                 Label("More", systemImage: "ellipsis")
             }
