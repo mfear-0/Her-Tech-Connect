@@ -72,7 +72,7 @@ struct EventView: View {
                         let long = placemark?.location?.coordinate.longitude
                         newLocation.coordinate = CLLocationCoordinate2D(latitude:lat!, longitude: long!)
                         self.locations.append(newLocation)
-                        print("button pressed. address coordinates are: \(newLocation.coordinate.latitude) and \(newLocation.coordinate.longitude)")
+                        //print("button pressed. address coordinates are: \(newLocation.coordinate.latitude) and \(newLocation.coordinate.longitude)")
                         
                     }
                     let newEvent = eventObject()
@@ -80,8 +80,9 @@ struct EventView: View {
                     newEvent.eAddress = addressField
                     newEvent.eDate = formatter1.string(from: dateField)
                     newEvent.eTime = formatter2.string(from: timeField)
-                    eventArray.append(newEvent)
-                    dump(eventArray)
+                    EventHandler.addEvent(name: newEvent.eName, address: newEvent.eAddress, date: newEvent.eDate, time: newEvent.eTime)
+                    //eventArray.append(newEvent)
+                    //dump(eventArray)
                     
                     nameField = ""
                     addressField = ""
