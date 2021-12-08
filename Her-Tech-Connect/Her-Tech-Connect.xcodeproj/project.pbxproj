@@ -11,6 +11,7 @@
 		3F4B9E112745ABE200B546B4 /* MoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4B9E102745ABE100B546B4 /* MoreView.swift */; };
 		3F4B9E132745B13500B546B4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4B9E122745B13500B546B4 /* SettingsView.swift */; };
 		3F52D04527421ADB00463B3A /* SignInOrCreateAccountScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F52D04427421ADB00463B3A /* SignInOrCreateAccountScreen.swift */; };
+		3F6BC35F2761508A0004B173 /* EventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6BC35E2761508A0004B173 /* EventHandler.swift */; };
 		3FA5AA9E274EC9F3003591DA /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA5AA9D274EC9F3003591DA /* MapView.swift */; };
 		3FF1A2B527261FEC0041E4AA /* EventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF1A2B427261FEC0041E4AA /* EventView.swift */; };
 		3FF1A2B927262C140041E4AA /* TabTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF1A2B827262C140041E4AA /* TabTest.swift */; };
@@ -59,6 +60,7 @@
 		3F4B9E102745ABE100B546B4 /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MoreView.swift; path = "Her-Tech-Connect/More/MoreView.swift"; sourceTree = SOURCE_ROOT; };
 		3F4B9E122745B13500B546B4 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		3F52D04427421ADB00463B3A /* SignInOrCreateAccountScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInOrCreateAccountScreen.swift; sourceTree = "<group>"; };
+		3F6BC35E2761508A0004B173 /* EventHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventHandler.swift; sourceTree = "<group>"; };
 		3FA5AA9D274EC9F3003591DA /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		3FF1A2B427261FEC0041E4AA /* EventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventView.swift; sourceTree = "<group>"; };
 		3FF1A2B827262C140041E4AA /* TabTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabTest.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				5FEFD56227248F36009D31F6 /* HomePage.swift */,
 				3FF1A2B427261FEC0041E4AA /* EventView.swift */,
 				3FF1A2B827262C140041E4AA /* TabTest.swift */,
+				3F6BC35E2761508A0004B173 /* EventHandler.swift */,
 				3FF1A2BC273070D80041E4AA /* MapViewModel.swift */,
 				3FA5AA9D274EC9F3003591DA /* MapView.swift */,
 				3F2EAC872738E85700FCE80B /* AricaDesignTest.swift */,
@@ -326,6 +329,7 @@
 				5FEFD55F2723917C009D31F6 /* RegisterPage.swift in Sources */,
 				5F57029627473A2200C24AD9 /* ConnectionCard.swift in Sources */,
 				5F332619274F0CDB0032F259 /* ImagePicker.swift in Sources */,
+				3F6BC35F2761508A0004B173 /* EventHandler.swift in Sources */,
 				5FEFD56927278010009D31F6 /* User.swift in Sources */,
 				3FF1A2B927262C140041E4AA /* TabTest.swift in Sources */,
 				5F9CDF4A2738A255009165D2 /* MessageView.swift in Sources */,
