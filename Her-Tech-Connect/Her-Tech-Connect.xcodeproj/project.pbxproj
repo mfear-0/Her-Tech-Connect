@@ -16,6 +16,7 @@
 		3FF1A2B527261FEC0041E4AA /* EventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF1A2B427261FEC0041E4AA /* EventView.swift */; };
 		3FF1A2B927262C140041E4AA /* TabTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF1A2B827262C140041E4AA /* TabTest.swift */; };
 		3FF1A2BD273070D80041E4AA /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF1A2BC273070D80041E4AA /* MapViewModel.swift */; };
+		5F2FF4EA2765257200931A18 /* AddShoutOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2FF4E92765257200931A18 /* AddShoutOut.swift */; };
 		5F332619274F0CDB0032F259 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F332618274F0CDB0032F259 /* ImagePicker.swift */; };
 		5F33261B274F0D570032F259 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F33261A274F0D570032F259 /* ProfileView.swift */; };
 		5F4FF93E2720F40200365296 /* Her_Tech_ConnectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4FF93D2720F40200365296 /* Her_Tech_ConnectApp.swift */; };
@@ -67,6 +68,7 @@
 		3FF1A2B427261FEC0041E4AA /* EventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventView.swift; sourceTree = "<group>"; };
 		3FF1A2B827262C140041E4AA /* TabTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabTest.swift; sourceTree = "<group>"; };
 		3FF1A2BC273070D80041E4AA /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		5F2FF4E92765257200931A18 /* AddShoutOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddShoutOut.swift; sourceTree = "<group>"; };
 		5F332618274F0CDB0032F259 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		5F33261A274F0D570032F259 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		5F4FF93A2720F40200365296 /* Her-Tech-Connect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Her-Tech-Connect.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -185,11 +187,11 @@
 		5F9CDF42273864D9009165D2 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				5F9CDF432738653E009165D2 /* NetworkView.swift */,
 				5F9CDF45273867F1009165D2 /* UserCard.swift */,
 				5F9CDF492738A255009165D2 /* MessageView.swift */,
 				5FE67EC72741B04E00F67451 /* MessageBubble.swift */,
 				5F5702932747356B00C24AD9 /* ConnectionView.swift */,
+				5F9CDF432738653E009165D2 /* NetworkView.swift */,
 				5F57029527473A2200C24AD9 /* ConnectionCard.swift */,
 			);
 			path = Network;
@@ -220,8 +222,8 @@
 			children = (
 				5FEFD56827278010009D31F6 /* User.swift */,
 				5F9CDF4727386A47009165D2 /* RoundedImage.swift */,
-				5F9CDF4B2738AD23009165D2 /* ImageButton.swift */,
 				5FE67EC327418CBE00F67451 /* Message.swift */,
+				5F9CDF4B2738AD23009165D2 /* ImageButton.swift */,
 				5FE67EC52741965800F67451 /* Chat.swift */,
 			);
 			path = Models;
@@ -232,6 +234,7 @@
 			children = (
 				5FFB5E75276041C900DB62C4 /* ShoutOutCard.swift */,
 				5FFB5E772760441E00DB62C4 /* ShoutOutView.swift */,
+				5F2FF4E92765257200931A18 /* AddShoutOut.swift */,
 			);
 			path = ShoutOut;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				5FFB5E782760442000DB62C4 /* ShoutOutView.swift in Sources */,
 				5FEFD55F2723917C009D31F6 /* RegisterPage.swift in Sources */,
 				5F57029627473A2200C24AD9 /* ConnectionCard.swift in Sources */,
+				5F2FF4EA2765257200931A18 /* AddShoutOut.swift in Sources */,
 				5F332619274F0CDB0032F259 /* ImagePicker.swift in Sources */,
 				3F6BC35F2761508A0004B173 /* EventHandler.swift in Sources */,
 				5FEFD56927278010009D31F6 /* User.swift in Sources */,
@@ -486,7 +490,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Her-Tech-Connect/Preview Content\"";
-				DEVELOPMENT_TEAM = X6WA7ACSKL;
+				DEVELOPMENT_TEAM = 3ZQJ35HR4K;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Her-Tech-Connect/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -494,7 +498,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = edu.cascadia.mobas.hertechconnect;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.cascadia.mobas.htc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -510,7 +514,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Her-Tech-Connect/Preview Content\"";
-				DEVELOPMENT_TEAM = X6WA7ACSKL;
+				DEVELOPMENT_TEAM = 3ZQJ35HR4K;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Her-Tech-Connect/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -518,7 +522,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = edu.cascadia.mobas.hertechconnect;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.cascadia.mobas.htc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

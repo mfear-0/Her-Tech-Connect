@@ -6,18 +6,21 @@
 //
 
 import SwiftUI
+import FirebaseAuth
+import FirebaseDatabase
 
 struct ShoutOutView: View {
+    let ref = Database.database().reference()
     @State private var showingSheet = false
-       
-   var body: some View {
+    @State var shoutOutArray = [Any]()
+    var body: some View {
        ZStack{
            VStack{
                ScrollView(.vertical, showsIndicators: false){
                    if #available(iOS 14.0, *) {
                        LazyVStack(alignment: .leading, spacing: 0){
-                           ForEach((1...10), id: \.self){ index in
-                               ShoutOutCard()
+                           ForEach(self.shoutOutArray.indices, id: \.self){ index in
+                               ShoutOutCard(post: self.shoutOutArray[index] as! [String: Any])
                            }
                        }
                    } else {
@@ -25,6 +28,18 @@ struct ShoutOutView: View {
                    }
                }
            }
+           .onAppear(perform: {
+               if shoutOutArray.isEmpty {
+                   let sorted = ref.child("ShoutOut").queryOrdered(byChild: "timeCreated")
+                   sorted.observeSingleEvent(of: .value, with: {(snapshot) in
+                       for aPost in snapshot.children.reversed() {
+                           let snap = aPost as! DataSnapshot
+                           let userDict = snap.value as! [String: Any]
+                           self.shoutOutArray.append(userDict)
+                       }
+                   })
+               }
+           })
            
            VStack{
                Spacer()
@@ -42,9 +57,24 @@ struct ShoutOutView: View {
                            .onTapGesture {
                                showingSheet.toggle()
                            }
-                           .sheet(isPresented: $showingSheet, onDismiss: {
+                           .fullScreenCover(isPresented: $showingSheet, onDismiss: {
+//                               self.shoutOutArray.removeAll()
+//                               if shoutOutArray.isEmpty {
+//                                   let sorted = ref.child("ShoutOut").queryOrdered(byChild: "timeCreated")
+//                                   sorted.observeSingleEvent(of: .value, with: {(snapshot) in
+//                                       for aPost in snapshot.children.reversed() {
+//                                           let snap = aPost as! DataSnapshot
+//                                           let userDict = snap.value as! [String: Any]
+//                                           self.shoutOutArray.append(userDict)
+//                                       }
+//                                   })
+//                               }
+                               DispatchQueue.main.async {
+                                   updatePage()
+                               }
+                               
                            }) {
-                               Text("Add new ShoutOut post")
+                               AddShoutOut()
                            }
                    } else {
                        // Fallback on earlier versions
@@ -53,6 +83,34 @@ struct ShoutOutView: View {
            }
        }
    }
+    
+    //update the view when new post is added
+    func updatePage() {
+        let sorted = ref.child("ShoutOut").child("timeCreated")
+        sorted.observe(.childAdded, with: {(post) in
+            if !post.exists() {return}
+            guard let postDict = post.value as? [String: Any] else {return}
+//            let postId = post.key
+            print(postDict)
+            
+//            let topShoutOut = shoutOutArray[0] as! [String: Any]
+            
+            shoutOutArray.insert(postDict, at: 0)
+            
+//            if topShoutOut["shoutOutID"] != postDict["shoutOutID"] {
+//                shoutOutArray.insert(postDict, at: 0)
+//            }
+            
+//            if topShoutOut != postDict {
+//                shoutOutArray.insert(postDict, at: 0)
+//            }
+            
+//            if(!shoutOutArray.contains {($0 as! [String: Any]) == postDict} &&
+//               shoutOutArray.contains {($0 as! [String: Any]) != postDict}){
+//                shoutOutArray.insert(postDict, at: 0)
+//            }
+        })
+    }
 }
 
 struct ShoutOutView_Previews: PreviewProvider {

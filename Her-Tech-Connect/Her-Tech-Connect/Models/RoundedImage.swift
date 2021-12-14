@@ -15,6 +15,7 @@ struct RoundedImage: View {
         if #available(iOS 15.0, *) {
             AsyncImage(url: URL(string: urlImage), content: { image in
                 image.resizable()
+                    .scaledToFill()
                     .frame(width: imageWidth, height: imageHeight)
                     .clipShape(Circle())
                     .shadow(radius: 10)
