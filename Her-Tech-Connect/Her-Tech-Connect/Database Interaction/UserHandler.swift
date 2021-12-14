@@ -51,4 +51,20 @@ class UserHandler {
         ]
         ref.child("Users").child(userId).setValue(updateUserInfo)
     }
+    /*
+     Create a shout out post
+     */
+    static func createShoutOut(posterId: String ,title: String, story: String){
+        let shoutOutID = UUID().uuidString
+        let newShoutOut: [String: Any] = [
+            "shoutOutID": shoutOutID,
+            "posterID": posterId,
+            "title": title,
+            "story": story,
+            "timeCreated": Date().timeIntervalSince1970,
+            "upVotes": 0
+        ]
+        
+        ref.child("ShoutOut").child(shoutOutID).setValue(newShoutOut)
+    }
 }

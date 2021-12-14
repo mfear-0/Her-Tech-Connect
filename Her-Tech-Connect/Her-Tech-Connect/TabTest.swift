@@ -13,7 +13,7 @@ struct TabTest: View {
         TabView {
             
             HomePage().tabItem {
-                Label("home", systemImage: "1.circle")
+                Label("home", systemImage: "house")
             }
             
             NetworkView().tabItem{
