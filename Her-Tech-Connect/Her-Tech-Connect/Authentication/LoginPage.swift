@@ -5,6 +5,7 @@
 //  Created by Natalman Nahm on 10/21/21.
 //  Modified by Arica Conrad on 11/14/21.
 //  Modified by Arica Conrad on 12/6/21.
+//  Modified by Arica Conrad on 12/15/21.
 //
 
 import SwiftUI
@@ -112,21 +113,33 @@ struct LoginPage: View {
                 }
                 
                 if viewModel.isWrongEmail {
-                    Text("The email provided is incorrect.")
-                        .foregroundColor(Color("DarkRed"))
-                        .font(.body)
+                    HStack {
+                        Image(systemName: "exclamationmark.triangle")
+                            .foregroundColor(Color("DarkRed"))
+                        Text("The email provided is incorrect.")
+                            .foregroundColor(Color("DarkRed"))
+                            .font(.body)
+                    }
                 }
                 
                 else if viewModel.isWrongPassword {
-                    Text("The password provided is incorrect.")
-                        .foregroundColor(Color("DarkRed"))
-                        .font(.body)
+                    HStack {
+                        Image(systemName: "exclamationmark.triangle")
+                            .foregroundColor(Color("DarkRed"))
+                        Text("The password provided is incorrect.")
+                            .foregroundColor(Color("DarkRed"))
+                            .font(.body)
+                    }
                 }
                 
                 else if !viewModel.isFilled {
-                    Text("All fields must be filled out.")
-                        .foregroundColor(Color("DarkRed"))
-                        .font(.body)
+                    HStack {
+                        Image(systemName: "exclamationmark.triangle")
+                            .foregroundColor(Color("DarkRed"))
+                        Text("All fields must be filled out.")
+                            .foregroundColor(Color("DarkRed"))
+                            .font(.body)
+                    }
                 }
                 
                 // Arica: The Sign In button.
