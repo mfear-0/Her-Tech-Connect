@@ -23,10 +23,20 @@ struct ConnectionCard: View {
                     Text(user.name).bold()
                         .font(.system(size: 16))
                         .lineLimit(nil)
-                    Text(user.email)
-                        .font(.system(size: 16))
-                        .lineLimit(nil)
-                        .multilineTextAlignment(.leading)
+                    VStack{
+                        Text(user.email)
+                            .font(.system(size: 15))
+                            .lineLimit(nil)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        Text(user.jobDescription)
+                            .font(.system(size: 15))
+                            .lineLimit(nil)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                            
+                    }
+                    .multilineTextAlignment(.leading)
+                    
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 

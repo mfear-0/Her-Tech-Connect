@@ -39,23 +39,24 @@ struct NetworkView: View {
                                 
                                 //Get all your connections out of the connection table
                                 if usersArray.isEmpty {
-                                    ref.child("Connections").child(self.currentUserId).observeSingleEvent(of: .value, with: {(connections) in
-                                        for aConnection in connections.children {
-                                            let snap = aConnection as! DataSnapshot
-                                            let connection = snap.key
+                                    ref.child("Connections").child(self.currentUserId).observe(.childAdded, with: {(connections) in
+                                        
+                                        if !connections.exists() {return}
+                                        let connection = connections.key
+                                        
+                                        print(connection)
+                                        
+                                        //Get connection info
+                                        ref.child("Users").child(connection).observeSingleEvent(of: .value, with: {(aUser) in
 
-                                            //Get connection info
-                                            ref.child("Users").child(connection).observeSingleEvent(of: .value, with: {(aUser) in
+                                            DispatchQueue.main.async {
+                                                let userDict = aUser.value as! [String: Any]
+                                                let userData = User(userId: userDict["userId"] as! String, name: userDict["name"] as! String, email: userDict["email"] as! String, image: userDict["image"] as! String, jobDescriotion: userDict["jobDescription"] as! String)
+                                                self.usersArray.append(userData)
+                                            }
 
-                                                DispatchQueue.main.async {
-                                                    let userDict = aUser.value as! [String: Any]
-                                                    let userData = User(userId: userDict["userId"] as! String, name: userDict["name"] as! String, email: userDict["email"] as! String, image: userDict["image"] as! String, jobDescriotion: userDict["jobDescription"] as! String)
-                                                    self.usersArray.append(userData)
-                                                }
-
-                                            })
-
-                                        }
+                                        })
+                                        
                                     })
                                 }
                             }
