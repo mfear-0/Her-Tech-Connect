@@ -12,32 +12,26 @@ import FirebaseDatabase
 struct ShoutOutView: View {
     let ref = Database.database().reference()
     @State private var showingSheet = false
-    @State var shoutOutArray = [Any]()
+    @ObservedObject var shoutOutArray: AllShoutOuts = AllShoutOuts()
     var body: some View {
        ZStack{
-           VStack{
-               ScrollView(.vertical, showsIndicators: false){
-                   if #available(iOS 14.0, *) {
-                       LazyVStack(alignment: .leading, spacing: 0){
-                           ForEach(self.shoutOutArray.indices, id: \.self){ index in
-                               ShoutOutCard(post: self.shoutOutArray[index] as! [String: Any])
-                           }
+           ScrollView(.vertical, showsIndicators: false){
+               if #available(iOS 14.0, *) {
+                   LazyVStack(alignment: .leading, spacing: 0){
+                       ForEach(self.shoutOutArray.Shoutdata.indices, id: \.self){ index in
+                           ShoutOutCard(shoutOut: shoutOutArray.Shoutdata[index])
                        }
-                   } else {
-                       // Fallback on earlier versions
                    }
+               } else {
+                   // Fallback on earlier versions
                }
            }
            .onAppear(perform: {
-               if shoutOutArray.isEmpty {
-                   let sorted = ref.child("ShoutOut").queryOrdered(byChild: "timeCreated")
-                   sorted.observeSingleEvent(of: .value, with: {(snapshot) in
-                       for aPost in snapshot.children.reversed() {
-                           let snap = aPost as! DataSnapshot
-                           let userDict = snap.value as! [String: Any]
-                           self.shoutOutArray.append(userDict)
-                       }
-                   })
+               if shoutOutArray.Shoutdata.isEmpty {
+                   DispatchQueue.main.async {
+                       LoadShoutOut()
+                       updateShoutOuts()
+                   }
                }
            })
            
@@ -58,20 +52,7 @@ struct ShoutOutView: View {
                                showingSheet.toggle()
                            }
                            .fullScreenCover(isPresented: $showingSheet, onDismiss: {
-//                               self.shoutOutArray.removeAll()
-//                               if shoutOutArray.isEmpty {
-//                                   let sorted = ref.child("ShoutOut").queryOrdered(byChild: "timeCreated")
-//                                   sorted.observeSingleEvent(of: .value, with: {(snapshot) in
-//                                       for aPost in snapshot.children.reversed() {
-//                                           let snap = aPost as! DataSnapshot
-//                                           let userDict = snap.value as! [String: Any]
-//                                           self.shoutOutArray.append(userDict)
-//                                       }
-//                                   })
-//                               }
-                               DispatchQueue.main.async {
-                                   updatePage()
-                               }
+                               updateShoutOuts()
                                
                            }) {
                                AddShoutOut()
@@ -84,31 +65,43 @@ struct ShoutOutView: View {
        }
    }
     
-    //update the view when new post is added
-    func updatePage() {
-        let sorted = ref.child("ShoutOut").child("timeCreated")
-        sorted.observe(.childAdded, with: {(post) in
-            if !post.exists() {return}
-            guard let postDict = post.value as? [String: Any] else {return}
-//            let postId = post.key
-            print(postDict)
+    //load the view with existing shoutouts
+    func LoadShoutOut() {
+        let sorted = ref.child("ShoutOut").queryOrdered(byChild: "timeCreated")
+        sorted.observeSingleEvent(of: .value, with: {(post) in
+            for aPost in post.children {
+                let snap = aPost as! DataSnapshot
+                let postDict = snap.value as! [String: Any]
+                
+                shoutOutArray.Shoutdata.append(ShoutOut(shoutOutID: postDict["shoutOutID"] as! String, posterID: postDict["posterID"] as! String, title: postDict["title"] as! String, story: postDict["story"] as! String, timeCreated: postDict["timeCreated"] as! Double, upvotes: postDict["upVotes"]))
+            }
             
-//            let topShoutOut = shoutOutArray[0] as! [String: Any]
+//            guard let postDict = post.value as? [String: Any] else {return}
+//            print("Here is the key: \(post.key)")
+//            print(postDict)
             
-            shoutOutArray.insert(postDict, at: 0)
+//            shoutOutArray.append(postDict)
+            shoutOutArray.Shoutdata.reverse()
             
-//            if topShoutOut["shoutOutID"] != postDict["shoutOutID"] {
-//                shoutOutArray.insert(postDict, at: 0)
-//            }
+        })
+    }
+    
+    //Update the UI when a new shoutOut is added
+    func updateShoutOuts() {
+        
+        let sorted = ref.child("ShoutOut").queryOrdered(byChild: "timeCreated")
+        sorted.observe(.childAdded, with: {(shoutOut) in
+            if !shoutOut.exists() {return}
+            guard let shoutOutDict = shoutOut.value as? [String: Any] else {return}
             
-//            if topShoutOut != postDict {
-//                shoutOutArray.insert(postDict, at: 0)
-//            }
+            print(shoutOutDict)
             
-//            if(!shoutOutArray.contains {($0 as! [String: Any]) == postDict} &&
-//               shoutOutArray.contains {($0 as! [String: Any]) != postDict}){
-//                shoutOutArray.insert(postDict, at: 0)
-//            }
+            let newShoutOut = ShoutOut(shoutOutID: shoutOutDict["shoutOutID"] as! String, posterID: shoutOutDict["posterID"] as! String, title: shoutOutDict["title"] as! String, story: shoutOutDict["story"] as! String, timeCreated: shoutOutDict["timeCreated"] as! Double, upvotes: shoutOutDict["upVotes"])
+            
+            if(!shoutOutArray.Shoutdata.contains(where: {$0.shoutOutID == newShoutOut.shoutOutID}) &&
+               shoutOutArray.Shoutdata.contains(where: {$0.shoutOutID != newShoutOut.shoutOutID})){
+                shoutOutArray.Shoutdata.insert(newShoutOut, at: shoutOutArray.Shoutdata.count)
+            }
         })
     }
 }
