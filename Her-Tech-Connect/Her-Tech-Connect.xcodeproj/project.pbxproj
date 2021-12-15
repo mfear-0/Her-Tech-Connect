@@ -31,6 +31,8 @@
 		5F9CDF4827386A47009165D2 /* RoundedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9CDF4727386A47009165D2 /* RoundedImage.swift */; };
 		5F9CDF4A2738A255009165D2 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9CDF492738A255009165D2 /* MessageView.swift */; };
 		5F9CDF4C2738AD23009165D2 /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9CDF4B2738AD23009165D2 /* ImageButton.swift */; };
+		5FDFAA2727697B8700280D34 /* ShoutOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDFAA2627697B8700280D34 /* ShoutOut.swift */; };
+		5FDFAA2B276A91AA00280D34 /* ShoutOutDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDFAA2A276A91AA00280D34 /* ShoutOutDetailView.swift */; };
 		5FE67EC427418CBE00F67451 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE67EC327418CBE00F67451 /* Message.swift */; };
 		5FE67EC62741965800F67451 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE67EC52741965800F67451 /* Chat.swift */; };
 		5FE67EC82741B04E00F67451 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE67EC72741B04E00F67451 /* MessageBubble.swift */; };
@@ -85,6 +87,8 @@
 		5F9CDF4727386A47009165D2 /* RoundedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedImage.swift; sourceTree = "<group>"; };
 		5F9CDF492738A255009165D2 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		5F9CDF4B2738AD23009165D2 /* ImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
+		5FDFAA2627697B8700280D34 /* ShoutOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoutOut.swift; sourceTree = "<group>"; };
+		5FDFAA2A276A91AA00280D34 /* ShoutOutDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoutOutDetailView.swift; sourceTree = "<group>"; };
 		5FE67EC327418CBE00F67451 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		5FE67EC52741965800F67451 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		5FE67EC72741B04E00F67451 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
@@ -225,6 +229,7 @@
 				5FE67EC327418CBE00F67451 /* Message.swift */,
 				5F9CDF4B2738AD23009165D2 /* ImageButton.swift */,
 				5FE67EC52741965800F67451 /* Chat.swift */,
+				5FDFAA2627697B8700280D34 /* ShoutOut.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -235,6 +240,7 @@
 				5FFB5E75276041C900DB62C4 /* ShoutOutCard.swift */,
 				5FFB5E772760441E00DB62C4 /* ShoutOutView.swift */,
 				5F2FF4E92765257200931A18 /* AddShoutOut.swift */,
+				5FDFAA2A276A91AA00280D34 /* ShoutOutDetailView.swift */,
 			);
 			path = ShoutOut;
 			sourceTree = "<group>";
@@ -341,6 +347,8 @@
 				5F9CDF442738653E009165D2 /* NetworkView.swift in Sources */,
 				5F33261B274F0D570032F259 /* ProfileView.swift in Sources */,
 				5FEFD56B2728B073009D31F6 /* ResetPasswordPage.swift in Sources */,
+				5FDFAA2727697B8700280D34 /* ShoutOut.swift in Sources */,
+				5FDFAA2B276A91AA00280D34 /* ShoutOutDetailView.swift in Sources */,
 				5F5702942747356B00C24AD9 /* ConnectionView.swift in Sources */,
 				5F4FF93E2720F40200365296 /* Her_Tech_ConnectApp.swift in Sources */,
 				5FE67EC82741B04E00F67451 /* MessageBubble.swift in Sources */,

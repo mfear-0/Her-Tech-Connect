@@ -12,9 +12,8 @@ import FirebaseDatabase
 struct ShoutOutCard: View {
     @State var imageUrl: String = ""
     let ref = Database.database().reference()
-    @State var post = [String: Any]()
+    @State var shoutOut: ShoutOut
     @State var title: String = "I just got a promotion at my Job!😍😍 I am Really excited!"
-    @State var voteCount: Int = 100
     @State var posterName: String = "Anic Lopez"
     @State var isLiked: Bool = false
     @State var currentUserID: String = ""
@@ -34,7 +33,7 @@ struct ShoutOutCard: View {
                             .font(.system(size: 16))
                             .lineLimit(nil)
 
-                        Text(calculateTimeStamp(seconds: self.post["timeCreated"] as! Double))
+                        Text(calculateTimeStamp(seconds: shoutOut.timeCreated))
                             .font(.system(size: 12))
                             .foregroundColor(.red)
                             .frame(maxWidth: .infinity, alignment: .trailing)
@@ -45,7 +44,7 @@ struct ShoutOutCard: View {
                 
             }
             .onAppear(perform: {
-                ref.child("Users").child(self.post["posterID"] as! String).observeSingleEvent(of: .value, with: {(user) in
+                ref.child("Users").child(shoutOut.posterID).observeSingleEvent(of: .value, with: {(user) in
                     
                     let userDict = user.value as! [String: Any]
                     self.posterName = userDict["name"] as! String
@@ -54,7 +53,7 @@ struct ShoutOutCard: View {
 
             })
             
-            Text(self.post["title"] as! String)
+            Text(shoutOut.title)
                 .bold()
                 .font(.system(size: 18))
                 .lineLimit(4)
@@ -62,12 +61,13 @@ struct ShoutOutCard: View {
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
             
             HStack {
-                Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                
+                NavigationLink(destination: ShoutOutDetailView(shoutOut: self.shoutOut)) {
                     Text("Read More")
                         .foregroundColor(Color.blue)
-                })
-                    .padding(.leading, 5)
-                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 5)
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                }
                 
                 Button(action: {
                     if self.likesArray.contains(currentUserID){
@@ -114,7 +114,7 @@ struct ShoutOutCard: View {
             
             //Get all likers of this post
             if self.likesArray.isEmpty{
-                ref.child("ShoutOut").child(self.post["shoutOutID"] as! String).child("upVotes").observeSingleEvent(of: .value, with: {(likers) in
+                ref.child("ShoutOut").child(shoutOut.shoutOutID).child("upVotes").observeSingleEvent(of: .value, with: {(likers) in
                     for aLiker in likers.children {
                         let snap = aLiker as! DataSnapshot
                         self.likesArray.append(snap.key)
@@ -139,7 +139,7 @@ struct ShoutOutCard: View {
     
     // Fuction called when a user upvote a post
     func upvote() {
-        ref.child("ShoutOut").child(self.post["shoutOutID"] as! String).child("upVotes").child(currentUserID).setValue(currentUserID)
+        ref.child("ShoutOut").child(self.shoutOut.shoutOutID).child("upVotes").child(currentUserID).setValue(currentUserID)
         self.likesArray.append(currentUserID)
         self.isLiked = true
     }
@@ -147,11 +147,11 @@ struct ShoutOutCard: View {
     //Function called when a user delete vote
     func deleteVote() {
         
-        ref.child("ShoutOut").child(self.post["shoutOutID"] as! String).child("upVotes").observeSingleEvent(of: .value, with: {(likers) in
+        ref.child("ShoutOut").child(shoutOut.shoutOutID).child("upVotes").observeSingleEvent(of: .value, with: {(likers) in
             for aLiker in likers.children {
                 let snap = aLiker as! DataSnapshot
                 if currentUserID == snap.key {
-                    self.ref.child("ShoutOut").child(self.post["shoutOutID"] as! String + "/upVotes/"+(snap.key)).removeValue()
+                    self.ref.child("ShoutOut").child(shoutOut.shoutOutID + "/upVotes/"+(snap.key)).removeValue()
                 }
             }
         })
@@ -163,6 +163,6 @@ struct ShoutOutCard: View {
 
 struct ShoutOutCard_Previews: PreviewProvider {
     static var previews: some View {
-        ShoutOutCard()
+        ShoutOutCard(shoutOut: ShoutOut(shoutOutID: "081E69E7-C3EC-474E-83BE-529BE037E9C4", posterID: "8AB3D92B-E08E-4213-A803-B644C1F2CCE0", title: "I love designing!", story: "I may not like Programming, But I like Designing UI.💡💡", timeCreated: 1639521939.7025862, upvotes: [0]))
     }
 }
