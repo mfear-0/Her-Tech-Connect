@@ -3,6 +3,7 @@
 //  Her-Tech-Connect
 //
 //  Created by Student Account on 10/24/21.
+//  Modified by Arica Conrad on 12/15/21.
 //
 
 import SwiftUI
@@ -96,9 +97,7 @@ struct EventView: View {
             Text("Event View")
 
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.systemTeal).ignoresSafeArea())
-        
+        .background(Color("White").ignoresSafeArea())
     }
     
 

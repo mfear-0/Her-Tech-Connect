@@ -6,6 +6,7 @@
 //  Modified by Arica Conrad on 11/7/21.
 //  Modified by Arica Conrad on 11/14/21.
 //  Modified by Arica Conrad on 12/6/21.
+//  Modified by Arica Conrad on 12/15/21.
 //
 
 // TODO: The password field lengths must be checked, as it is currently an error that is not shown to the users. If the password length is less than 6 characters, text should be displayed to the user saying something like, "Passwords must be at least 6 characters long." - Arica
@@ -151,21 +152,33 @@ struct RegisterPage: View {
                 .padding()
                 
                 if viewModel.userAlreadyExist {
-                    Text("This email has already been used.")
-                        .foregroundColor(Color("DarkRed"))
-                        .font(.body)
+                    HStack {
+                        Image(systemName: "exclamationmark.triangle")
+                            .foregroundColor(Color("DarkRed"))
+                        Text("This email has already been used.")
+                            .foregroundColor(Color("DarkRed"))
+                            .font(.body)
+                    }
                 }
                 
                  if isPasswordIncorrect {
-                    Text("The passwords must match each other.")
-                         .foregroundColor(Color("DarkRed"))
-                         .font(.body)
+                     HStack {
+                         Image(systemName: "exclamationmark.triangle")
+                             .foregroundColor(Color("DarkRed"))
+                         Text("The passwords must match each other.")
+                              .foregroundColor(Color("DarkRed"))
+                              .font(.body)
+                     }
                 }
                 
                 if !isFilled {
-                    Text("All fields must be filled out.")
-                        .foregroundColor(Color("DarkRed"))
-                        .font(.body)
+                    HStack {
+                        Image(systemName: "exclamationmark.triangle")
+                            .foregroundColor(Color("DarkRed"))
+                        Text("All fields must be filled out.")
+                            .foregroundColor(Color("DarkRed"))
+                            .font(.body)
+                    }
                 }
                 
                 // Arica: The Create Account button.

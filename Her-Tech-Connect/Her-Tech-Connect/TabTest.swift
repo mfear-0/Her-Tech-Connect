@@ -3,7 +3,7 @@
 //  Her-Tech-Connect
 //
 //  Created by Student Account on 10/24/21.
-//
+//  Modified by Arica Conrad on 12/15/21.
 
 import SwiftUI
 
@@ -13,7 +13,7 @@ struct TabTest: View {
         TabView {
             
             HomePage().tabItem {
-                Label("home", systemImage: "house")
+                Label("Home", systemImage: "house")
             }
             
             NetworkView().tabItem{
@@ -21,15 +21,15 @@ struct TabTest: View {
             }
             
             EventView().tabItem {
-                Label("events", systemImage: "2.circle")
+                Label("Events", systemImage: "mappin.and.ellipse")
             }
             
             ShoutOutView().tabItem {
-                Label("Shout Out", systemImage: "megaphone")
+                Label("Shout Outs", systemImage: "megaphone")
             }
             
             MoreView().tabItem {
-                Label("More", systemImage: "ellipsis")
+                Label("More", systemImage: "line.horizontal.3")
             }
         }
     }
