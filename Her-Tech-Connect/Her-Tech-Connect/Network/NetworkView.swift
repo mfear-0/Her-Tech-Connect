@@ -80,28 +80,7 @@ struct NetworkView: View {
                         .onTapGesture {
                             showingSheet.toggle()
                         }
-                        .fullScreenCover(isPresented: $showingSheet, onDismiss: {
-                            self.usersArray.removeAll()
-                            
-                            ref.child("Connections").child(self.currentUserId).observeSingleEvent(of: .value, with: {(connections) in
-                                for aConnection in connections.children {
-                                    let snap = aConnection as! DataSnapshot
-                                    let connection = snap.key
-
-                                    //Get connection info
-                                    ref.child("Users").child(connection).observeSingleEvent(of: .value, with: {(aUser) in
-
-                                        DispatchQueue.main.async {
-                                            let userDict = aUser.value as! [String: Any]
-                                            let userData = User(userId: userDict["userId"] as! String, name: userDict["name"] as! String, email: userDict["email"] as! String, image: userDict["image"] as! String, jobDescriotion: userDict["jobDescription"] as! String)
-                                            self.usersArray.append(userData)
-                                        }
-
-                                    })
-
-                                }
-                            })
-                        }) {
+                        .fullScreenCover(isPresented: $showingSheet) {
                             NavigationView{
                                 if #available(iOS 15.0, *) {
                                     ConnectionView()
