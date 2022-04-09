@@ -21,7 +21,6 @@ struct ShoutOutCard: View {
     
     var body: some View {
         VStack{
-            
             HStack{
                 RoundedImage(urlImage: imageUrl, imageWidth: 58.0, imageHeight: 58.0)
                     .padding(.vertical, 5)
@@ -52,6 +51,25 @@ struct ShoutOutCard: View {
                 })
 
             })
+            
+            if #available(iOS 15.0, *) {
+                if shoutOut.image != "" {
+                    AsyncImage(url: URL(string: shoutOut.image), content: { image in
+                        image.resizable()
+                            .scaledToFill()
+                            .frame(height: 250)
+                            .clipShape(Rectangle())
+                            .shadow(radius: 10)
+                        
+                    },
+                       placeholder: {
+                        ProgressView()
+                    })
+                }
+            } else {
+                // Fallback on earlier versions
+            }
+
             
             Text(shoutOut.title)
                 .bold()
@@ -125,7 +143,6 @@ struct ShoutOutCard: View {
         .background(RoundedRectangle(cornerRadius: 10).stroke((Color(UIColor.systemGray6)), lineWidth: 2).background((Color.white).cornerRadius(10)).shadow(radius: 8))
         .padding()
     }
-
     //Get likes count
     func getLikesCount() -> String {
         if self.likesArray.count == 0 {
@@ -163,6 +180,6 @@ struct ShoutOutCard: View {
 
 struct ShoutOutCard_Previews: PreviewProvider {
     static var previews: some View {
-        ShoutOutCard(shoutOut: ShoutOut(shoutOutID: "081E69E7-C3EC-474E-83BE-529BE037E9C4", posterID: "8AB3D92B-E08E-4213-A803-B644C1F2CCE0", title: "I love designing!", story: "I may not like Programming, But I like Designing UI.💡💡", timeCreated: 1639521939.7025862, upvotes: [0]))
+        ShoutOutCard(shoutOut: ShoutOut(shoutOutID: "081E69E7-C3EC-474E-83BE-529BE037E9C4", posterID: "8AB3D92B-E08E-4213-A803-B644C1F2CCE0", title: "I love designing!", story: "I may not like Programming, But I like Designing UI.💡💡", timeCreated: 1639521939.7025862, upvotes: [0], image: "https://firebasestorage.googleapis.com:443/v0/b/her-tech-connect.appspot.com/o/shoutoutImage%2FEEAA04AE-F430-40DB-B541-9231554C31BC.jpg?alt=media&token=8f2a40c2-eec8-482a-9b54-ce4cc257abd1"))
     }
 }

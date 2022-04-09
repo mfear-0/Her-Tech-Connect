@@ -15,15 +15,17 @@ class ShoutOut: Identifiable, ObservableObject {
     @Published var story: String
     @Published var timeCreated: Double
     @Published var upVotes: Any!
+    @Published var image: String
     
     
-    init(shoutOutID: String, posterID: String, title: String, story: String, timeCreated: Double, upvotes: Any!) {
+    init(shoutOutID: String, posterID: String, title: String, story: String, timeCreated: Double, upvotes: Any!, image: String) {
         
         self.shoutOutID = shoutOutID
         self.posterID = posterID
         self.title = title
         self.story = story
         self.timeCreated = timeCreated
+        self.image = image
         
         if upvotes != nil {
             self.upVotes = upvotes

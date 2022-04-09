@@ -73,7 +73,13 @@ struct ShoutOutView: View {
                 let snap = aPost as! DataSnapshot
                 let postDict = snap.value as! [String: Any]
                 
-                shoutOutArray.Shoutdata.append(ShoutOut(shoutOutID: postDict["shoutOutID"] as! String, posterID: postDict["posterID"] as! String, title: postDict["title"] as! String, story: postDict["story"] as! String, timeCreated: postDict["timeCreated"] as! Double, upvotes: postDict["upVotes"]))
+                if let image = postDict["image"] as? String {
+                    shoutOutArray.Shoutdata.append(ShoutOut(shoutOutID: postDict["shoutOutID"] as! String, posterID: postDict["posterID"] as! String, title: postDict["title"] as! String, story: postDict["story"] as! String, timeCreated: postDict["timeCreated"] as! Double, upvotes: postDict["upVotes"], image: image))
+                } else {
+                    shoutOutArray.Shoutdata.append(ShoutOut(shoutOutID: postDict["shoutOutID"] as! String, posterID: postDict["posterID"] as! String, title: postDict["title"] as! String, story: postDict["story"] as! String, timeCreated: postDict["timeCreated"] as! Double, upvotes: postDict["upVotes"], image: ""))
+
+                }
+                
             }
             
 //            guard let postDict = post.value as? [String: Any] else {return}
@@ -96,11 +102,19 @@ struct ShoutOutView: View {
             
             print(shoutOutDict)
             
-            let newShoutOut = ShoutOut(shoutOutID: shoutOutDict["shoutOutID"] as! String, posterID: shoutOutDict["posterID"] as! String, title: shoutOutDict["title"] as! String, story: shoutOutDict["story"] as! String, timeCreated: shoutOutDict["timeCreated"] as! Double, upvotes: shoutOutDict["upVotes"])
-            
-            if(!shoutOutArray.Shoutdata.contains(where: {$0.shoutOutID == newShoutOut.shoutOutID}) &&
-               shoutOutArray.Shoutdata.contains(where: {$0.shoutOutID != newShoutOut.shoutOutID})){
-                shoutOutArray.Shoutdata.insert(newShoutOut, at: shoutOutArray.Shoutdata.count)
+            if let image = shoutOutDict["image"] as? String{
+                let newShoutOut = ShoutOut(shoutOutID: shoutOutDict["shoutOutID"] as! String, posterID: shoutOutDict["posterID"] as! String, title: shoutOutDict["title"] as! String, story: shoutOutDict["story"] as! String, timeCreated: shoutOutDict["timeCreated"] as! Double, upvotes: shoutOutDict["upVotes"], image: image)
+                if(!shoutOutArray.Shoutdata.contains(where: {$0.shoutOutID == newShoutOut.shoutOutID}) &&
+                   shoutOutArray.Shoutdata.contains(where: {$0.shoutOutID != newShoutOut.shoutOutID})){
+                    shoutOutArray.Shoutdata.insert(newShoutOut, at: shoutOutArray.Shoutdata.count)
+                }
+            } else {
+                let newShoutOut = ShoutOut(shoutOutID: shoutOutDict["shoutOutID"] as! String, posterID: shoutOutDict["posterID"] as! String, title: shoutOutDict["title"] as! String, story: shoutOutDict["story"] as! String, timeCreated: shoutOutDict["timeCreated"] as! Double, upvotes: shoutOutDict["upVotes"], image: "")
+                
+                if(!shoutOutArray.Shoutdata.contains(where: {$0.shoutOutID == newShoutOut.shoutOutID}) &&
+                   shoutOutArray.Shoutdata.contains(where: {$0.shoutOutID != newShoutOut.shoutOutID})){
+                    shoutOutArray.Shoutdata.insert(newShoutOut, at: shoutOutArray.Shoutdata.count)
+                }
             }
         })
     }
