@@ -20,13 +20,6 @@ struct ShoutOutDetailView: View {
     
     var body: some View {
         VStack(spacing: 5){
-            Text(shoutOut.title)
-                .bold()
-                .font(.system(size: 24))
-                .lineLimit(nil)
-                .padding(.top, 10)
-                .padding(.horizontal)
-                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
             
             HStack{
                 Text("by \(posterName)")
@@ -42,6 +35,25 @@ struct ShoutOutDetailView: View {
             .padding(.horizontal)
             .padding(.bottom, 2)
             .frame(minWidth: 0, maxWidth: .infinity, alignment: .trailing)
+            
+            if #available(iOS 15.0, *) {
+                if shoutOut.image != "" {
+                    AsyncImage(url: URL(string: shoutOut.image), content: { image in
+                        image.resizable()
+                            .scaledToFill()
+                            .frame(height: 250)
+                            .clipShape(Rectangle())
+                            .shadow(radius: 10)
+                        
+                    },
+                       placeholder: {
+                        ProgressView()
+                    })
+                }
+            } else {
+                // Fallback on earlier versions
+            }
+            
             HStack(spacing: 0){
                 
                 if self.likesArray.contains(currentUserID){
@@ -69,6 +81,16 @@ struct ShoutOutDetailView: View {
             }
             .padding(.bottom)
             .frame(maxWidth: .infinity, alignment: .trailing)
+            
+            Text(shoutOut.title)
+                .bold()
+                .font(.system(size: 24))
+                .lineLimit(nil)
+                .padding(.top, 10)
+                .padding(.horizontal)
+                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+            
+            
             
             
             Text("Story")
@@ -134,6 +156,6 @@ struct ShoutOutDetailView: View {
 
 struct ShoutOutDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ShoutOutDetailView(shoutOut: ShoutOut(shoutOutID: "081E69E7-C3EC-474E-83BE-529BE037E9C4", posterID: "8AB3D92B-E08E-4213-A803-B644C1F2CCE0", title: "I love designing!", story: "I may not like Programming, But I like Designing UI.💡💡", timeCreated: 1639521939.7025862, upvotes: [0]))
+        ShoutOutDetailView(shoutOut: ShoutOut(shoutOutID: "081E69E7-C3EC-474E-83BE-529BE037E9C4", posterID: "8AB3D92B-E08E-4213-A803-B644C1F2CCE0", title: "I love designing!", story: "I may not like Programming, But I like Designing UI.💡💡", timeCreated: 1639521939.7025862, upvotes: [0], image: "https://firebasestorage.googleapis.com:443/v0/b/her-tech-connect.appspot.com/o/shoutoutImage%2FEEAA04AE-F430-40DB-B541-9231554C31BC.jpg?alt=media&token=8f2a40c2-eec8-482a-9b54-ce4cc257abd1"))
     }
 }
