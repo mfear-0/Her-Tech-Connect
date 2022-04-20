@@ -13,10 +13,41 @@ struct ShoutOutView: View {
     let ref = Database.database().reference()
     @State private var showingSheet = false
     @ObservedObject var shoutOutArray: AllShoutOuts = AllShoutOuts()
+    @ObservedObject var newShoutouts: AllShoutOuts = AllShoutOuts()
     var body: some View {
        ZStack{
            ScrollView(.vertical, showsIndicators: false){
+               RefreshControl(coordinateSpace: .named("RefreshControl")) {
+                   //refresh view here
+                   
+                   DispatchQueue.main.async {
+//                       LoadShoutOut()
+                       updateShoutOuts()
+                   }
+                   
+               }
+               
                if #available(iOS 14.0, *) {
+                   if !newShoutouts.Shoutdata.isEmpty{
+                       LazyVStack(alignment: .leading, spacing: 0){
+                           ForEach(self.newShoutouts.Shoutdata.indices, id: \.self){ index in
+                               ShoutOutCard(shoutOut: newShoutouts.Shoutdata[index])
+                           }
+                       }
+                       
+                       HStack{
+                           Rectangle()
+                               .fill(Color.blue)
+                               .frame(maxWidth: .infinity, maxHeight: 2.0)
+                           Text("new")
+                               .foregroundColor(Color.blue)
+                           Rectangle()
+                               .fill(Color.blue)
+                               .frame(maxWidth: .infinity, maxHeight: 2.0)
+                       }
+                       .padding()
+                   }
+                   
                    LazyVStack(alignment: .leading, spacing: 0){
                        ForEach(self.shoutOutArray.Shoutdata.indices, id: \.self){ index in
                            ShoutOutCard(shoutOut: shoutOutArray.Shoutdata[index])
@@ -26,11 +57,12 @@ struct ShoutOutView: View {
                    // Fallback on earlier versions
                }
            }
+           .coordinateSpace(name: "RefreshControl")
            .onAppear(perform: {
                if shoutOutArray.Shoutdata.isEmpty {
                    DispatchQueue.main.async {
                        LoadShoutOut()
-                       updateShoutOuts()
+//                       updateShoutOuts()
                    }
                }
            })
@@ -52,8 +84,6 @@ struct ShoutOutView: View {
                                showingSheet.toggle()
                            }
                            .fullScreenCover(isPresented: $showingSheet, onDismiss: {
-                               updateShoutOuts()
-                               
                            }) {
                                AddShoutOut()
                            }
@@ -81,12 +111,6 @@ struct ShoutOutView: View {
                 }
                 
             }
-            
-//            guard let postDict = post.value as? [String: Any] else {return}
-//            print("Here is the key: \(post.key)")
-//            print(postDict)
-            
-//            shoutOutArray.append(postDict)
             shoutOutArray.Shoutdata.reverse()
             
         })
@@ -104,18 +128,29 @@ struct ShoutOutView: View {
             
             if let image = shoutOutDict["image"] as? String{
                 let newShoutOut = ShoutOut(shoutOutID: shoutOutDict["shoutOutID"] as! String, posterID: shoutOutDict["posterID"] as! String, title: shoutOutDict["title"] as! String, story: shoutOutDict["story"] as! String, timeCreated: shoutOutDict["timeCreated"] as! Double, upvotes: shoutOutDict["upVotes"], image: image)
+                
                 if(!shoutOutArray.Shoutdata.contains(where: {$0.shoutOutID == newShoutOut.shoutOutID}) &&
                    shoutOutArray.Shoutdata.contains(where: {$0.shoutOutID != newShoutOut.shoutOutID})){
-                    shoutOutArray.Shoutdata.insert(newShoutOut, at: shoutOutArray.Shoutdata.count)
+
+                    if(!newShoutouts.Shoutdata.contains(where: {$0.shoutOutID == newShoutOut.shoutOutID}) ||
+                       newShoutouts.Shoutdata.contains(where: {$0.shoutOutID != newShoutOut.shoutOutID})){
+                        newShoutouts.Shoutdata.append(newShoutOut)
+                    }
                 }
             } else {
                 let newShoutOut = ShoutOut(shoutOutID: shoutOutDict["shoutOutID"] as! String, posterID: shoutOutDict["posterID"] as! String, title: shoutOutDict["title"] as! String, story: shoutOutDict["story"] as! String, timeCreated: shoutOutDict["timeCreated"] as! Double, upvotes: shoutOutDict["upVotes"], image: "")
                 
+                
                 if(!shoutOutArray.Shoutdata.contains(where: {$0.shoutOutID == newShoutOut.shoutOutID}) &&
                    shoutOutArray.Shoutdata.contains(where: {$0.shoutOutID != newShoutOut.shoutOutID})){
-                    shoutOutArray.Shoutdata.insert(newShoutOut, at: shoutOutArray.Shoutdata.count)
+                    
+                    if(!newShoutouts.Shoutdata.contains(where: {$0.shoutOutID == newShoutOut.shoutOutID}) ||
+                       newShoutouts.Shoutdata.contains(where: {$0.shoutOutID != newShoutOut.shoutOutID})){
+                        newShoutouts.Shoutdata.append(newShoutOut)
+                    }
                 }
             }
+            
         })
     }
 }
