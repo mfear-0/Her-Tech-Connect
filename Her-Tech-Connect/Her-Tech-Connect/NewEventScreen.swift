@@ -7,14 +7,24 @@
 
 import SwiftUI
 import MapKit
+import UIKit
 
 struct EventObj: Identifiable {
     let id = UUID()
     let name: String
     let loc: String
+    let time: String
     let date: String
     //let coord: nav coordinates data type from data store
 }
+@StateObject private var viewModel = MapViewModel()
+@State private var addressField: String = ""
+@State private var nameField: String = ""
+@State private var timeField = Date()
+@State private var dateField = Date()
+@State private var centerCoordinate = CLLocationCoordinate2D()
+@State private var locations = [MKPointAnnotation]()
+@State private var eventArray = [EventObj]()
 
 struct EventDetail: View {
     @State private var showingAlert = false
@@ -25,7 +35,11 @@ struct EventDetail: View {
         Text(event.loc)
         Text(event.date)
         
-        // add implanted map view that displays location from event.coord
+        MapView(centerCoordinate: $centerCoordinate, annotations: locations)
+        .ignoresSafeArea()
+        //.onAppear {
+        //    viewModel.checkLocServ()
+        //}
         
         Spacer()
         if #available(macOS 12.0, *) {
@@ -48,7 +62,63 @@ struct EventDetail: View {
     }
 }
 
+struct AddEventView: View {
+    var body: some View {
+        //code for adding new event.
+        //Text("Nothing here yet?")
+        
+        VStack{
+        TextField(" Event Name", text: $nameField)
+            .background(Color(.white))
+        TextField(" Event Address", text: $addressField)
+                .background(Color(.white))
+        DatePicker("date:", selection: $dateField, displayedComponents: [.date])
+            .labelsHidden()
+        DatePicker("time:", selection: $timeField, displayedComponents: [.hourAndMinute])
+                .labelsHidden()
+        }
+        Spacer()
+        Button(action: {
+            let newLocation = MKPointAnnotation()
+            print("button pressed")
+            if (addressField == ""){
+                return
+            }
+            let formatter1 = DateFormatter()
+            formatter1.dateStyle = .short
+            let formatter2 = DateFormatter()
+            formatter2.timeStyle = .short
 
+            let geocoder = CLGeocoder()
+            geocoder.geocodeAddressString(addressField) {
+                placemarks, error in
+                let placemark = placemarks?.first
+                let lat = placemark?.location?.coordinate.latitude
+                let long = placemark?.location?.coordinate.longitude
+                newLocation.coordinate = CLLocationCoordinate2D(latitude:lat!, longitude: long!)
+                self.locations.append(newLocation)
+                //print("button pressed. address coordinates are: \(newLocation.coordinate.latitude) and \(newLocation.coordinate.longitude)")
+                
+            }
+            let newEvent = EventObj()
+            newEvent.eName = nameField
+            newEvent.eAddress = addressField
+            newEvent.eDate = formatter1.string(from: dateField)
+            newEvent.eTime = formatter2.string(from: timeField)
+            EventHandler.addEvent(name: newEvent.eName, address: newEvent.eAddress, date: newEvent.eDate, time: newEvent.eTime)
+            //eventArray.append(newEvent)
+            //dump(eventArray)
+            
+            nameField = ""
+            addressField = ""
+            
+            
+        }, label: {
+            Text("Add Event")
+        })
+        
+    }
+}
 
 struct NewEventScreen: View {
     
@@ -68,6 +138,12 @@ struct NewEventScreen: View {
                 }
             }
             .navigationTitle("Select an Event")
+            .toolbar{
+                NavigationLink(destination: AddEventView){
+                    Text("Create Event")
+                    
+                }
+            }
         }
 
 }
