@@ -17,17 +17,12 @@ struct EventObj: Identifiable {
     let date: String
     //let coord: nav coordinates data type from data store
 }
-@StateObject private var viewModel = MapViewModel()
-@State private var addressField: String = ""
-@State private var nameField: String = ""
-@State private var timeField = Date()
-@State private var dateField = Date()
-@State private var centerCoordinate = CLLocationCoordinate2D()
-@State private var locations = [MKPointAnnotation]()
-@State private var eventArray = [EventObj]()
+
 
 struct EventDetail: View {
     @State private var showingAlert = false
+    @State private var centerCoordinate = CLLocationCoordinate2D()
+    @State private var locations = [MKPointAnnotation]()
     var event: EventObj
     
     var body: some View {
@@ -35,7 +30,7 @@ struct EventDetail: View {
         Text(event.loc)
         Text(event.date)
         
-        MapView(centerCoordinate: $centerCoordinate, annotations: locations)
+        mapview(centerCoordinate: $centerCoordinate, annotations: locations)
         .ignoresSafeArea()
         //.onAppear {
         //    viewModel.checkLocServ()
@@ -63,6 +58,14 @@ struct EventDetail: View {
 }
 
 struct AddEventView: View {
+    
+    @StateObject private var viewModel = MapViewModel()
+    @State private var addressField: String = ""
+    @State private var nameField: String = ""
+    @State private var timeField = Date()
+    @State private var dateField = Date()
+    @State private var locations = [MKPointAnnotation]()
+    
     var body: some View {
         //code for adding new event.
         //Text("Nothing here yet?")
@@ -100,12 +103,9 @@ struct AddEventView: View {
                 //print("button pressed. address coordinates are: \(newLocation.coordinate.latitude) and \(newLocation.coordinate.longitude)")
                 
             }
-            let newEvent = EventObj()
-            newEvent.eName = nameField
-            newEvent.eAddress = addressField
-            newEvent.eDate = formatter1.string(from: dateField)
-            newEvent.eTime = formatter2.string(from: timeField)
-            EventHandler.addEvent(name: newEvent.eName, address: newEvent.eAddress, date: newEvent.eDate, time: newEvent.eTime)
+            let newEvent = EventObj(name: nameField, loc: addressField, time: formatter2.string(from: timeField), date: formatter1.string(from: dateField))
+
+            //EventHandler.addEvent(name: newEvent.eName, address: newEvent.eAddress, date: newEvent.eDate, time: newEvent.eTime)
             //eventArray.append(newEvent)
             //dump(eventArray)
             
@@ -122,11 +122,13 @@ struct AddEventView: View {
 
 struct NewEventScreen: View {
     
+    @State private var eventArray = [EventObj]()
+    
     // In the future, grab actual event details from firebase store
     let events = [
-        EventObj(name:"Event 1", loc:"123 main street", date:"01/01/2023"),
-        EventObj(name:"Event 2", loc:"456 main street", date:"02/01/2023"),
-        EventObj(name:"Event 3", loc:"789 main street", date:"03/01/2023"),
+        EventObj(name:"Event 1", loc:"123 main street", time: " 5 pm", date:"01/01/2023"),
+        EventObj(name:"Event 2", loc:"456 main street", time: " 5 pm", date:"02/01/2023"),
+        EventObj(name:"Event 3", loc:"789 main street", time: " 5 pm", date:"03/01/2023"),
     ]
     
     var body: some View {
@@ -138,12 +140,12 @@ struct NewEventScreen: View {
                 }
             }
             .navigationTitle("Select an Event")
-            .toolbar{
-                NavigationLink(destination: AddEventView){
-                    Text("Create Event")
+            //.toolbar{
+                //NavigationLink(destination: AddEventView){
+                    //Text("Create Event")
                     
-                }
-            }
+                //}
+            //}
         }
 
 }
