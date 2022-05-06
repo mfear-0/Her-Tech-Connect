@@ -65,26 +65,43 @@ struct AddEventView: View {
     @State private var timeField = Date()
     @State private var dateField = Date()
     @State private var locations = [MKPointAnnotation]()
+    @Binding var isPresented: Bool
     
     var body: some View {
         //code for adding new event.
         //Text("Nothing here yet?")
         
         VStack{
-        TextField(" Event Name", text: $nameField)
-            .background(Color(.white))
-        TextField(" Event Address", text: $addressField)
+            Text("Add new Event").font(.title2)
+                .padding(.all)
+            HStack{
+            Text("Event Name")
+                .padding(.all)
+            TextField(" Event Name", text: $nameField)
+                .padding(.all)
                 .background(Color(.white))
-        DatePicker("date:", selection: $dateField, displayedComponents: [.date])
-            .labelsHidden()
-        DatePicker("time:", selection: $timeField, displayedComponents: [.hourAndMinute])
+                .textFieldStyle(RoundedBorderTextFieldStyle())}
+            
+            HStack{
+            Text("Event Address")
+                .padding(.all)
+            TextField(" Event Address", text: $addressField)
+                .padding(.all)
+                .background(Color(.white))
+                .textFieldStyle(RoundedBorderTextFieldStyle())}
+            
+            DatePicker("date:", selection: $dateField, displayedComponents: [.date])
+                .padding(.all)
+                .labelsHidden()
+            DatePicker("time:", selection: $timeField, displayedComponents: [.hourAndMinute])
+                .padding(.all)
                 .labelsHidden()
         }
-        Spacer()
         Button(action: {
             let newLocation = MKPointAnnotation()
             print("button pressed")
             if (addressField == ""){
+                isPresented = false
                 return
             }
             let formatter1 = DateFormatter()
@@ -96,26 +113,33 @@ struct AddEventView: View {
             geocoder.geocodeAddressString(addressField) {
                 placemarks, error in
                 let placemark = placemarks?.first
+                if placemark == nil {
+                    isPresented = false
+                    return
+                }
                 let lat = placemark?.location?.coordinate.latitude
                 let long = placemark?.location?.coordinate.longitude
                 newLocation.coordinate = CLLocationCoordinate2D(latitude:lat!, longitude: long!)
+
                 self.locations.append(newLocation)
                 //print("button pressed. address coordinates are: \(newLocation.coordinate.latitude) and \(newLocation.coordinate.longitude)")
-                
+
             }
             let newEvent = EventObj(name: nameField, loc: addressField, time: formatter2.string(from: timeField), date: formatter1.string(from: dateField))
+            //eh.tempAdd(newEvent: newEvent)
 
             //EventHandler.addEvent(name: newEvent.eName, address: newEvent.eAddress, date: newEvent.eDate, time: newEvent.eTime)
-            //eventArray.append(newEvent)
             //dump(eventArray)
             
             nameField = ""
             addressField = ""
+            isPresented = false
             
             
         }, label: {
             Text("Add Event")
         })
+            .padding(.all)
         
     }
 }
@@ -123,12 +147,13 @@ struct AddEventView: View {
 struct NewEventScreen: View {
     
     @State private var eventArray = [EventObj]()
+    @State private var addForm = false
     
     // In the future, grab actual event details from firebase store
     let events = [
-        EventObj(name:"Event 1", loc:"123 main street", time: " 5 pm", date:"01/01/2023"),
-        EventObj(name:"Event 2", loc:"456 main street", time: " 5 pm", date:"02/01/2023"),
-        EventObj(name:"Event 3", loc:"789 main street", time: " 5 pm", date:"03/01/2023"),
+        EventObj(name:"Event 1", loc:"400 broad street, seattle", time: " 5 pm", date:"01/01/2023"),
+        EventObj(name:"Event 2", loc:"1701 broadway, seattle", time: " 5 pm", date:"02/01/2023"),
+        EventObj(name:"Event 3", loc:"1912 pike pl, seattle", time: " 5 pm", date:"03/01/2023"),
     ]
     
     var body: some View {
@@ -140,12 +165,15 @@ struct NewEventScreen: View {
                 }
             }
             .navigationTitle("Select an Event")
-            //.toolbar{
-                //NavigationLink(destination: AddEventView){
-                    //Text("Create Event")
-                    
-                //}
-            //}
+            .toolbar{
+                Button(action: {
+                    self.addForm.toggle()
+                }) {
+                    Text("Add Event")
+                }.sheet(isPresented: $addForm){
+                    AddEventView(isPresented: $addForm)
+                }
+            }
         }
 
 }
