@@ -10,6 +10,7 @@ struct MoreView: View {
     @State var userImage: String = ""
     @State var jobDescription: String = ""
     @State var userEmail: String = ""
+    @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
         VStack {
@@ -58,7 +59,21 @@ struct MoreView: View {
                 }
             }
             .padding(.top, 20)
-        
+            
+            Button(action: {
+                viewModel.signOut()
+            }, label: {
+                Text("Log Out")
+                    .padding()
+                    .foregroundColor(Color("Black"))
+                    .font(.title3)
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .background(Color("LightBlueSwitch"))
+                    .cornerRadius(40)
+                    .overlay( RoundedRectangle(cornerRadius: 40)
+                    .stroke(Color("LightBlue"), lineWidth: 4))
+            })
+            .padding()
         
         }
         .background(Color(UIColor.systemGray6))

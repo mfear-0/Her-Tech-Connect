@@ -26,6 +26,7 @@
 		5F4FF94D2720F48100365296 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5F4FF94C2720F48100365296 /* GoogleService-Info.plist */; };
 		5F5702942747356B00C24AD9 /* ConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5702932747356B00C24AD9 /* ConnectionView.swift */; };
 		5F57029627473A2200C24AD9 /* ConnectionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57029527473A2200C24AD9 /* ConnectionCard.swift */; };
+		5F96375E28245C4400312538 /* LatestMessageCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F96375D28245C4400312538 /* LatestMessageCard.swift */; };
 		5F9CDF442738653E009165D2 /* NetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9CDF432738653E009165D2 /* NetworkView.swift */; };
 		5F9CDF46273867F1009165D2 /* UserCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9CDF45273867F1009165D2 /* UserCard.swift */; };
 		5F9CDF4827386A47009165D2 /* RoundedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9CDF4727386A47009165D2 /* RoundedImage.swift */; };
@@ -83,6 +84,7 @@
 		5F4FF94C2720F48100365296 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5F5702932747356B00C24AD9 /* ConnectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionView.swift; sourceTree = "<group>"; };
 		5F57029527473A2200C24AD9 /* ConnectionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionCard.swift; sourceTree = "<group>"; };
+		5F96375D28245C4400312538 /* LatestMessageCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestMessageCard.swift; sourceTree = "<group>"; };
 		5F9CDF432738653E009165D2 /* NetworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkView.swift; sourceTree = "<group>"; };
 		5F9CDF45273867F1009165D2 /* UserCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCard.swift; sourceTree = "<group>"; };
 		5F9CDF4727386A47009165D2 /* RoundedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedImage.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				5FE67EC52741965800F67451 /* Chat.swift */,
 				5FDFAA2627697B8700280D34 /* ShoutOut.swift */,
 				5FEC6C952804F02D00498988 /* RefreshController.swift */,
+				5F96375D28245C4400312538 /* LatestMessageCard.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -355,6 +358,7 @@
 				5F5702942747356B00C24AD9 /* ConnectionView.swift in Sources */,
 				5F4FF93E2720F40200365296 /* Her_Tech_ConnectApp.swift in Sources */,
 				5FE67EC82741B04E00F67451 /* MessageBubble.swift in Sources */,
+				5F96375E28245C4400312538 /* LatestMessageCard.swift in Sources */,
 				5FFB5E782760442000DB62C4 /* ShoutOutView.swift in Sources */,
 				5FEFD55F2723917C009D31F6 /* RegisterPage.swift in Sources */,
 				5F57029627473A2200C24AD9 /* ConnectionCard.swift in Sources */,
