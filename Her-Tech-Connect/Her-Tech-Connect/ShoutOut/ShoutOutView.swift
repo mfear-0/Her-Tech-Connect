@@ -18,8 +18,7 @@ struct ShoutOutView: View {
        ZStack{
            ScrollView(.vertical, showsIndicators: false){
                RefreshControl(coordinateSpace: .named("RefreshControl")) {
-                   //refresh view here
-                   
+                   //refresh view
                    DispatchQueue.main.async {
 //                       LoadShoutOut()
                        updateShoutOuts()
