@@ -51,8 +51,10 @@ struct ProfileView: View {
                         Text("Change")
                         .padding(10)
                         .clipShape(Rectangle())
-                        .background(Color("LightBlue"))
+                        .background(Color("LightBlueSwitch"))
                         .cornerRadius(5)
+                        .overlay( RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color("LightBlue"), lineWidth: 1))
                         .onTapGesture {
                             self.showingImagePicker = true
                         }
@@ -65,8 +67,10 @@ struct ProfileView: View {
                         Text(self.savingBtnState)
                         .padding(10)
                         .clipShape(Rectangle())
-                        .background(Color("LightBlue"))
+                        .background(Color("LightBlueSwitch"))
                         .cornerRadius(5)
+                        .overlay( RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color("LightBlue"), lineWidth: 1))
                         .onTapGesture {
                             self.savingBtnState = "Uploading..."
                             saveImage()
@@ -163,8 +167,10 @@ struct ProfileView: View {
                         .foregroundColor(Color("Black"))
                         .font(.title3)
                         .frame(minWidth: 0, maxWidth: .infinity)
-                        .background(Color("LightBlue"))
+                        .background(Color("LightBlueSwitch"))
                         .cornerRadius(40)
+                        .overlay( RoundedRectangle(cornerRadius: 40)
+                        .stroke(Color("LightBlue"), lineWidth: 2))
                 })
                     .padding(.horizontal)
             }

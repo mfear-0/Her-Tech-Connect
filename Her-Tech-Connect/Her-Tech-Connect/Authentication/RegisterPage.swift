@@ -7,7 +7,7 @@
 //  Modified by Arica Conrad on 11/14/21.
 //  Modified by Arica Conrad on 12/6/21.
 //  Modified by Arica Conrad on 12/15/21.
-//
+//  Modified by Natalman Nahm on 05/11/22
 
 // TODO: The password field lengths must be checked, as it is currently an error that is not shown to the users. If the password length is less than 6 characters, text should be displayed to the user saying something like, "Passwords must be at least 6 characters long." - Arica
 
@@ -209,7 +209,7 @@ struct RegisterPage: View {
                         .background(Color("LightBlueSwitch"))
                         .cornerRadius(40)
                         .overlay( RoundedRectangle(cornerRadius: 40)
-                        .stroke(Color("LightBlue"), lineWidth: 4))
+                        .stroke(Color("LightBlue"), lineWidth: 2))
                 })
                 .padding()
                 

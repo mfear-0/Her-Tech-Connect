@@ -11,6 +11,7 @@ import FirebaseAuth
 import FirebaseDatabase
 
 struct TabTest: View {
+    @Environment(\.colorScheme) var colorScheme
     @ObservedObject var newShoutouts: AllShoutOuts = AllShoutOuts()
     let ref = Database.database().reference()
     @State private var showingSheet = false
@@ -74,12 +75,12 @@ struct TabTest: View {
                             Text(self.name)
                                 .bold()
                                 .font(.system(size: 15))
-                                .foregroundColor(Color(UIColor.black))
+                                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 
                             Text(self.email)
                                 .font(.system(size: 15))
-                                .foregroundColor(Color(UIColor.black))
+                                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                                                     
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)

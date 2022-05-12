@@ -30,7 +30,7 @@ struct EventDetail: View {
         Text(event.loc)
         Text(event.date)
         
-        mapview(centerCoordinate: $centerCoordinate, annotations: locations)
+        MapView(centerCoordinate: $centerCoordinate, annotations: locations)
         .ignoresSafeArea()
         //.onAppear {
         //    viewModel.checkLocServ()
@@ -38,17 +38,21 @@ struct EventDetail: View {
         
         Spacer()
         if #available(macOS 12.0, *) {
-            Button("Schedule Event") {
-                
-                // IMPORTANT
-                // place actual code here to check user status and add
-                // event to their schedules.
-                // IMPORTANT
-                
-                showingAlert = true
-            }
-            .alert("Event added to user schedule", isPresented: $showingAlert){
-                Button("OK", role: .cancel){}
+            if #available(iOS 15.0, *) {
+                Button("Schedule Event") {
+                    
+                    // IMPORTANT
+                    // place actual code here to check user status and add
+                    // event to their schedules.
+                    // IMPORTANT
+                    
+                    showingAlert = true
+                }
+                .alert("Event added to user schedule", isPresented: $showingAlert){
+                    Button("OK", role: .cancel){}
+                }
+            } else {
+                // Fallback on earlier versions
             }
         } else {
             // Fallback on earlier versions

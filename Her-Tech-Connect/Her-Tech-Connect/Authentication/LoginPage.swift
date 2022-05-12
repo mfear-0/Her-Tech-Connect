@@ -6,7 +6,7 @@
 //  Modified by Arica Conrad on 11/14/21.
 //  Modified by Arica Conrad on 12/6/21.
 //  Modified by Arica Conrad on 12/15/21.
-//
+//  Modified by Natalman Nahm on 05/11/22
 
 import SwiftUI
 
@@ -162,7 +162,7 @@ struct LoginPage: View {
                         .background(Color("LightBlueSwitch"))
                         .cornerRadius(40)
                         .overlay( RoundedRectangle(cornerRadius: 40)
-                        .stroke(Color("LightBlue"), lineWidth: 4))
+                        .stroke(Color("LightBlue"), lineWidth: 2))
                 })
                 .padding()
                 
