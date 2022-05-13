@@ -128,7 +128,7 @@ struct AddEventView: View {
             let newEvent = EventObj(name: nameField, loc: addressField, time: formatter2.string(from: timeField), date: formatter1.string(from: dateField))
             //eh.tempAdd(newEvent: newEvent)
 
-            //EventHandler.addEvent(name: newEvent.eName, address: newEvent.eAddress, date: newEvent.eDate, time: newEvent.eTime)
+            EventHandler.addEvent(name: newEvent.eName, address: newEvent.eAddress, date: newEvent.eDate, time: newEvent.eTime)
             //dump(eventArray)
             
             nameField = ""
@@ -150,11 +150,13 @@ struct NewEventScreen: View {
     @State private var addForm = false
     
     // In the future, grab actual event details from firebase store
-    let events = [
-        EventObj(name:"Event 1", loc:"400 broad street, seattle", time: " 5 pm", date:"01/01/2023"),
-        EventObj(name:"Event 2", loc:"1701 broadway, seattle", time: " 5 pm", date:"02/01/2023"),
-        EventObj(name:"Event 3", loc:"1912 pike pl, seattle", time: " 5 pm", date:"03/01/2023"),
-    ]
+//    let events = [
+//        EventObj(name:"Event 1", loc:"400 broad street, seattle", time: " 5 pm", date:"01/01/2023"),
+//        EventObj(name:"Event 2", loc:"1701 broadway, seattle", time: " 5 pm", date:"02/01/2023"),
+//        EventObj(name:"Event 3", loc:"1912 pike pl, seattle", time: " 5 pm", date:"03/01/2023"),
+//    ]
+    
+    let events = EventHandler.readEvents()
     
     var body: some View {
         NavigationView {
