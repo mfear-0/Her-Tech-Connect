@@ -38,7 +38,7 @@ struct TabTest: View {
                     Label("Network", systemImage: "person.3.fill")
                 }
                 
-                EventView().tabItem {
+                NewEventScreen().tabItem {
                     Label("Events", systemImage: "mappin.and.ellipse")
                 }
                 

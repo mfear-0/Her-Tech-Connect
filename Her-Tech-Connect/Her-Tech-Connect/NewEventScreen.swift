@@ -8,6 +8,8 @@
 import SwiftUI
 import MapKit
 import UIKit
+import FirebaseAuth
+import FirebaseDatabase
 
 struct EventObj: Identifiable {
     let id = UUID()
@@ -30,7 +32,7 @@ struct EventDetail: View {
         Text(event.loc)
         Text(event.date)
         
-        mapview(centerCoordinate: $centerCoordinate, annotations: locations)
+        MapView(centerCoordinate: $centerCoordinate, annotations: locations)
         .ignoresSafeArea()
         //.onAppear {
         //    viewModel.checkLocServ()
@@ -38,17 +40,21 @@ struct EventDetail: View {
         
         Spacer()
         if #available(macOS 12.0, *) {
-            Button("Schedule Event") {
-                
-                // IMPORTANT
-                // place actual code here to check user status and add
-                // event to their schedules.
-                // IMPORTANT
-                
-                showingAlert = true
-            }
-            .alert("Event added to user schedule", isPresented: $showingAlert){
-                Button("OK", role: .cancel){}
+            if #available(iOS 15.0, *) {
+                Button("Schedule Event") {
+                    
+                    // IMPORTANT
+                    // place actual code here to check user status and add
+                    // event to their schedules.
+                    // IMPORTANT
+                    
+                    showingAlert = true
+                }
+                .alert("Event added to user schedule", isPresented: $showingAlert){
+                    Button("OK", role: .cancel){}
+                }
+            } else {
+                // Fallback on earlier versions
             }
         } else {
             // Fallback on earlier versions
@@ -128,7 +134,7 @@ struct AddEventView: View {
             let newEvent = EventObj(name: nameField, loc: addressField, time: formatter2.string(from: timeField), date: formatter1.string(from: dateField))
             //eh.tempAdd(newEvent: newEvent)
 
-            EventHandler.addEvent(name: newEvent.eName, address: newEvent.eAddress, date: newEvent.eDate, time: newEvent.eTime)
+            EventHandler.addEvent(name: newEvent.name, address: newEvent.loc, date: newEvent.date, time: newEvent.time)
             //dump(eventArray)
             
             nameField = ""
@@ -149,6 +155,8 @@ struct NewEventScreen: View {
     @State private var eventArray = [EventObj]()
     @State private var addForm = false
     
+    let ref = Database.database().reference()
+    
     // In the future, grab actual event details from firebase store
 //    let events = [
 //        EventObj(name:"Event 1", loc:"400 broad street, seattle", time: " 5 pm", date:"01/01/2023"),
@@ -156,11 +164,9 @@ struct NewEventScreen: View {
 //        EventObj(name:"Event 3", loc:"1912 pike pl, seattle", time: " 5 pm", date:"03/01/2023"),
 //    ]
     
-    let events = EventHandler.readEvents()
-    
     var body: some View {
         NavigationView {
-            List(events) {event in
+            List(eventArray) {event in
                 NavigationLink(destination: EventDetail(event: event)) {
                     Text(event.name)
                     
@@ -177,6 +183,20 @@ struct NewEventScreen: View {
                 }
             }
         }
+        .onAppear(perform: {
+            ref.child("Events").observeSingleEvent(of: .value, with: {(events) in
+                for event in events.children{
+                    let snap = event as! DataSnapshot
+                    let eventDict = snap.value as! [String: Any]
+                    
+                    let ev = EventObj(name: eventDict["name"] as! String, loc: eventDict["address"] as! String, time: eventDict["time"] as! String, date: eventDict["date"] as! String)
+                    
+                    self.eventArray.append(ev)
+                    
+                }
+                
+            })
+        })
 
 }
 

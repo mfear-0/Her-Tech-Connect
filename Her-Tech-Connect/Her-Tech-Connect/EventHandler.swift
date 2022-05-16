@@ -27,33 +27,4 @@ class EventHandler {
         ref.child("Events").child(eventID).setValue(event)
     }
     
-    static func readEvents() -> events[String] {
-        
-        let allEvents = ref.child("Events").getDocuments { snapshot, error in
-            if let error = error {
-                print(error.localizedDescription)
-            } else {
-                
-                let ev: [String: Any] = [
-                    "eventID": eventID,
-                    "name": name,
-                    "date": date,
-                    "time": time,
-                    "address": address
-                ]
-                let events: [ev] = []
-                
-                for document in snapshot!.documents {
-                    let event = documentData: document.data()
-                    events.append(event)
-                }
-                return events
-            }
-    }
-        
-    }
-    
-    
-    
-    
 }
