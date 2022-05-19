@@ -184,18 +184,20 @@ struct NewEventScreen: View {
             }
         }
         .onAppear(perform: {
-            ref.child("Events").observeSingleEvent(of: .value, with: {(events) in
-                for event in events.children{
-                    let snap = event as! DataSnapshot
-                    let eventDict = snap.value as! [String: Any]
+            if eventArray.isEmpty{
+                ref.child("Events").observeSingleEvent(of: .value, with: {(events) in
+                    for event in events.children{
+                        let snap = event as! DataSnapshot
+                        let eventDict = snap.value as! [String: Any]
+                        
+                        let ev = EventObj(name: eventDict["name"] as! String, loc: eventDict["address"] as! String, time: eventDict["time"] as! String, date: eventDict["date"] as! String)
+                        
+                        self.eventArray.append(ev)
+                        
+                    }
                     
-                    let ev = EventObj(name: eventDict["name"] as! String, loc: eventDict["address"] as! String, time: eventDict["time"] as! String, date: eventDict["date"] as! String)
-                    
-                    self.eventArray.append(ev)
-                    
-                }
-                
-            })
+                })
+            }
         })
 
 }
