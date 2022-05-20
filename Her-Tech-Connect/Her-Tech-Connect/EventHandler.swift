@@ -28,14 +28,15 @@ class EventHandler {
     }
     
     static func schedEvent(userId: String, eventId: String) {
+        let schId = UUID().uuidString
         
         let schedule: [String: Any] = [
-            "schId": UUID().uuidString,
+            "schId": schId,
             "userId": userId,
             "eventId": eventId
         ]
         
-        ref.child("Schedule").child(schId).setValue(schId)
+        ref.child("Schedule").child(schId).setValue(schedule)
     }
     
 }

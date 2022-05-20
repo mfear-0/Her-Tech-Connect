@@ -25,6 +25,8 @@ struct EventDetail: View {
     @State private var showingAlert = false
     @State private var centerCoordinate = CLLocationCoordinate2D()
     @State private var locations = [MKPointAnnotation]()
+    @State private var currentUserId = ""
+    let ref = Database.database().reference()
     var event: EventObj
     
     var body: some View {
@@ -33,6 +35,18 @@ struct EventDetail: View {
         Text(event.date)
         
         MapView(centerCoordinate: $centerCoordinate, annotations: locations)
+            .onAppear(perform: {
+                ref.child("Users").observeSingleEvent(of: .value, with: {(users) in
+                    for aUser in users.children {
+                        let snap = aUser as! DataSnapshot
+                        let userDict = snap.value as! [String: Any]
+                        let userEmail = userDict["email"] as! String
+                        if userEmail == Auth.auth().currentUser!.email {
+                            self.currentUserId = userDict["userId"] as! String
+                        }
+                    }
+                })
+            })
         .ignoresSafeArea()
         //.onAppear {
         //    viewModel.checkLocServ()
@@ -43,8 +57,7 @@ struct EventDetail: View {
             if #available(iOS 15.0, *) {
                 Button("Schedule Event") {
                     
-                    let curUser = Auth.auth().currentUser!.userId
-                    eventHandler.schedEvent(userId: curUser, eventId: event.id)
+                    EventHandler.schedEvent(userId: self.currentUserId, eventId: event.id.uuidString)
                     
                     showingAlert = true
                     
