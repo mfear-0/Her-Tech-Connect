@@ -43,15 +43,15 @@ struct EventDetail: View {
             if #available(iOS 15.0, *) {
                 Button("Schedule Event") {
                     
-                    // IMPORTANT
-                    // place actual code here to check user status and add
-                    // event to their schedules.
-                    // IMPORTANT
+                    let curUser = Auth.auth().currentUser!.userId
+                    eventHandler.schedEvent(userId: curUser, eventId: event.id)
                     
                     showingAlert = true
+                    
                 }
                 .alert("Event added to user schedule", isPresented: $showingAlert){
-                    Button("OK", role: .cancel){}
+                    Button("OK", role: .cancel){
+                    }
                 }
             } else {
                 // Fallback on earlier versions
