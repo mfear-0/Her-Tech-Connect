@@ -27,7 +27,16 @@ class EventHandler {
         ref.child("Events").child(eventID).setValue(event)
     }
     
-    
-    
+    static func schedEvent(userId: String, eventId: String) {
+        let schId = UUID().uuidString
+        
+        let schedule: [String: Any] = [
+            "schId": schId,
+            "userId": userId,
+            "eventId": eventId
+        ]
+        
+        ref.child("Schedule").child(schId).setValue(schedule)
+    }
     
 }

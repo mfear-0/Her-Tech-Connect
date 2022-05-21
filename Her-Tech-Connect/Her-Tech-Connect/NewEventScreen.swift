@@ -8,6 +8,8 @@
 import SwiftUI
 import MapKit
 import UIKit
+import FirebaseAuth
+import FirebaseDatabase
 
 struct EventObj: Identifiable {
     let id = UUID()
@@ -23,6 +25,8 @@ struct EventDetail: View {
     @State private var showingAlert = false
     @State private var centerCoordinate = CLLocationCoordinate2D()
     @State private var locations = [MKPointAnnotation]()
+    @State private var currentUserId = ""
+    let ref = Database.database().reference()
     var event: EventObj
     
     var body: some View {
@@ -31,6 +35,19 @@ struct EventDetail: View {
         Text(event.date)
         
         MapView(centerCoordinate: $centerCoordinate, annotations: locations)
+
+            .onAppear(perform: {
+                ref.child("Users").observeSingleEvent(of: .value, with: {(users) in
+                    for aUser in users.children {
+                        let snap = aUser as! DataSnapshot
+                        let userDict = snap.value as! [String: Any]
+                        let userEmail = userDict["email"] as! String
+                        if userEmail == Auth.auth().currentUser!.email {
+                            self.currentUserId = userDict["userId"] as! String
+                        }
+                    }
+                })
+            })
         .ignoresSafeArea()
         //.onAppear {
         //    viewModel.checkLocServ()
@@ -40,16 +57,14 @@ struct EventDetail: View {
         if #available(macOS 12.0, *) {
             if #available(iOS 15.0, *) {
                 Button("Schedule Event") {
-                    
-                    // IMPORTANT
-                    // place actual code here to check user status and add
-                    // event to their schedules.
-                    // IMPORTANT
+
+                    EventHandler.schedEvent(userId: self.currentUserId, eventId: event.id.uuidString)
                     
                     showingAlert = true
+                    
                 }
                 .alert("Event added to user schedule", isPresented: $showingAlert){
-                    Button("OK", role: .cancel){}
+                    Button("OK", role: .cancel){
                 }
             } else {
                 // Fallback on earlier versions
@@ -69,26 +84,43 @@ struct AddEventView: View {
     @State private var timeField = Date()
     @State private var dateField = Date()
     @State private var locations = [MKPointAnnotation]()
+    @Binding var isPresented: Bool
     
     var body: some View {
         //code for adding new event.
         //Text("Nothing here yet?")
         
         VStack{
-        TextField(" Event Name", text: $nameField)
-            .background(Color(.white))
-        TextField(" Event Address", text: $addressField)
+            Text("Add new Event").font(.title2)
+                .padding(.all)
+            HStack{
+            Text("Event Name")
+                .padding(.all)
+            TextField(" Event Name", text: $nameField)
+                .padding(.all)
                 .background(Color(.white))
-        DatePicker("date:", selection: $dateField, displayedComponents: [.date])
-            .labelsHidden()
-        DatePicker("time:", selection: $timeField, displayedComponents: [.hourAndMinute])
+                .textFieldStyle(RoundedBorderTextFieldStyle())}
+            
+            HStack{
+            Text("Event Address")
+                .padding(.all)
+            TextField(" Event Address", text: $addressField)
+                .padding(.all)
+                .background(Color(.white))
+                .textFieldStyle(RoundedBorderTextFieldStyle())}
+            
+            DatePicker("date:", selection: $dateField, displayedComponents: [.date])
+                .padding(.all)
+                .labelsHidden()
+            DatePicker("time:", selection: $timeField, displayedComponents: [.hourAndMinute])
+                .padding(.all)
                 .labelsHidden()
         }
-        Spacer()
         Button(action: {
             let newLocation = MKPointAnnotation()
             print("button pressed")
             if (addressField == ""){
+                isPresented = false
                 return
             }
             let formatter1 = DateFormatter()
@@ -100,26 +132,33 @@ struct AddEventView: View {
             geocoder.geocodeAddressString(addressField) {
                 placemarks, error in
                 let placemark = placemarks?.first
+                if placemark == nil {
+                    isPresented = false
+                    return
+                }
                 let lat = placemark?.location?.coordinate.latitude
                 let long = placemark?.location?.coordinate.longitude
                 newLocation.coordinate = CLLocationCoordinate2D(latitude:lat!, longitude: long!)
+
                 self.locations.append(newLocation)
                 //print("button pressed. address coordinates are: \(newLocation.coordinate.latitude) and \(newLocation.coordinate.longitude)")
-                
+
             }
             let newEvent = EventObj(name: nameField, loc: addressField, time: formatter2.string(from: timeField), date: formatter1.string(from: dateField))
+            //eh.tempAdd(newEvent: newEvent)
 
-            //EventHandler.addEvent(name: newEvent.eName, address: newEvent.eAddress, date: newEvent.eDate, time: newEvent.eTime)
-            //eventArray.append(newEvent)
+            EventHandler.addEvent(name: newEvent.name, address: newEvent.loc, date: newEvent.date, time: newEvent.time)
             //dump(eventArray)
             
             nameField = ""
             addressField = ""
+            isPresented = false
             
             
         }, label: {
             Text("Add Event")
         })
+            .padding(.all)
         
     }
 }
@@ -127,30 +166,52 @@ struct AddEventView: View {
 struct NewEventScreen: View {
     
     @State private var eventArray = [EventObj]()
+    @State private var addForm = false
+    
+    let ref = Database.database().reference()
     
     // In the future, grab actual event details from firebase store
-    let events = [
-        EventObj(name:"Event 1", loc:"123 main street", time: " 5 pm", date:"01/01/2023"),
-        EventObj(name:"Event 2", loc:"456 main street", time: " 5 pm", date:"02/01/2023"),
-        EventObj(name:"Event 3", loc:"789 main street", time: " 5 pm", date:"03/01/2023"),
-    ]
+//    let events = [
+//        EventObj(name:"Event 1", loc:"400 broad street, seattle", time: " 5 pm", date:"01/01/2023"),
+//        EventObj(name:"Event 2", loc:"1701 broadway, seattle", time: " 5 pm", date:"02/01/2023"),
+//        EventObj(name:"Event 3", loc:"1912 pike pl, seattle", time: " 5 pm", date:"03/01/2023"),
+//    ]
     
     var body: some View {
         NavigationView {
-            List(events) {event in
+            List(eventArray) {event in
                 NavigationLink(destination: EventDetail(event: event)) {
                     Text(event.name)
                     
                 }
             }
             .navigationTitle("Select an Event")
-            //.toolbar{
-                //NavigationLink(destination: AddEventView){
-                    //Text("Create Event")
-                    
-                //}
-            //}
+            .toolbar{
+                Button(action: {
+                    self.addForm.toggle()
+                }) {
+                    Text("Add Event")
+                }.sheet(isPresented: $addForm){
+                    AddEventView(isPresented: $addForm)
+                }
+            }
         }
+        .onAppear(perform: {
+            if eventArray.isEmpty{
+                ref.child("Events").observeSingleEvent(of: .value, with: {(events) in
+                    for event in events.children{
+                        let snap = event as! DataSnapshot
+                        let eventDict = snap.value as! [String: Any]
+                        
+                        let ev = EventObj(name: eventDict["name"] as! String, loc: eventDict["address"] as! String, time: eventDict["time"] as! String, date: eventDict["date"] as! String)
+                        
+                        self.eventArray.append(ev)
+                        
+                    }
+                    
+                })
+            }
+        })
 
 }
 
