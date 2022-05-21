@@ -66,6 +66,7 @@ struct EventDetail: View {
                 .alert("Event added to user schedule", isPresented: $showingAlert){
                     Button("OK", role: .cancel){
                 }
+            }
             } else {
                 // Fallback on earlier versions
             }
