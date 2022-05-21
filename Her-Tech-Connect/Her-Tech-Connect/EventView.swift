@@ -97,7 +97,7 @@ struct EventView: View {
             Text("Event View")
 
         }
-        .background(Color("White").ignoresSafeArea())
+//        .background(Color("White").ignoresSafeArea())
     }
     
 

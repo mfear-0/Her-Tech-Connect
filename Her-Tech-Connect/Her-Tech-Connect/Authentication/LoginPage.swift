@@ -18,6 +18,7 @@ struct LoginPage: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @State var isUserInfoCorrect = true
     @State private var showingSheet = false
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         
@@ -38,11 +39,12 @@ struct LoginPage: View {
                     .frame(width: 100, height: 100)
                     .clipShape(Rectangle())
                     .cornerRadius(10)
-                    .shadow(radius: 12)
+                    .shadow(color: colorScheme == .dark ? Color("Black").opacity(0.8) : Color.gray, radius: 12)
                 
                 Text("Sign In")
+                    .bold()
                     .foregroundColor(Color("DarkBlue"))
-                    .font(.title2)
+                    .font(.system(size: 25))
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding([.horizontal, .top])
                     .padding(.bottom, 3.0)
@@ -65,7 +67,7 @@ struct LoginPage: View {
                 }
                 .padding(.all, 15)
                 .background( RoundedRectangle(cornerRadius: 10)
-                .stroke(Color("DarkBlue"), lineWidth: 1).background(Color(.systemGray4).cornerRadius(10)).shadow(color: Color.black.opacity(0.5), radius: 8, x: 0, y: 8))
+                                .stroke(Color("DarkBlue"), lineWidth: 1).background(Color(.systemGray4).cornerRadius(10)).shadow(color: colorScheme == .dark ? Color("Black").opacity(0.5) : Color.black.opacity(0.5), radius: 8, x: 0, y: 8))
                 .padding()
                 
                 
@@ -82,7 +84,7 @@ struct LoginPage: View {
                     }
                     .padding(.all, 15)
                     .background( RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color("DarkBlue"), lineWidth: 1).background(Color(.systemGray4).cornerRadius(10)).shadow(color: Color.black.opacity(0.5), radius: 8, x: 0, y: 8))
+                                    .stroke(Color("DarkBlue"), lineWidth: 1).background(Color(.systemGray4).cornerRadius(10)).shadow(color: colorScheme == .dark ? Color("Black").opacity(0.5) : Color.black.opacity(0.5), radius: 8, x: 0, y: 8))
                     .padding()
                     
                     HStack {
@@ -237,7 +239,7 @@ struct LoginPage: View {
             
             Spacer()
         }
-        .background(Color("White").ignoresSafeArea())
+//        .background(Color("White").ignoresSafeArea())
     }
 }
 

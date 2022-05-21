@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct SignInOrCreateAccountScreen: View {
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         
@@ -31,11 +32,12 @@ struct SignInOrCreateAccountScreen: View {
                     .frame(width: 100, height: 100)
                     .clipShape(Rectangle())
                     .cornerRadius(10)
-                    .shadow(radius: 12)
+                    .shadow(color: colorScheme == .dark ? Color("Black").opacity(0.8) : Color.gray, radius: 12)
                 
                 Text("Welcome to Her Tech Connect!")
+                    .bold()
                     .foregroundColor(Color("DarkBlue"))
-                    .font(.title2)
+                    .font(.system(size: 25))
                     .padding([.horizontal, .top])
                     .padding(.bottom, 5.0)
                 
@@ -101,7 +103,7 @@ struct SignInOrCreateAccountScreen: View {
                 Spacer()
             }
         }
-        .background(Color("White").ignoresSafeArea())
+//        .background(Color("White").ignoresSafeArea())
     }
 }
 

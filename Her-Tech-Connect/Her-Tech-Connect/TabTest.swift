@@ -17,9 +17,6 @@ struct TabTest: View {
     @State private var showingSheet = false
     @State var currentUserId: String = ""
     @State var latestMessages = [Any]()
-    @State var name = ""
-    @State var email = ""
-    @State var image = ""
     @ObservedObject var chat: Chat = Chat()
     var body: some View {
         NavigationView{
@@ -49,43 +46,6 @@ struct TabTest: View {
                 
                 MoreView().tabItem {
                     Label("More", systemImage: "line.horizontal.3")
-                }
-            }
-            .onAppear(perform: {
-                ref.child("Users").observeSingleEvent(of: .value, with: {(users) in
-                    for aUser in users.children {
-                        let snap = aUser as! DataSnapshot
-                        let userDict = snap.value as! [String: Any]
-                        let userEmail = userDict["email"] as! String
-                        if userEmail == Auth.auth().currentUser!.email {
-                            self.currentUserId = userDict["userId"] as! String
-                            self.name = userDict["name"] as! String
-                            self.email = userDict["email"] as! String
-                            self.image = userDict["image"] as! String
-                        }
-                    }
-                })
-            })
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar{
-                ToolbarItem(placement: .navigationBarLeading){
-                    HStack{
-                        RoundedImage(urlImage: self.image , imageWidth: 45.0, imageHeight: 45.0)
-                        VStack{
-                            Text(self.name)
-                                .bold()
-                                .font(.system(size: 15))
-                                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                
-                            Text(self.email)
-                                .font(.system(size: 15))
-                                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
-                                                    
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-                    .padding(.bottom)
                 }
             }
         }
