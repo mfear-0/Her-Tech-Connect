@@ -35,6 +35,7 @@ struct EventDetail: View {
         Text(event.date)
         
         MapView(centerCoordinate: $centerCoordinate, annotations: locations)
+
             .onAppear(perform: {
                 ref.child("Users").observeSingleEvent(of: .value, with: {(users) in
                     for aUser in users.children {
@@ -56,7 +57,7 @@ struct EventDetail: View {
         if #available(macOS 12.0, *) {
             if #available(iOS 15.0, *) {
                 Button("Schedule Event") {
-                    
+
                     EventHandler.schedEvent(userId: self.currentUserId, eventId: event.id.uuidString)
                     
                     showingAlert = true
@@ -64,7 +65,6 @@ struct EventDetail: View {
                 }
                 .alert("Event added to user schedule", isPresented: $showingAlert){
                     Button("OK", role: .cancel){
-                    }
                 }
             } else {
                 // Fallback on earlier versions

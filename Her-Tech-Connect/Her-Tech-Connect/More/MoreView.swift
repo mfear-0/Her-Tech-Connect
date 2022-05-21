@@ -5,6 +5,7 @@ import FirebaseAuth
 
 struct MoreView: View {
     let ref = Database.database().reference()
+    @Environment(\.colorScheme) var colorScheme
     @State var userId: String = ""
     @State var userName: String = ""
     @State var userImage: String = ""
@@ -26,7 +27,7 @@ struct MoreView: View {
                 
             }
             .frame(maxWidth: .infinity, maxHeight: 250)
-            .background((Color.white).cornerRadius(35, corners: [.bottomRight, .bottomLeft]))
+            .background((colorScheme == .dark ? Color("LightBlueSwitch") : Color.white).cornerRadius(35, corners: [.bottomRight, .bottomLeft]))
             .onAppear(perform: {
                 ref.child("Users").observeSingleEvent(of: .value, with: {(users) in
                     for aUser in users.children {
@@ -71,12 +72,12 @@ struct MoreView: View {
                     .background(Color("LightBlueSwitch"))
                     .cornerRadius(40)
                     .overlay( RoundedRectangle(cornerRadius: 40)
-                    .stroke(Color("LightBlue"), lineWidth: 4))
+                    .stroke(Color("LightBlue"), lineWidth: 2))
             })
             .padding()
         
         }
-        .background(Color(UIColor.systemGray6))
+        .background(colorScheme == .dark ? Color.black : Color(UIColor.systemGray6))
     }
 }
 

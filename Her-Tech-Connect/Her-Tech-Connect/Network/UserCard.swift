@@ -10,6 +10,7 @@ import FirebaseDatabase
 
 @available(iOS 15.0, *)
 struct UserCard: View {
+    @Environment(\.colorScheme) var colorScheme
     @State var user: User
     @State private var showingSheet = false
     @ObservedObject var chat: Chat = Chat()
@@ -31,7 +32,7 @@ struct UserCard: View {
                         
                         Text(self.time)
                             .font(.system(size: 12))
-                            .foregroundColor(.red)
+                            .foregroundColor(colorScheme == .dark ? Color("DarkRed") : .red)
                             .frame(maxWidth: .infinity, alignment: .trailing)
                             .padding(.trailing)
                     }
@@ -50,7 +51,7 @@ struct UserCard: View {
             //Get the last mesage
             getLastMessage()
         })
-        .background(RoundedRectangle(cornerRadius: 10).stroke((Color(UIColor.systemGray6)), lineWidth: 2).background((Color.white).cornerRadius(10)).shadow(radius: 8))
+        .background(RoundedRectangle(cornerRadius: 10).stroke((colorScheme == .dark ? Color("LightBlueSwitch") : Color(UIColor.systemGray6)), lineWidth: 2).background((colorScheme == .dark ? Color("LightBlueSwitch") : Color.white).cornerRadius(10)).shadow(radius: 8))
         .padding()
         .onTapGesture {
             showingSheet.toggle()

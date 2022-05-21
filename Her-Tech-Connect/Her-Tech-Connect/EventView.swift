@@ -17,7 +17,7 @@ struct EventView: View {
     @State private var nameField: String = ""
     @State private var timeField = Date()
     @State private var dateField = Date()
-    
+    @Environment(\.colorScheme) var colorScheme
     @State private var centerCoordinate = CLLocationCoordinate2D()
     @State private var locations = [MKPointAnnotation]()
     @State private var eventArray = [eventObject]()
@@ -45,9 +45,9 @@ struct EventView: View {
                 Spacer()
                 VStack{
                 TextField(" Event Name", text: $nameField)
-                    .background(Color(.white))
+                        .background(colorScheme == .dark ? Color.black : Color.white)
                 TextField(" Event Address", text: $addressField)
-                        .background(Color(.white))
+                        .background(colorScheme == .dark ? Color.black : Color.white)
                 DatePicker("date:", selection: $dateField, displayedComponents: [.date])
                     .labelsHidden()
                 DatePicker("time:", selection: $timeField, displayedComponents: [.hourAndMinute])
@@ -97,7 +97,7 @@ struct EventView: View {
             Text("Event View")
 
         }
-        .background(Color("White").ignoresSafeArea())
+//        .background(Color("White").ignoresSafeArea())
     }
     
 

@@ -13,10 +13,14 @@ import FirebaseDatabase
 struct HomePage: View {
     @ObservedObject var newShoutouts: AllShoutOuts = AllShoutOuts()
     let ref = Database.database().reference()
+    @Environment(\.colorScheme) var colorScheme
     @State private var showingSheet = false
     @State var currentUserId: String = ""
     @State var latestMessages = [Any]()
     @ObservedObject var chat: Chat = Chat()
+    @State var name = ""
+    @State var email = ""
+    @State var image = ""
     @EnvironmentObject var viewModel: AuthViewModel
     var body: some View {
         
@@ -68,72 +72,113 @@ struct HomePage: View {
 //                }
 //            }
 //        }
-        
-        ZStack{
-            VStack{
-                ScrollView(.vertical, showsIndicators: false){
-                    
-                    RefreshControl(coordinateSpace: .named("RefreshControl")) {
-                        //refresh view
-                        newShoutouts.Shoutdata.removeAll()
-                        DispatchQueue.main.async {
-                            getEarlyShoutOut()
-                        }
+        NavigationView{
+            ZStack{
+                VStack{
+                    ScrollView(.vertical, showsIndicators: false){
                         
-                    }
-                    HStack{
-                        Rectangle()
-                            .fill(Color.blue)
-                            .frame(maxWidth: .infinity, maxHeight: 2.0)
-                        Text("Latest Messages")
-                            .font(.system(size: 15))
-                            .foregroundColor(Color.blue)
-                        Rectangle()
-                            .fill(Color.blue)
-                            .frame(maxWidth: .infinity, maxHeight: 2.0)
-                    }
-                    .padding()
-                    
-                    LazyVStack(alignment: .leading, spacing: 0, content: {
-                        ForEach(self.latestMessages.indices.prefix(2), id: \.self){ index in
-                            if #available(iOS 15.0, *) {
-                                LatestMessageCard(message: self.latestMessages[0] as! [String : Any])
-                            } else {
-                                // Fallback on earlier versions
-                            }
-                        }
-                    })
-                    
-                    HStack{
-                        Rectangle()
-                            .fill(Color.blue)
-                            .frame(maxWidth: .infinity, maxHeight: 2.0)
-                        Text("Latest Shoutouts")
-                            .font(.system(size: 15))
-                            .foregroundColor(Color.blue)
-                        Rectangle()
-                            .fill(Color.blue)
-                            .frame(maxWidth: .infinity, maxHeight: 2.0)
-                    }
-                    .padding()
-                    
-                    LazyVStack(alignment: .leading, spacing: 0){
-                        ForEach(newShoutouts.Shoutdata.indices.prefix(2), id: \.self){ index in
-                            ShoutOutCard(shoutOut: newShoutouts.Shoutdata[index])
-                        }
-                    }
-                    .onAppear(perform: {
-                        if newShoutouts.Shoutdata.isEmpty{
+                        RefreshControl(coordinateSpace: .named("RefreshControl")) {
+                            //refresh view
+                            newShoutouts.Shoutdata.removeAll()
                             DispatchQueue.main.async {
-                                getLatestMessages()
                                 getEarlyShoutOut()
                             }
+                            
                         }
-                    })
+                        if !latestMessages.isEmpty{
+                            HStack{
+                                Rectangle()
+                                    .fill(Color.blue)
+                                    .frame(maxWidth: .infinity, maxHeight: 2.0)
+                                Text("Latest Messages")
+                                    .font(.system(size: 15))
+                                    .foregroundColor(Color.blue)
+                                Rectangle()
+                                    .fill(Color.blue)
+                                    .frame(maxWidth: .infinity, maxHeight: 2.0)
+                            }
+                            .padding()
+                            
+                            LazyVStack(alignment: .leading, spacing: 0, content: {
+                                ForEach(self.latestMessages.indices.prefix(2), id: \.self){ index in
+                                    if #available(iOS 15.0, *) {
+                                        LatestMessageCard(message: self.latestMessages[0] as! [String : Any])
+                                    } else {
+                                        // Fallback on earlier versions
+                                    }
+                                }
+                            })
+                        }
+                        
+                        HStack{
+                            Rectangle()
+                                .fill(Color.blue)
+                                .frame(maxWidth: .infinity, maxHeight: 2.0)
+                            Text("Latest Shoutouts")
+                                .font(.system(size: 15))
+                                .foregroundColor(Color.blue)
+                            Rectangle()
+                                .fill(Color.blue)
+                                .frame(maxWidth: .infinity, maxHeight: 2.0)
+                        }
+                        .padding()
+                        
+                        LazyVStack(alignment: .leading, spacing: 0){
+                            ForEach(newShoutouts.Shoutdata.indices.prefix(2), id: \.self){ index in
+                                ShoutOutCard(shoutOut: newShoutouts.Shoutdata[index])
+                            }
+                        }
+                        .onAppear(perform: {
+                            if newShoutouts.Shoutdata.isEmpty{
+                                DispatchQueue.main.async {
+                                    getLatestMessages()
+                                    getEarlyShoutOut()
+                                }
+                            }
+                        })
+                    }
+                    .coordinateSpace(name: "RefreshControl")
                 }
-                .coordinateSpace(name: "RefreshControl")
+            }
+            .onAppear(perform: {
+                ref.child("Users").observeSingleEvent(of: .value, with: {(users) in
+                    for aUser in users.children {
+                        let snap = aUser as! DataSnapshot
+                        let userDict = snap.value as! [String: Any]
+                        let userEmail = userDict["email"] as! String
+                        if userEmail == Auth.auth().currentUser!.email {
+                            self.currentUserId = userDict["userId"] as! String
+                            self.name = userDict["name"] as! String
+                            self.email = userDict["email"] as! String
+                            self.image = userDict["image"] as! String
+                        }
+                    }
+                })
+            })
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar{
+                ToolbarItem(placement: .navigationBarLeading){
+                    HStack{
+                        RoundedImage(urlImage: self.image , imageWidth: 45.0, imageHeight: 45.0)
+                        VStack{
+                            Text(self.name)
+                                .bold()
+                                .font(.system(size: 15))
+                                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                
+                            Text(self.email)
+                                .font(.system(size: 15))
+                                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                                                    
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .padding(.bottom)
+                }
             }
         }
+        
         
     }
     

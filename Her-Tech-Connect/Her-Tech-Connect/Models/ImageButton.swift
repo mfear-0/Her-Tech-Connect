@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ImageButton: View {
+    @Environment(\.colorScheme) var colorScheme
     var image: String
     var imageWidth: CGFloat
     var imageHeight: CGFloat
@@ -15,7 +16,7 @@ struct ImageButton: View {
         Image(systemName: image)
             .resizable()
             .frame(width: imageWidth, height: imageHeight)
-            .foregroundColor(.black)
+            .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
     }
 }
 

@@ -10,6 +10,7 @@ import FirebaseAuth
 import FirebaseDatabase
 
 struct ShoutOutCard: View {
+    @Environment(\.colorScheme) var colorScheme
     @State var imageUrl: String = ""
     let ref = Database.database().reference()
     @State var shoutOut: ShoutOut
@@ -34,7 +35,7 @@ struct ShoutOutCard: View {
 
                         Text(calculateTimeStamp(seconds: shoutOut.timeCreated))
                             .font(.system(size: 12))
-                            .foregroundColor(.red)
+                            .foregroundColor(colorScheme == .dark ? Color("DarkRed") : .red)
                             .frame(maxWidth: .infinity, alignment: .trailing)
                             .padding(.trailing)
                     }
@@ -140,7 +141,7 @@ struct ShoutOutCard: View {
                 })
             }
         })
-        .background(RoundedRectangle(cornerRadius: 10).stroke((Color(UIColor.systemGray6)), lineWidth: 2).background((Color.white).cornerRadius(10)).shadow(radius: 8))
+        .background(RoundedRectangle(cornerRadius: 10).stroke((colorScheme == .dark ? Color("LightBlueSwitch") : Color(UIColor.systemGray6)), lineWidth: 2).background((colorScheme == .dark ? Color("LightBlueSwitch") : Color.white).cornerRadius(10)).shadow(radius: 8))
         .padding()
     }
     //Get likes count

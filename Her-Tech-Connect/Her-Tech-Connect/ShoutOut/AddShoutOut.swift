@@ -178,8 +178,17 @@ struct AddShoutOut: View {
                     .foregroundColor(Color("Black"))
                     .font(.title3)
                     .frame(minWidth: 0, maxWidth: 250, alignment: .center)
-                    .background(Color("LightBlue"))
+                    .background(Color("LightBlueSwitch"))
                     .cornerRadius(40)
+                    .overlay( RoundedRectangle(cornerRadius: 40)
+                    .stroke(Color("LightBlue"), lineWidth: 2))
+                
+//                    .padding()
+//                    .foregroundColor(Color("Black"))
+//                    .font(.title3)
+//
+//                    .background(Color("LightBlue"))
+//                    .cornerRadius(40)
             }).disabled(isDisable)
                 .padding(.horizontal)
                 .padding(.leading, 55)

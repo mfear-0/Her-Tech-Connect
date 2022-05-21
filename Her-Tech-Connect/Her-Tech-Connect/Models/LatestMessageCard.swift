@@ -10,6 +10,7 @@ import FirebaseDatabase
 
 @available(iOS 15.0, *)
 struct LatestMessageCard: View {
+    @Environment(\.colorScheme) var colorScheme
     @State var message = [String: Any]()
     @State private var showingSheet = false
     let ref = Database.database().reference()
@@ -27,7 +28,7 @@ struct LatestMessageCard: View {
                         
                         Text(calculateTimeStamp(seconds: message["time"] as! Double) )
                             .font(.system(size: 12))
-                            .foregroundColor(.red)
+                            .foregroundColor(colorScheme == .dark ? Color("DarkRed") : .red)
                             .frame(maxWidth: .infinity, alignment: .trailing)
                             .padding(.trailing)
                     }
@@ -44,7 +45,7 @@ struct LatestMessageCard: View {
         
         .onAppear(perform: {
         })
-        .background(RoundedRectangle(cornerRadius: 10).stroke((Color(UIColor.systemGray6)), lineWidth: 2).background((Color.white).cornerRadius(10)).shadow(radius: 8))
+        .background(RoundedRectangle(cornerRadius: 10).stroke((colorScheme == .dark ? Color("LightBlueSwitch") : Color(UIColor.systemGray6)), lineWidth: 2).background((colorScheme == .dark ? Color("LightBlueSwitch") : Color.white).cornerRadius(10)).shadow(radius: 8))
         .padding()
         .onTapGesture {
             showingSheet.toggle()
