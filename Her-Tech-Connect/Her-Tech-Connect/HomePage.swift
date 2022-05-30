@@ -17,13 +17,13 @@ struct HomePage: View {
     @State private var showingSheet = false
     @State var currentUserId: String = ""
     @State var latestMessages = [Any]()
-    @State var latestSchedule = [Any]()
     @State var tempEventArray = [EventObj]() //temp array of events that only holds scheduled events for current user.
     @ObservedObject var chat: Chat = Chat()
     @State var name = ""
     @State var email = ""
     @State var image = ""
     @EnvironmentObject var viewModel: AuthViewModel
+    @State private var addForm = false
     var body: some View {
         
 //        VStack {
@@ -111,33 +111,47 @@ struct HomePage: View {
                                 }
                             })
                         }
-                        
                         //latest schedule here?
-                        if !latestSchedule.isEmpty {
-                            NavigationView {
-                                List(tempEventArray) {event in //uses temp array for current user's scheduled events
-                                    NavigationLink(destination: EventDetail(event: event)) {
-                                        Text(event.name)
-                                        
-                                    }
-                                }
-                                .navigationTitle("Select an Event")
-                                .toolbar{
-                                    Button(action: {
-                                        self.addForm.toggle()
-                                    }) {
-                                        Text("Add Event")
-                                    }.sheet(isPresented: $addForm){
-                                        AddEventView(isPresented: $addForm)
-                                    }
-                                }
+                        if !tempEventArray.isEmpty {
+                            HStack{
+                                Rectangle()
+                                    .fill(Color.blue)
+                                    .frame(maxWidth: .infinity, maxHeight: 2.0)
+                                Text("Latest Event")
+                                    .font(.system(size: 15))
+                                    .foregroundColor(Color.blue)
+                                Rectangle()
+                                    .fill(Color.blue)
+                                    .frame(maxWidth: .infinity, maxHeight: 2.0)
                             }
-                            .onAppear(perform: {
-                                if tempEventArray.isEmpty{
-                                    getLatestSchedule()
-                                }
-                            })
+                            .padding()
+                            
+                            Text(tempEventArray.last!.name)
                         }
+                        
+//                        NavigationView {
+//                            List(tempEventArray) {event in //uses temp array for current user's scheduled events
+//                                NavigationLink(destination: EventDetail(event: event)) {
+//                                    Text(event.name)
+//                                    
+//                                }
+//                            }
+//                            .navigationTitle("Select an Event")
+//                            .toolbar{
+//                                Button(action: {
+//                                    self.addForm.toggle()
+//                                }) {
+//                                    Text("Add Event")
+//                                }.sheet(isPresented: $addForm){
+//                                    AddEventView(isPresented: $addForm)
+//                                }
+//                            }
+//                        }
+//                        .onAppear(perform: {
+//                            if tempEventArray.isEmpty{
+//                                getLatestSchedule()
+//                            }
+//                        })
                         
                         
                         
@@ -165,6 +179,7 @@ struct HomePage: View {
                                 DispatchQueue.main.async {
                                     getLatestMessages()
                                     getEarlyShoutOut()
+                                    getLatestSchedule()
                                 }
                             }
                         })
@@ -186,6 +201,7 @@ struct HomePage: View {
                         }
                     }
                 })
+                print(tempEventArray)
             })
             .navigationBarTitleDisplayMode(.inline)
             .toolbar{
@@ -213,25 +229,26 @@ struct HomePage: View {
         
         
     }
+    //Get scheduld event for5 user
     func getLatestSchedule() {
-        let sorted = ref.child("Schedule").observeSingleEvent(of: .value, with: {(sch) in
+        ref.child("Schedule").observeSingleEvent(of: .value, with: {(sch) in
             for aSch in sch.children {
                 let snap = aSch as! DataSnapshot
                 let schDict = snap.value as! [String: Any]
                 let schUser = schDict["userId"] as! String
                 if schUser == self.currentUserId {
-                    //get event details from event table where eventId matches the event Id in schedule table.
                     
-                    ref.child("Events").observeSingleEvent(of: .value, with: {(events) in
-                        for event in events.children{
-                            let snap = event as! DataSnapshot
-                            let eventDict = snap.value as! [String: Any]
-                            
-                            let ev = EventObj(name: eventDict["name"] as! String, loc: eventDict["address"] as! String, time: eventDict["time"] as! String, date: eventDict["date"] as! String)
-                            
-                            self.tempEventArray.append(ev)
-                            
-                        }
+                    let eventID = schDict["eventId"] as! String
+                    
+                    //get event details from event table where eventId matches the event Id in schedule table.
+                    ref.child("Events").child(eventID).observeSingleEvent(of: .value, with: {(event) in
+                        
+                        let eventDict = event.value as! [String: Any]
+                        
+                        let ev = EventObj(id: eventDict["eventID"] as! String, name: eventDict["name"] as! String, loc: eventDict["address"] as! String, time: eventDict["time"] as! String, date: eventDict["date"] as! String)
+                        
+                        self.tempEventArray.append(ev)
+                        print(tempEventArray)
                         
                     })
                     
@@ -242,6 +259,7 @@ struct HomePage: View {
         
         
     }
+
     
     //load the view with existing shoutouts
     func getEarlyShoutOut() {

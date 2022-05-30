@@ -18,17 +18,23 @@ struct TabTest: View {
     @State var currentUserId: String = ""
     @State var latestMessages = [Any]()
     @ObservedObject var chat: Chat = Chat()
+    @State var tempEventArray = [EventObj]()
     var body: some View {
         NavigationView{
             TabView {
                 
-                HomePage(newShoutouts: newShoutouts, latestMessages: latestMessages).tabItem {
+                HomePage(newShoutouts: newShoutouts, latestMessages: latestMessages, tempEventArray: tempEventArray).tabItem {
                     Label("Home", systemImage: "house")
                 }
                 .onAppear(perform: {
                     if newShoutouts.Shoutdata.isEmpty{
                         getEarlyShoutOut()
+                    }
+                    if latestMessages.isEmpty{
                         getLatestMessages()
+                    }
+                    if tempEventArray.isEmpty{
+                        getLatestSchedule()
                     }
                 })
                 
@@ -152,6 +158,36 @@ struct TabTest: View {
                 }
             }
         })
+    }
+    //Get the latest Scheduled event
+    func getLatestSchedule() {
+        ref.child("Schedule").observeSingleEvent(of: .value, with: {(sch) in
+            for aSch in sch.children {
+                let snap = aSch as! DataSnapshot
+                let schDict = snap.value as! [String: Any]
+                let schUser = schDict["userId"] as! String
+                if schUser == self.currentUserId {
+                    
+                    let eventID = schDict["eventId"] as! String
+                    
+                    //get event details from event table where eventId matches the event Id in schedule table.
+                    ref.child("Events").child(eventID).observeSingleEvent(of: .value, with: {(event) in
+                        
+                        let eventDict = event.value as! [String: Any]
+                        
+                        let ev = EventObj(id: eventDict["eventID"] as! String, name: eventDict["name"] as! String, loc: eventDict["address"] as! String, time: eventDict["time"] as! String, date: eventDict["date"] as! String)
+                        
+                        self.tempEventArray.append(ev)
+                        print(tempEventArray)
+                        
+                    })
+                    
+                }
+                
+            }
+        })
+        
+        
     }
 }
 

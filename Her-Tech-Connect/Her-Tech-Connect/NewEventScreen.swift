@@ -12,7 +12,7 @@ import FirebaseAuth
 import FirebaseDatabase
 
 struct EventObj: Identifiable {
-    let id = UUID()
+    let id : String
     let name: String
     let loc: String
     let time: String
@@ -27,7 +27,7 @@ struct EventDetail: View {
     @State private var locations = [MKPointAnnotation]()
     @State private var currentUserId = ""
     let ref = Database.database().reference()
-    var event: EventObj
+    @State var event: EventObj
     
     var body: some View {
         Text("Event details for : \(event.name)")
@@ -58,7 +58,7 @@ struct EventDetail: View {
             if #available(iOS 15.0, *) {
                 Button("Schedule Event") {
 
-                    EventHandler.schedEvent(userId: self.currentUserId, eventId: event.id.uuidString)
+                    EventHandler.schedEvent(userId: self.currentUserId, eventId: self.event.id)
                     
                     showingAlert = true
                     
@@ -145,7 +145,7 @@ struct AddEventView: View {
                 //print("button pressed. address coordinates are: \(newLocation.coordinate.latitude) and \(newLocation.coordinate.longitude)")
 
             }
-            let newEvent = EventObj(name: nameField, loc: addressField, time: formatter2.string(from: timeField), date: formatter1.string(from: dateField))
+            let newEvent = EventObj(id: UUID().uuidString, name: nameField, loc: addressField, time: formatter2.string(from: timeField), date: formatter1.string(from: dateField))
             //eh.tempAdd(newEvent: newEvent)
 
             EventHandler.addEvent(name: newEvent.name, address: newEvent.loc, date: newEvent.date, time: newEvent.time)
@@ -204,9 +204,10 @@ struct NewEventScreen: View {
                         let snap = event as! DataSnapshot
                         let eventDict = snap.value as! [String: Any]
                         
-                        let ev = EventObj(name: eventDict["name"] as! String, loc: eventDict["address"] as! String, time: eventDict["time"] as! String, date: eventDict["date"] as! String)
+                        let ev = EventObj(id:eventDict["eventID"] as! String, name: eventDict["name"] as! String, loc: eventDict["address"] as! String, time: eventDict["time"] as! String, date: eventDict["date"] as! String)
                         
                         self.eventArray.append(ev)
+                        print(ev)
                         
                     }
                     
