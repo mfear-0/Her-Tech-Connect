@@ -126,14 +126,27 @@ struct HomePage: View {
                             }
                             .padding()
                             
-                            Text(tempEventArray.last!.name)
+                            //Text(tempEventArray.last!.name)
+                            VStack(alignment: .leading, spacing: 0){
+                                NavigationView{
+                                
+                                    List(tempEventArray) {event in //uses temp array for current user's scheduled events
+                                        NavigationLink(destination: NewEventScreen.EventDetail(event: event)) {
+                                            Text(event.name)
+                                        
+                                        }
+                                    }
+                                
+                                }
+                            }
+                            
                         }
                         
 //                        NavigationView {
 //                            List(tempEventArray) {event in //uses temp array for current user's scheduled events
 //                                NavigationLink(destination: EventDetail(event: event)) {
 //                                    Text(event.name)
-//                                    
+//
 //                                }
 //                            }
 //                            .navigationTitle("Select an Event")

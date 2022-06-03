@@ -37,6 +37,7 @@ struct EventDetail: View {
         MapView(centerCoordinate: $centerCoordinate, annotations: locations)
 
             .onAppear(perform: {
+                //$centerCoordinate = MapViewModel.getCoord(event.loc)
                 ref.child("Users").observeSingleEvent(of: .value, with: {(users) in
                     for aUser in users.children {
                         let snap = aUser as! DataSnapshot
@@ -49,9 +50,10 @@ struct EventDetail: View {
                 })
             })
         .ignoresSafeArea()
-        //.onAppear {
-        //    viewModel.checkLocServ()
-        //}
+        .onAppear {
+            MapViewModel.checkLocServ()
+            locations.append(MapViewModel.getCoord(address: event.loc))
+        }
         
         Spacer()
         if #available(macOS 12.0, *) {
