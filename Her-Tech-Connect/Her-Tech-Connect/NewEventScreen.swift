@@ -22,6 +22,7 @@ struct EventObj: Identifiable {
 
 
 struct EventDetail: View {
+    @StateObject var vm = MapViewModel()
     @State private var showingAlert = false
     @State private var centerCoordinate = CLLocationCoordinate2D()
     @State private var locations = [MKPointAnnotation]()
@@ -51,8 +52,8 @@ struct EventDetail: View {
             })
         .ignoresSafeArea()
         .onAppear {
-            MapViewModel.checkLocServ()
-            locations.append(MapViewModel.getCoord(address: event.loc))
+            vm.checkLocServ()
+            locations.append(vm.getCoord(address: self.event.loc))
         }
         
         Spacer()
