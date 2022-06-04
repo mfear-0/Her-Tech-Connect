@@ -26,54 +26,6 @@ struct HomePage: View {
     @State private var addForm = false
     var body: some View {
         
-//        VStack {
-//
-//            // Arica: A decorative ombre band across the top that showcases the app's colors.
-//            ZStack {
-//
-//                Rectangle()
-//                    .fill(LinearGradient(gradient: Gradient(colors: [Color("LightBlue"), Color("LightYellow")]), startPoint: .leading, endPoint: .trailing))
-//                    .frame(minWidth: 0, maxWidth: .infinity, maxHeight: 20)
-//            }
-//
-//            Spacer()
-//
-//            ScrollView {
-//
-//                VStack {
-//
-//                    // Arica: The title text.
-//                    Text("Welcome to Her Tech Connect!")
-//                        .foregroundColor(Color("DarkBlue"))
-//                        .font(.title2)
-//                        .padding()
-//
-//                    // Arica: Instructional text for the users.
-//                    Text("Here are the highlights of what happened while you were away:")
-//                        .foregroundColor(Color("Black"))
-//                        .font(.body)
-//                        .padding()
-//
-//                    // Arica: The temporary location of the log out button. Please move to the bottom of the More tab.
-//                    Button(action: {
-//                        viewModel.signOut()
-//                    }, label: {
-//                        Text("Log Out")
-//                            .padding()
-//                            .foregroundColor(Color("Black"))
-//                            .font(.title3)
-//                            .frame(minWidth: 0, maxWidth: .infinity)
-//                            .background(Color("LightBlueSwitch"))
-//                            .cornerRadius(40)
-//                            .overlay( RoundedRectangle(cornerRadius: 40)
-//                            .stroke(Color("LightBlue"), lineWidth: 4))
-//                    })
-//                    .padding()
-//
-//                    Spacer()
-//                }
-//            }
-//        }
         NavigationView{
             ZStack{
                 VStack{
@@ -87,6 +39,34 @@ struct HomePage: View {
                             }
                             
                         }
+                        //latest schedule here?
+                        if !tempEventArray.isEmpty {
+                            HStack{
+                                Rectangle()
+                                    .fill(Color.blue)
+                                    .frame(maxWidth: .infinity, maxHeight: 2.0)
+                                Text("Latest Event")
+                                    .font(.system(size: 15))
+                                    .foregroundColor(Color.blue)
+                                Rectangle()
+                                    .fill(Color.blue)
+                                    .frame(maxWidth: .infinity, maxHeight: 2.0)
+                            }
+                            .padding()
+                            
+                            //Text(tempEventArray.last!.name)
+                            VStack(alignment: .leading, spacing: 0){
+                                List(tempEventArray.prefix(2)) {event in //uses temp array for current user's scheduled events
+                                    NavigationLink(destination: EventDetail(event: event)) {
+                                        Text(event.name)
+                                    
+                                    }
+                                }.frame(height: 150)
+
+                            }
+                            
+                        }
+                        
                         if !latestMessages.isEmpty{
                             HStack{
                                 Rectangle()
@@ -111,63 +91,6 @@ struct HomePage: View {
                                 }
                             })
                         }
-                        //latest schedule here?
-                        if !tempEventArray.isEmpty {
-                            HStack{
-                                Rectangle()
-                                    .fill(Color.blue)
-                                    .frame(maxWidth: .infinity, maxHeight: 2.0)
-                                Text("Latest Event")
-                                    .font(.system(size: 15))
-                                    .foregroundColor(Color.blue)
-                                Rectangle()
-                                    .fill(Color.blue)
-                                    .frame(maxWidth: .infinity, maxHeight: 2.0)
-                            }
-                            .padding()
-                            
-                            //Text(tempEventArray.last!.name)
-                            VStack(alignment: .leading, spacing: 0){
-                                NavigationView{
-                                
-                                    List(tempEventArray) {event in //uses temp array for current user's scheduled events
-                                        NavigationLink(destination: NewEventScreen.EventDetail(event: event)) {
-                                            Text(event.name)
-                                        
-                                        }
-                                    }
-                                
-                                }
-                            }
-                            
-                        }
-                        
-//                        NavigationView {
-//                            List(tempEventArray) {event in //uses temp array for current user's scheduled events
-//                                NavigationLink(destination: EventDetail(event: event)) {
-//                                    Text(event.name)
-//
-//                                }
-//                            }
-//                            .navigationTitle("Select an Event")
-//                            .toolbar{
-//                                Button(action: {
-//                                    self.addForm.toggle()
-//                                }) {
-//                                    Text("Add Event")
-//                                }.sheet(isPresented: $addForm){
-//                                    AddEventView(isPresented: $addForm)
-//                                }
-//                            }
-//                        }
-//                        .onAppear(perform: {
-//                            if tempEventArray.isEmpty{
-//                                getLatestSchedule()
-//                            }
-//                        })
-                        
-                        
-                        
                         
                         HStack{
                             Rectangle()
@@ -187,15 +110,6 @@ struct HomePage: View {
                                 ShoutOutCard(shoutOut: newShoutouts.Shoutdata[index])
                             }
                         }
-                        .onAppear(perform: {
-                            if newShoutouts.Shoutdata.isEmpty{
-                                DispatchQueue.main.async {
-                                    getLatestMessages()
-                                    getEarlyShoutOut()
-                                    getLatestSchedule()
-                                }
-                            }
-                        })
                     }
                     .coordinateSpace(name: "RefreshControl")
                 }
@@ -214,7 +128,25 @@ struct HomePage: View {
                         }
                     }
                 })
-                print(tempEventArray)
+                
+                DispatchQueue.main.async {
+                    
+                    //Get latest messages
+                    if latestMessages.isEmpty{
+                        getLatestMessages()
+                    }
+                
+                    //Get latest scheduled event
+                    if tempEventArray.isEmpty{
+                        getLatestSchedule()
+                    }
+                    
+                    //Get latest shoutouts
+                    if newShoutouts.Shoutdata.isEmpty{
+                        getEarlyShoutOut()
+                    }
+                }
+                
             })
             .navigationBarTitleDisplayMode(.inline)
             .toolbar{
@@ -261,7 +193,6 @@ struct HomePage: View {
                         let ev = EventObj(id: eventDict["eventID"] as! String, name: eventDict["name"] as! String, loc: eventDict["address"] as! String, time: eventDict["time"] as! String, date: eventDict["date"] as! String)
                         
                         self.tempEventArray.append(ev)
-                        print(tempEventArray)
                         
                     })
                     
@@ -357,12 +288,10 @@ struct HomePage: View {
                                                 latestMessages.append(userLatest)
                                                 
                                             }
-                                            print(latestMessages)
                                             let sortedlatestMessages = latestMessages.sorted(by:{(time1, time2) -> Bool in
                                                 return ((time1 as! NSDictionary).value(forKey: "time") as! Double) < ((time2 as! NSDictionary).value(forKey: "time") as! Double)})
                                             latestMessages.removeAll()
                                             latestMessages = sortedlatestMessages
-                                            print(latestMessages)
                                         })
                                     })
                                 }

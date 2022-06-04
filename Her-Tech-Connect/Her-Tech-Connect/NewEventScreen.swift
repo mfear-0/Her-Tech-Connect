@@ -53,7 +53,7 @@ struct EventDetail: View {
         .ignoresSafeArea()
         .onAppear {
             vm.checkLocServ()
-            locations.append(vm.getCoord(address: self.event.loc))
+            locations.append(vm.getCoord(address: event.loc))
         }
         
         Spacer()
