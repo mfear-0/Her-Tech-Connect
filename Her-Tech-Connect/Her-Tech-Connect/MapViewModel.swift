@@ -47,16 +47,17 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
 //        }
 //    }
     
-    func getCoord(from addressString: String, completionHandler: @escaping(_ location: CLLocationCoordinate2D?) -> Void ) {
+    func getCoord(address: String) -> MKPointAnnotation {
+        let newLocation = MKPointAnnotation()
         let geocoder = CLGeocoder()
-        geocoder.geocodeAddressString(addressString) { (placemarks, error) in
-            guard let placemarks = placemarks,
-                  let location = placemarks.first?.location?.coordinate else {
-                      completionHandler(nil)
-                      return
-                  }
-            completionHandler(location)
+        geocoder.geocodeAddressString(address) {
+            placemarks, error in
+            let placemark = placemarks?.first
+            let lat = placemark?.location?.coordinate.latitude
+            let long = placemark?.location?.coordinate.longitude
+            newLocation.coordinate = CLLocationCoordinate2D(latitude:lat!, longitude: long!)
         }
+        return newLocation
     }
     
     
