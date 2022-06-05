@@ -60,7 +60,6 @@ struct ShoutOutCard: View {
                             .scaledToFill()
                             .frame(height: 250)
                             .clipShape(Rectangle())
-                            .shadow(radius: 10)
                         
                     },
                        placeholder: {

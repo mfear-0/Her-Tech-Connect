@@ -21,6 +21,10 @@ struct MessageView: View {
     @State var currentUserImage = ""
     var receiverEmail: String
     var receiverId: String
+    @State var name = ""
+    @State var email = ""
+    @State var image = ""
+    @Environment(\.colorScheme) var colorScheme
     
     @Environment(\.dismiss) var dismiss
     var btnBack : some View { Button(action: {
@@ -64,6 +68,13 @@ struct MessageView: View {
                                     getMessages()
                                 }
                             }
+                            
+                            ref.child("Users").child(receiverId).observeSingleEvent(of: .value, with: {(user) in
+                                let userDict = user.value as! [String: Any]
+                                self.name = userDict["name"] as! String
+                                self.email = userDict["email"] as! String
+                                self.image = userDict["image"] as! String
+                            })
                         })
                 }
                 
@@ -132,8 +143,20 @@ struct MessageView: View {
                             hideKeyboard()
                         }))
         }
-        .navigationTitle("Message")
-        .navigationBarTitleDisplayMode(.inline)
+        .toolbar{
+            ToolbarItem(placement: .principal){
+                VStack(spacing: 0){
+                    RoundedImage(urlImage: self.image , imageWidth: 45.0, imageHeight: 45.0)
+                    Text(self.name)
+                        .bold()
+                        .font(.system(size: 18))
+                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                        .padding(.top, 3.0)
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding([.top, .trailing], 35)
+            }
+        }
         .navigationBarItems(leading: btnBack)
     }
     

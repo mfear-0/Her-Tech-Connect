@@ -291,7 +291,7 @@ struct HomePage: View {
                                             let sortedlatestMessages = latestMessages.sorted(by:{(time1, time2) -> Bool in
                                                 return ((time1 as! NSDictionary).value(forKey: "time") as! Double) < ((time2 as! NSDictionary).value(forKey: "time") as! Double)})
                                             latestMessages.removeAll()
-                                            latestMessages = sortedlatestMessages
+                                            latestMessages = sortedlatestMessages.reversed()
                                         })
                                     })
                                 }

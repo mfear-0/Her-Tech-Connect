@@ -65,6 +65,7 @@ struct SignInOrCreateAccountScreen: View {
                             .overlay( RoundedRectangle(cornerRadius: 40)
                             .stroke(Color("LightBlue"), lineWidth: 2))
                 })
+                .isDetailLink(false)
                 .padding([.horizontal, .top])
                 .padding(.bottom, 2.0)
                 
@@ -97,13 +98,13 @@ struct SignInOrCreateAccountScreen: View {
                             .overlay( RoundedRectangle(cornerRadius: 40)
                             .stroke(Color("LightBlueSwitch"), lineWidth: 4))
                 })
+                .isDetailLink(false)
                 .padding([.horizontal, .bottom])
                 .padding(.top, 2.0)
                 
                 Spacer()
             }
         }
-//        .background(Color("White").ignoresSafeArea())
     }
 }
 

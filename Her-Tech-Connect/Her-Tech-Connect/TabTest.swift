@@ -20,37 +20,39 @@ struct TabTest: View {
     @ObservedObject var chat: Chat = Chat()
     @State var tempEventArray = [EventObj]()
     var body: some View {
-        NavigationView{
-            TabView {
-                
-                HomePage(newShoutouts: newShoutouts).tabItem {
-                    Label("Home", systemImage: "house")
+//        NavigationView{
+//
+//    }
+        
+        TabView {
+            
+            HomePage(newShoutouts: newShoutouts).tabItem {
+                Label("Home", systemImage: "house")
+            }
+            .onAppear(perform: {
+                if newShoutouts.Shoutdata.isEmpty{
+                    getEarlyShoutOut()
                 }
-                .onAppear(perform: {
-                    if newShoutouts.Shoutdata.isEmpty{
-                        getEarlyShoutOut()
-                    }
-                })
-                
-                NetworkView().tabItem{
-                    Label("Network", systemImage: "person.3.fill")
-                }
-                
-                NewEventScreen().tabItem {
-                    Label("Events", systemImage: "mappin.and.ellipse")
-                }
-                
-                ShoutOutView().tabItem {
-                    Label("Shout Outs", systemImage: "megaphone")
-                }
-                
-                MoreView().tabItem {
-                    Label("More", systemImage: "line.horizontal.3")
-                }
+            })
+            
+            NetworkView().tabItem{
+                Label("Network", systemImage: "person.3.fill")
+            }
+            
+            NewEventScreen().tabItem {
+                Label("Events", systemImage: "mappin.and.ellipse")
+            }
+            
+            ShoutOutView().tabItem {
+                Label("Shout Outs", systemImage: "megaphone")
+            }
+            
+            MoreView().tabItem {
+                Label("More", systemImage: "line.horizontal.3")
             }
         }
-        
     }
+
     
     //load the view with existing shoutouts
     func getEarlyShoutOut() {
